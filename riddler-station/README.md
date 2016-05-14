@@ -7,8 +7,9 @@ The Station requires some configuration from the environment. These can be set i
 ```properties
 riddle1_port=5000
 ```
-### setup
- - create a file named ```.env``` with above configurations or set them in the environment variables
+### setup for development
+in the ```riddler-station``` folder:
+ - create a file named ```.env``` with above configurations
  - execute the following:
 ```bash
 npm install 
