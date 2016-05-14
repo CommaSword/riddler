@@ -148,9 +148,9 @@
         "name": "get data from integration",
         "method": "GET",
         "ret": "obj",
-        "url": "http://127.0.0.1:5000/get_data",
-        "x": 136,
-        "y": 188,
+        "url": "$(riddle1_get_url)",
+        "x": 117,
+        "y": 179,
         "wires": [
             [
                 "cd808c95.c3f81",
@@ -195,5 +195,23 @@
         "x": 638.5,
         "y": 40,
         "wires": []
+    },
+    {
+        "id": "c34c9a43.26dfe8",
+        "type": "ui_button",
+        "z": "385b4489.4b962c",
+        "tab": "bf128263.2b011",
+        "name": "Reset Timer",
+        "payload": "0",
+        "topic": "",
+        "group": "חידה 1",
+        "order": "30",
+        "x": 618.5,
+        "y": 288,
+        "wires": [
+            [
+                "90023c43.6b1de"
+            ]
+        ]
     }
 ]
