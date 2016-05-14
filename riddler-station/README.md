@@ -15,7 +15,7 @@ npm install
 npm start 
 ```
 
-### Pie
+### Setup on Raspberry Pi
 
 Download NOOBS from https://www.raspberrypi.org/downloads/
 Download formmater from https://www.sdcard.org/downloads/formatter_4/ (windows or mac)
