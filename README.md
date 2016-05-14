@@ -11,7 +11,7 @@ The riddler system is made of two code projects, each with different role and co
 Run the following commands inside youre console window. After each install phase check with the test command that it succseded.
 
 Install Brew: 
-```
+```bash
 #install
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 #test 
@@ -19,7 +19,7 @@ brew -v
 ```
 
 Install node.js. This should install node 4.x
-```
+```bash
 #install
 brew install node
 #test 
@@ -28,7 +28,7 @@ npm -v
 ```
 
 Install Git
-```
+```bash
 #install
 brew install git
 #test 
@@ -36,7 +36,7 @@ git --version
 ```
 
 ### Setup project
-```
+```bash
 git clone https://github.com/CommaSword/riddler.git
 ```
 This will create a new folder named ```riddler``` with the latest state of the project as it appears on github.com.
@@ -45,7 +45,7 @@ inside each project sub-folder (```./riddler/riddler-back-office``` and ```./rid
  - create a file named ```.env``` 
  - add to that file the configuratios specified in the project's ```readme.md``` file
  - execute the following:
-```
+```bash
 npm install 
 npm start 
 ```
