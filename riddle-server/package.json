@@ -1,0 +1,11 @@
+{
+  "name": "riddle-server",
+  "version": "0.0.1",
+  "description": "riddle servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Doron Tsur",
+  "license": "MIT"
+}
