@@ -1,0 +1,217 @@
+[
+    {
+        "type": "tab",
+        "id": "385b4489.4b962c",
+        "label": "Riddle1"
+    },
+    {
+        "id": "bf128263.2b011",
+        "type": "ui_tab",
+        "z": "385b4489.4b962c",
+        "name": "Riddle 1",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "c6ab67d6.00af38",
+        "type": "inject",
+        "z": "385b4489.4b962c",
+        "name": "tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 151,
+        "y": 46,
+        "wires": [
+            [
+                "349ca57b.aaff7a"
+            ]
+        ]
+    },
+    {
+        "id": "5924d25f.6742ac",
+        "type": "ui_numeric",
+        "z": "385b4489.4b962c",
+        "tab": "bf128263.2b011",
+        "name": "timeout_value",
+        "topic": "",
+        "group": "חידה 1",
+        "order": "10",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "10000",
+        "x": 618.5,
+        "y": 126,
+        "wires": [
+            [
+                "dfd04df5.5ebaa"
+            ]
+        ]
+    },
+    {
+        "id": "37a3c7e8.9dc178",
+        "type": "ui_numeric",
+        "z": "385b4489.4b962c",
+        "tab": "bf128263.2b011",
+        "name": "time_since_press",
+        "topic": "",
+        "group": "חידה 1",
+        "order": "20",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "10000",
+        "x": 618,
+        "y": 212,
+        "wires": [
+            [
+                "10a5a3b2.386edc"
+            ]
+        ]
+    },
+    {
+        "id": "10a5a3b2.386edc",
+        "type": "rbe",
+        "z": "385b4489.4b962c",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 844.5,
+        "y": 209,
+        "wires": [
+            [
+                "90023c43.6b1de"
+            ]
+        ]
+    },
+    {
+        "id": "dfd04df5.5ebaa",
+        "type": "rbe",
+        "z": "385b4489.4b962c",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 838,
+        "y": 124,
+        "wires": [
+            [
+                "7bfdb0d8.f3341"
+            ]
+        ]
+    },
+    {
+        "id": "b317c97d.ab3da8",
+        "type": "contrib-json",
+        "z": "385b4489.4b962c",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .timeout_value",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 365.5,
+        "y": 163,
+        "wires": [
+            [
+                "5924d25f.6742ac"
+            ]
+        ]
+    },
+    {
+        "id": "cd808c95.c3f81",
+        "type": "contrib-json",
+        "z": "385b4489.4b962c",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .time_since_press",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 362,
+        "y": 234,
+        "wires": [
+            [
+                "37a3c7e8.9dc178"
+            ]
+        ]
+    },
+    {
+        "id": "349ca57b.aaff7a",
+        "type": "http request",
+        "z": "385b4489.4b962c",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "$(riddle1_get_url)",
+        "x": 117,
+        "y": 179,
+        "wires": [
+            [
+                "cd808c95.c3f81",
+                "b317c97d.ab3da8"
+            ]
+        ]
+    },
+    {
+        "id": "7bfdb0d8.f3341",
+        "type": "http request",
+        "z": "385b4489.4b962c",
+        "name": "set timeout_value integrated",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle1_set_timeout_value_url)",
+        "x": 1126,
+        "y": 112,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "90023c43.6b1de",
+        "type": "http request",
+        "z": "385b4489.4b962c",
+        "name": "set time_since_press integrated",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle1_set_time_since_press_url)",
+        "x": 1119,
+        "y": 208,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a8b95b31.8889a8",
+        "type": "comment",
+        "z": "385b4489.4b962c",
+        "name": "Riddle 1: timeout button",
+        "info": "",
+        "x": 638.5,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "c34c9a43.26dfe8",
+        "type": "ui_button",
+        "z": "385b4489.4b962c",
+        "tab": "bf128263.2b011",
+        "name": "Reset Timer",
+        "payload": "0",
+        "topic": "",
+        "group": "חידה 1",
+        "order": "30",
+        "x": 618.5,
+        "y": 288,
+        "wires": [
+            [
+                "90023c43.6b1de"
+            ]
+        ]
+    }
+]

@@ -1,0 +1,20 @@
+{
+  "name": "riddler-station",
+  "version": "0.0.1",
+  "description": "station server for the riddler project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CommaSword/riddler.git"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Doron Tsur",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.13.4",
+    "dotenv": "2.0.0",
+    "johnny-five": "0.9.44"
+  }
+}
