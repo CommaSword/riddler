@@ -39,21 +39,5 @@ git --version
 ```bash
 git clone https://github.com/CommaSword/riddler.git
 ```
-This will create a new folder named ```riddler``` with the latest state of the project as it appears on github.com.
-
-inside each project sub-folder (```./riddler/riddler-back-office``` and ```./riddler/riddler-station```) perform the following:
- - create a file named ```.env``` 
- - add to that file the configuratios specified in the project's ```readme.md``` file
- - execute the following:
-```bash
-npm install 
-npm start 
-```
-
-### Pie
-
-Download NOOBS from https://www.raspberrypi.org/downloads/
-Download formmater from https://www.sdcard.org/downloads/formatter_4/ (windows or mac)
-
-
--WIP-
+This will create a new folder named ```riddler``` with the latest state of the project as it appears on github.com , inside it there will be two subfolders, one for each project: ```./riddler/riddler-back-office``` and ```./riddler/riddler-station```.
+Each project contains its own ```README.md``` file that offers further documentation and instructions.
