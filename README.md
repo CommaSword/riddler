@@ -21,7 +21,7 @@ brew -v
 Install node.js. This should install node 4.x
 ```bash
 #install
-brew install node
+brew install homebrew/versions/node4-lts
 #test 
 node -v 
 npm -v 
