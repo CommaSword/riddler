@@ -16,6 +16,7 @@ npm start
 ```
 
 ### Setting up on Raspberry Pi
+on a fresh installation of [raspberrian](https://www.raspbian.org/)
 ```bash
 # install node
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
