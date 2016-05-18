@@ -24,12 +24,10 @@ sudo apt-get install -y nodejs
 # test
 node -v
 npm -v
-# clone the code of the project
+# clone the code of the project in a folder of your choosing
 git clone https://github.com/CommaSword/riddler.git
 # on a fresh machine you will need to approve github's SSH fingerprint. It's OK if it matches this site :  https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/
-# install and build project dependencies 
+# install and build station project dependencies 
 cd riddler/riddler-station
 npm install
 ```
-
-
