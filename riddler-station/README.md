@@ -15,10 +15,20 @@ npm install
 npm start 
 ```
 
-### Setup on Raspberry Pi
+### Setting up on Raspberry Pi
+```bash
+# install node
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install -y nodejs
+# test
+node -v
+npm -v
+# clone the code of the project
+git clone https://github.com/CommaSword/riddler.git
+# on a fresh machine you will need to approve github's SSH fingerprint. It's OK if it matches this site :  https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/
+# install and build project dependencies 
+cd riddler/riddler-station
+npm install
+```
 
-Download NOOBS from https://www.raspberrypi.org/downloads/
-Download formmater from https://www.sdcard.org/downloads/formatter_4/ (windows or mac)
 
-
--WIP-
