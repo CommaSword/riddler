@@ -14,10 +14,17 @@ in the ```riddler-station``` folder:
 npm install 
 npm start 
 ```
-
-### Setting up on Raspberry Pi
-on a fresh installation of [raspberrian](https://www.raspbian.org/)
+### Setting up Pi3
+Download NOOBS from https://www.raspberrypi.org/downloads/   
+Download formmater from https://www.sdcard.org/downloads/formatter_4/ (windows or mac)   
+open formmater and use the UI to format the SD_CARD (Choose the SD card and quick format)   
+drag and drop files in to the memory card   
+place SDCARD in the Pi3 and plug in keyboard/mouse/screen   
+Follow the UI and Install raspberrian. you may configure wifi before installing.   
+when finish open terminal and perform 
 ```bash
+# install updates
+sudo apt-get update && sudo apt-get upgrade
 # install node
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 sudo apt-get install -y nodejs
