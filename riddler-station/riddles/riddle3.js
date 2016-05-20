@@ -6,8 +6,9 @@ var five = require('johnny-five');
 
 var riddle_status = {
     START : 'Start',
-    BROKEN: 'Switch Connections'
-}
+    BROKEN: 'Switch Connections',
+    SUCCESS: 'Connections Correct'
+};
 var led_activate = {
     0: 'Left LED',
     1: 'Middle LED',
@@ -32,21 +33,19 @@ module.exports = function riddle1(api, board) {
         board:board
     });
 
-    var ledRight = new five.Led({
+    leds = [];
+    leds.push(new five.Led({
         pin:'A2',
         board:board
-    });
-
-    var ledMiddle = new five.Led({
+    }));
+    leds.push(new five.Led({
         pin:'A3',
         board:board
-    });
-
-    var ledLeft = new five.Led({
+    }));
+    leds.push(new five.Led({
         pin:'A4',
         board:board
-    });
-
+    }));
     pins = [];
     pairs = [[],[],[]];
     for (i = 2; i < 7; i++) {
@@ -63,7 +62,7 @@ module.exports = function riddle1(api, board) {
             case 7: pairs[2].push(pins[i - 2]); break;
         }
     }
-    
+
     function checkPair(pair) {
         numOfPinsConnected = 0;
         pair.forEach(function (currentPin, index) {
@@ -74,13 +73,42 @@ module.exports = function riddle1(api, board) {
         return (numOfPinsConnected == 2);
     }
 
-    function checkLeds() {
+    function checkWires() {
+        var success = true;
         pairs.forEach(function (currentPair, index) {
-            if ((checkPair(currentPair) == true && index != state.good_led) || (checkPair(currentPair) == false && index == state.good_led)) {
-                return false
+            if (checkPair(currentPair) == true) {
+                state.current_led = led_activate[index]
+            }
+            if ((checkPair(currentPair) == true && led_activate[index] != state.good_led) || (checkPair(currentPair) == false && led_activate[index] == state.good_led)) {
+                leds[index].off();
+                success = false;
             }
         });
-        return true;
+        return success;
+    }
+
+    function checkLeds() {
+        leds.forEach(function(currentLed, index) {
+            if (led_activate[index] == state.current_led) {
+                currentLed.on();
+            }
+            else {
+                currentLed.off();
+            }
+        });
+    }
+
+    function checkInterval() {
+        if (checkWires() == true) {
+            state.status = riddle_status.SUCCESS;
+            ledGreen.on();
+            ledRed.off();
+        }
+        else {
+            state.status = riddle_status.BROKEN;
+            ledGreen.off();
+            ledRed.on();
+        }
     }
 
     api.get('/data', function (req, res) {
