@@ -37,14 +37,42 @@ module.exports = function riddle1(api, board) {
         board:board
     });
 
-    var switchRed = new five.Led({
+    var switchRed = new five.Button({
         pin:'A2',
         board:board
     });
-    var switchBlue = new five.Led({
+    var switchBlue = new five.Button({
         pin:'A3',
         board:board
     });
+
+
+    function redButtonPress(){
+        state.current_switch_red = switch_status.UP;
+        console.log('Clicked on red button! state: ', JSON.stringify(state));
+        calcLedsStatus();
+    }
+    function redButtonRelease(){
+        state.current_switch_red = switch_status.DOWN;
+        console.log('Released red button! state: ', JSON.stringify(state));
+        calcLedsStatus();
+    }
+    function blueButtonPress(){
+        state.current_switch_blue = switch_status.UP;
+        console.log('Clicked on blue button! state: ', JSON.stringify(state));
+        calcLedsStatus();
+    }
+    function blueButtonRelease(){
+        state.current_switch_blue = switch_status.DOWN;
+        console.log('Released blue button! state: ', JSON.stringify(state));
+        calcLedsStatus();
+    }
+
+    switchRed.on('press', redButtonPress);
+    switchRed.on('release', redButtonRelease);
+    switchBlue.on('press', blueButtonPress);
+    switchBlue.on('release', blueButtonRelease);
+
 
     function calcLedsStatus(){
         if (state.status == riddle_status.START){
@@ -55,7 +83,7 @@ module.exports = function riddle1(api, board) {
             ledRed.on();
         }
     }
-    calcLedsStatus()
+    calcLedsStatus();
 
     // Calculates if the positions of both switches are correct.
     // Changes state.status to the new status according to the switches
@@ -89,6 +117,11 @@ module.exports = function riddle1(api, board) {
         }
     }
     updateSwitches();
+
+    setInterval(function() {
+        calcSwitchesStatus();
+        updateSwitches();
+    }, interval * 500);
 
     //
     // Json's to server
@@ -135,4 +168,6 @@ module.exports = function riddle1(api, board) {
         res.json(state);
     });
 
-}
+};
+
+
