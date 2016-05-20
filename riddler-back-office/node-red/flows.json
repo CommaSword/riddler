@@ -615,7 +615,7 @@
         "id": "91780020.0f81a",
         "type": "http request",
         "z": "8a0884d3.9de888",
-        "name": "set riddle_status: BOTH_BAD",
+        "name": "set riddle_status: Start Riddle",
         "method": "POST",
         "ret": "txt",
         "url": "$(riddle3_start_riddle)",
@@ -629,11 +629,11 @@
         "id": "62964138.7f428",
         "type": "http request",
         "z": "8a0884d3.9de888",
-        "name": "set riddle_status: START",
+        "name": "set riddle_status: Fix Riddle",
         "method": "POST",
         "ret": "txt",
         "url": "$(riddle3_fix_riddle)",
-        "x": 379,
+        "x": 389,
         "y": 457,
         "wires": [
             []

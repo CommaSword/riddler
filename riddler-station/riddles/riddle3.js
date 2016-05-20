@@ -103,7 +103,6 @@ module.exports = function riddle1(api, board) {
         // Define good position for switches manually
         state.status =  riddle_status.START;
         state.good_led = state.current_led;
-        calcLedsStatus();
         res.json(state);
     });
 
