@@ -11,7 +11,11 @@ var port = process.env.port || 80;
 var idMap = {}
 
 function generateAvailableId(id) {
-	while (!!idMap[id]) id += 0.1;
+	var decimal = 0;
+	while (!!idMap[id + '.' + decimal]) {
+		decimal++;
+	}
+	id += '.' + decimal;
 	idMap[id] = true;
 	return id;
 }
