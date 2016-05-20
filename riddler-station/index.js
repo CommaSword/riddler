@@ -55,8 +55,8 @@ function initNextBoard() {
 				isOk? next() : res.status(500).send('Board Disconnected');
 			});
 			try {
+				require('./riddles/' + id)(route, board);
 				var availableId = generateAvailableId(id);
-				require('./riddles/' + availableId)(route, board);
 				app.use('/' + availableId, route);
 				console.log('started riddle' + aviableId);
 			} catch(e){
