@@ -58,7 +58,7 @@ function initNextBoard() {
 				require('./riddles/' + id)(route, board);
 				var availableId = generateAvailableId(id);
 				app.use('/' + availableId, route);
-				console.log('started riddle' + aviableId);
+				console.log('started riddle' + id);
 			} catch(e){
 				console.error(e.message);
 				console.error(e.stack);
