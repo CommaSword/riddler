@@ -28,33 +28,57 @@ const boardConfig = {
 
 function initNextBoard() {
 	var board = new five.Board(boardConfig);
-	var id;
-	var isOk = false;
 	board.on("ready", function () {
-		id = identifyRiddle(this);
-		isOk = true;
-		console.log('ready board for riddle' + id);
-		var route = express.Router();
-		route.get('/', function (req, res) {
-			res.json(isOk);
+		identifyRiddle(this, function(id){
+			console.log('identified board with riddle: ' + id);
+			board.on("close", function () {
+				isOk = false;
+				console.log('board closed ' + id);
+			});
+			var isOk = true;
+			var route = express.Router();
+			route.get('/', function (req, res) {
+				res.json(isOk);
+			});
+			route.use(function(req, res, next) {
+				isOk? next() : res.status(500).send('Board Disconnected');
+			});
+			try {
+				require('./riddles/' + id)(route, board);
+				app.use('/' + id, route);
+				console.log('started riddle' + id);
+			} catch(e){
+				console.error(e.message);
+				console.error(e.stack);
+			} finally {
+				initNextBoard();
+			}
 		});
-		route.use(function(req, res, next) {
-			isOk? next() : res.status(500).send('Board Disconnected');
-		});
-		require('./riddles/'+id)(route, this);
-		app.use('/'+id, route);
-		console.log('started riddle' + id);
-		initNextBoard();
 	});
-	board.on("close", function () {
-		isOk = false;
-		console.log('board closed ' + id);
-	});
+
 }
 
-function identifyRiddle(board){
-	// TODO use input from board to identify hardware
-	return 'riddle1';
+var riddles = {
+	0: 'placeholder1',
+	512 : 'riddle1',
+	1023: 'placeholder2'
+};
+
+function analog2Id(analog) {
+	var closestVal = Object.keys(riddles).reduce(function(prev, curr){
+		return Math.abs(analog - prev) < Math.abs(analog - curr) ? prev : curr;
+	});
+	return riddles[closestVal];
+}
+
+function identifyRiddle(board, callback){
+	new five.Pin({
+		pin: 'A5',
+		mode: 0,
+		board:board
+	}).query(function(state){
+		callback(analog2Id(state.value));
+	});
 }
 
 app.listen(port, function () {
