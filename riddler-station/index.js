@@ -8,6 +8,17 @@ var express = require('express');
 var app = express();
 
 var port = process.env.port || 80;
+var idMap = {}
+
+function generateAvailableId(id) {
+	var decimal = 0;
+	while (!!idMap[id + '.' + decimal]) {
+		decimal++;
+	}
+	id += '.' + decimal;
+	idMap[id] = true;
+	return id;
+}
 
 // most basic body parser for raw strings
 app.use(function rawBody(req, res, next) {
@@ -44,9 +55,10 @@ function initNextBoard() {
 				isOk? next() : res.status(500).send('Board Disconnected');
 			});
 			try {
-				require('./riddles/' + id)(route, board);
-				app.use('/' + id, route);
-				console.log('started riddle' + id);
+				var availableId = generateAvailableId(id);
+				require('./riddles/' + availableId)(route, board);
+				app.use('/' + availableId, route);
+				console.log('started riddle' + aviableId);
 			} catch(e){
 				console.error(e.message);
 				console.error(e.stack);
