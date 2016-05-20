@@ -6,19 +6,20 @@ var five = require('johnny-five');
 
 var riddle_status = {
     START : 'Start',
-    BROKEN: 'Need to switch between connections'
-};
+    BROKEN: 'Switch Connections'
+}
 var led_activate = {
-    LEFT: 'Left LED',
-    MIDDLE: 'Middle LED',
-    RIGHT: 'Right LED'
+    0: 'Left LED',
+    1: 'Middle LED',
+    2: 'Right LED'
 };
 module.exports = function riddle1(api, board) {
 
     var state = {
         status : riddle_status.START,
-        current_led : led_activate.LEFT,
-        good_led : led_activate.LEFT
+        place : 1,
+        current_led : led_activate[1],
+        good_led : led_activate[1]
     };
 
 
@@ -87,17 +88,21 @@ module.exports = function riddle1(api, board) {
     });
 
     api.post('/set_start', function (req, res) {
-        2*Math.random();
-        state.status =  riddle_status.BOTH_BAD;
-        calcLedsStatus();
-        res.json(state);
+        state.status =  riddle_status.BROKEN;
+        // Change state for good place
+        if (Math.random()<0.5){
+            state.place = (state.place + 1) % 3;
+        }else{
+            state.place = (state.place + 2) % 3;
+        }
+        state.good_led = led_activate[state.place];
     });
 
     api.post('/fix_riddle_manually', function (req, res) {
         state.status =  riddle_status.START;
         // Define good position for switches manually
-        state.good_switch_red == switch_status.UP;
-        state.good_switch_blue == switch_status.DOWN;
+        state.status =  riddle_status.START;
+        state.good_led = state.current_led;
         calcLedsStatus();
         res.json(state);
     });
