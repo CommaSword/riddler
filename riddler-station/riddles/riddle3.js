@@ -15,40 +15,42 @@ var led_activate = {
     2: 'Right LED'
 };
 module.exports = function riddle1(api, board) {
-
+    interval = 1;
     var state = {
-        status : riddle_status.START,
-        place : 1,
-        current_led : led_activate[1],
-        good_led : led_activate[1]
+        status: riddle_status.START,
+        place: 1,
+        good_led: led_activate[2],
+        current_led: led_activate[1]
     };
 
+    var pinsState = {
+        pinStatePairs: [0, 0, 0]
+    };
+
+    var buzzer = new five.Piezo({
+        pin : 11,
+        board: board
+    });
 
     var ledRed = new five.Led({
-        pin:'A0',
-        board:board
+        pin: 'A0',
+        board: board
     });
     var ledGreen = new five.Led({
-        pin:'A1',
-        board:board
+        pin: 'A1',
+        board: board
     });
 
     leds = [];
-    leds.push(new five.Led({
-        pin:'A2',
-        board:board
-    }));
-    leds.push(new five.Led({
-        pin:'A3',
-        board:board
-    }));
-    leds.push(new five.Led({
-        pin:'A4',
-        board:board
-    }));
+    for (i = 8; i < 11; i++) {
+        leds.push(new five.Led({
+            pin: i,
+            board: board
+        }));
+    }
     pins = [];
     pairs = [[],[],[]];
-    for (i = 2; i < 7; i++) {
+    for (i = 2; i < 8; i++) {
         pins.push(new five.Pin({
             pin: i,
             mode: 0
@@ -63,33 +65,45 @@ module.exports = function riddle1(api, board) {
         }
     }
 
-    function checkPair(pair) {
-        numOfPinsConnected = 0;
-        pair.forEach(function (currentPin, index) {
-            currentPin.query(function (state) {
-                numOfPinsConnected += state.value;
-            });
-        });
-        return (numOfPinsConnected == 2);
-    }
 
     function checkWires() {
-        var success = true;
-        pairs.forEach(function (currentPair, index) {
-            if (checkPair(currentPair) == true) {
-                state.current_led = led_activate[index]
-            }
-            if ((checkPair(currentPair) == true && led_activate[index] != state.good_led) || (checkPair(currentPair) == false && led_activate[index] == state.good_led)) {
-                leds[index].off();
-                success = false;
-            }
-        });
+        var success = false;
+        if ((pinsState.pinStatePairs[0] == 1) && (pinsState.pinStatePairs[1] == 1) && state.good_led == led_activate[0]) {
+            state.current_led = led_activate[0];
+            state.status = riddle_status.SUCCESS;
+            success = true;
+            buzzer.noTone();
+        }
+        else if ((pinsState.pinStatePairs[2] == 1) && (pinsState.pinStatePairs[3] == 1) && state.good_led == led_activate[1]) {
+            state.status = riddle_status.SUCCESS;
+            state.current_led = led_activate[1];
+            success = true;
+            buzzer.noTone();
+        }
+        else if ((pinsState.pinStatePairs[4] == 1) && (pinsState.pinStatePairs[5] == 1) && state.good_led == led_activate[2]) {
+            state.status = riddle_status.SUCCESS;
+            state.current_led = led_activate[2];
+            success = true;
+            buzzer.noTone();
+        }
+        else {
+            state.status = riddle_status.BROKEN;
+            buzzer.play({
+                tempo: 150, // Beats per minute, default 150
+                song: [ // An array of notes that comprise the tune
+                    [ "c4", 1 ],
+                    [ "e4", 2 ],
+                    [ "g4", 3 ],
+                    [ "d4", 4 ] // null indicates "no tone" for the beats indicated
+                ]
+            });
+        }
         return success;
     }
 
     function checkLeds() {
         leds.forEach(function(currentLed, index) {
-            if (led_activate[index] == state.current_led) {
+            if (led_activate[index] == state.good_led) {
                 currentLed.on();
             }
             else {
@@ -111,6 +125,25 @@ module.exports = function riddle1(api, board) {
         }
     }
 
+    pins.forEach(function (currentPin, pinIndex) {
+        currentPin.on('data', function (pinState) {
+            switch (pinIndex) {
+                case 0: pinsState.pinStatePairs[0] = pinState.value; break;
+                case 1: pinsState.pinStatePairs[0] = pinState.value; break;
+                case 2: pinsState.pinStatePairs[1] = pinState.value; break;
+                case 3: pinsState.pinStatePairs[1] = pinState.value; break;
+                case 4: pinsState.pinStatePairs[2] = pinState.value; break;
+                case 5: pinsState.pinStatePairs[2] = pinState.value; break;
+            }
+        });
+    });
+
+    setInterval(function() {
+        checkWires();
+        checkLeds();
+        checkInterval();
+    }, interval * 500);
+
     api.get('/data', function (req, res) {
         res.json(state);
     });
@@ -127,9 +160,8 @@ module.exports = function riddle1(api, board) {
     });
 
     api.post('/fix_riddle_manually', function (req, res) {
-        state.status =  riddle_status.START;
         // Define good position for switches manually
-        state.status =  riddle_status.START;
+        state.status =  riddle_status.SUCCESS;
         state.good_led = state.current_led;
         res.json(state);
     });
