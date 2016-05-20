@@ -31,7 +31,7 @@
         "id": "5eb81702.6ee948",
         "type": "ui_tab",
         "z": "fcbf68e3.f66ab8",
-        "name": "Riddle2",
+        "name": "Riddle 2",
         "icon": "dashboard",
         "order": "1"
     },
@@ -40,6 +40,22 @@
         "type": "ui_tab",
         "z": "8a0884d3.9de888",
         "name": "Riddle 3",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "aaeeb99a.f5e518",
+        "type": "ui_tab",
+        "z": "385b4489.4b962c",
+        "name": "Riddles",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "b71cf8dd.da4c98",
+        "type": "ui_tab",
+        "z": "dfb80b8c.6b0c38",
+        "name": "Riddle 4",
         "icon": "dashboard",
         "order": "1"
     },
@@ -592,6 +608,166 @@
         "wires": [
             [
                 "19d8b9bb.310436"
+            ]
+        ]
+    },
+    {
+        "id": "af46ad10.b8092",
+        "type": "inject",
+        "z": "dfb80b8c.6b0c38",
+        "name": "tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 147,
+        "y": 96,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "840c6496.b57aa8",
+        "type": "http request",
+        "z": "dfb80b8c.6b0c38",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "$(riddle4_get_url)",
+        "x": 293,
+        "y": 215,
+        "wires": [
+            [
+                "e1167eaa.60d5b",
+                "50ed9fd6.c1804",
+                "9ee29cbd.87967",
+                "29e22986.8ed9e6"
+            ]
+        ]
+    },
+    {
+        "id": "50ed9fd6.c1804",
+        "type": "debug",
+        "z": "dfb80b8c.6b0c38",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 531,
+        "y": 72,
+        "wires": []
+    },
+    {
+        "id": "e1167eaa.60d5b",
+        "type": "contrib-json",
+        "z": "dfb80b8c.6b0c38",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .status",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 575,
+        "y": 148,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9ee29cbd.87967",
+        "type": "contrib-json",
+        "z": "dfb80b8c.6b0c38",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .good_led",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 567,
+        "y": 224,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "29e22986.8ed9e6",
+        "type": "contrib-json",
+        "z": "dfb80b8c.6b0c38",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .current_led",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 572,
+        "y": 298,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec5881ea.a7c63",
+        "type": "ui_button",
+        "z": "dfb80b8c.6b0c38",
+        "tab": "b71cf8dd.da4c98",
+        "name": "Start Simple Riddle",
+        "payload": "",
+        "topic": "",
+        "group": "Simple Riddle",
+        "order": 1,
+        "x": 170,
+        "y": 385,
+        "wires": [
+            [
+                "6968aa3.b679e54"
+            ]
+        ]
+    },
+    {
+        "id": "6968aa3.b679e54",
+        "type": "http request",
+        "z": "dfb80b8c.6b0c38",
+        "name": "set riddle_status: Start Simple",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle4_start_simple)",
+        "x": 435,
+        "y": 385,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "332610c1.91f2c",
+        "type": "http request",
+        "z": "dfb80b8c.6b0c38",
+        "name": "set riddle_status: Start Complex",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle4_start_complex)",
+        "x": 434,
+        "y": 450,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7da9b2db.51775c",
+        "type": "ui_button",
+        "z": "dfb80b8c.6b0c38",
+        "tab": "b71cf8dd.da4c98",
+        "name": "Start Complex Riddle",
+        "payload": "",
+        "topic": "",
+        "group": "Complex Riddle",
+        "order": 1,
+        "x": 178,
+        "y": 450,
+        "wires": [
+            [
+                "332610c1.91f2c"
             ]
         ]
     }
