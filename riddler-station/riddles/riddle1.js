@@ -42,6 +42,7 @@ module.exports = function riddle1(api, board){
 			green.on();
 		}
 	}
+
 	calcLedsStatus();
 	setInterval(function() {
 		state.time_since_press = state.time_since_press + interval;

@@ -59,9 +59,9 @@ function initNextBoard() {
 }
 
 var riddles = {
-	0: 'placeholder1',
+	0: 'riddle2',
 	512 : 'riddle1',
-	1023: 'placeholder2'
+	1023: 'riddle3'
 };
 
 function analog2Id(analog) {

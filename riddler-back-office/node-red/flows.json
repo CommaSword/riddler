@@ -5,10 +5,41 @@
         "label": "Riddle1"
     },
     {
+        "type": "tab",
+        "id": "fcbf68e3.f66ab8",
+        "label": "Riddle2"
+    },
+    {
+        "type": "tab",
+        "id": "8a0884d3.9de888",
+        "label": "Riddle 3"
+    },
+    {
+        "type": "tab",
+        "id": "dfb80b8c.6b0c38",
+        "label": "Flow 2"
+    },
+    {
         "id": "bf128263.2b011",
         "type": "ui_tab",
         "z": "385b4489.4b962c",
         "name": "Riddle 1",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "5eb81702.6ee948",
+        "type": "ui_tab",
+        "z": "fcbf68e3.f66ab8",
+        "name": "Riddle2",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "3f6201c7.f2f2fe",
+        "type": "ui_tab",
+        "z": "8a0884d3.9de888",
+        "name": "Riddle 3",
         "icon": "dashboard",
         "order": "1"
     },
@@ -26,9 +57,7 @@
         "x": 151,
         "y": 46,
         "wires": [
-            [
-                "349ca57b.aaff7a"
-            ]
+            []
         ]
     },
     {
@@ -211,6 +240,358 @@
         "wires": [
             [
                 "90023c43.6b1de"
+            ]
+        ]
+    },
+    {
+        "id": "d733f414.dedbf8",
+        "type": "inject",
+        "z": "fcbf68e3.f66ab8",
+        "name": "tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 103,
+        "y": 70,
+        "wires": [
+            [
+                "a76ea1a8.b9fee"
+            ]
+        ]
+    },
+    {
+        "id": "a76ea1a8.b9fee",
+        "type": "http request",
+        "z": "fcbf68e3.f66ab8",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "$(riddle2_get_url)",
+        "x": 183,
+        "y": 179,
+        "wires": [
+            [
+                "9fd22195.ae6e2",
+                "97b7f363.ad291"
+            ]
+        ]
+    },
+    {
+        "id": "97b7f363.ad291",
+        "type": "debug",
+        "z": "fcbf68e3.f66ab8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 319,
+        "y": 56,
+        "wires": []
+    },
+    {
+        "id": "9fcfad0c.a2b91",
+        "type": "ui_button",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "name": "Start Riddle",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 2",
+        "order": 1,
+        "x": 108,
+        "y": 279,
+        "wires": [
+            [
+                "8aa29757.728a58"
+            ]
+        ]
+    },
+    {
+        "id": "8aa29757.728a58",
+        "type": "http request",
+        "z": "fcbf68e3.f66ab8",
+        "name": "set riddle_status: BOTH_BAD",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle2_start_riddle)",
+        "x": 393,
+        "y": 279,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d09b50f6.35fe8",
+        "type": "ui_text_input",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "mode": "text",
+        "delay": 300,
+        "name": "Status",
+        "topic": "",
+        "group": "חידה 2",
+        "order": "3",
+        "x": 644,
+        "y": 179,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9fd22195.ae6e2",
+        "type": "contrib-json",
+        "z": "fcbf68e3.f66ab8",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .status",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 418,
+        "y": 179,
+        "wires": [
+            [
+                "d09b50f6.35fe8"
+            ]
+        ]
+    },
+    {
+        "id": "f64749dc.f7c568",
+        "type": "inject",
+        "z": "8a0884d3.9de888",
+        "name": "tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 112,
+        "y": 103,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f33ab4fd.8d3f68",
+        "type": "http request",
+        "z": "8a0884d3.9de888",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "$(riddle3_get_url)",
+        "x": 258,
+        "y": 222,
+        "wires": [
+            [
+                "8805ad01.2009c",
+                "3ba3135.ca634ec",
+                "d2d9c2f2.6c2b5",
+                "c04f4d51.85d13"
+            ]
+        ]
+    },
+    {
+        "id": "3ba3135.ca634ec",
+        "type": "debug",
+        "z": "8a0884d3.9de888",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 496,
+        "y": 79,
+        "wires": []
+    },
+    {
+        "id": "8805ad01.2009c",
+        "type": "contrib-json",
+        "z": "8a0884d3.9de888",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .status",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 540,
+        "y": 155,
+        "wires": [
+            [
+                "ea2e635b.da5e1"
+            ]
+        ]
+    },
+    {
+        "id": "d2d9c2f2.6c2b5",
+        "type": "contrib-json",
+        "z": "8a0884d3.9de888",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .good_led",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 532,
+        "y": 231,
+        "wires": [
+            [
+                "a9f92cbf.cc5b8"
+            ]
+        ]
+    },
+    {
+        "id": "c04f4d51.85d13",
+        "type": "contrib-json",
+        "z": "8a0884d3.9de888",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .current_led",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 537,
+        "y": 305,
+        "wires": [
+            [
+                "bb7ec0f2.02225"
+            ]
+        ]
+    },
+    {
+        "id": "7155e588.86b95c",
+        "type": "ui_button",
+        "z": "8a0884d3.9de888",
+        "tab": "3f6201c7.f2f2fe",
+        "name": "Start Riddle",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 3",
+        "order": 1,
+        "x": 115,
+        "y": 392,
+        "wires": [
+            [
+                "91780020.0f81a"
+            ]
+        ]
+    },
+    {
+        "id": "91780020.0f81a",
+        "type": "http request",
+        "z": "8a0884d3.9de888",
+        "name": "set riddle_status: Start Riddle",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle3_start_riddle)",
+        "x": 400,
+        "y": 392,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "62964138.7f428",
+        "type": "http request",
+        "z": "8a0884d3.9de888",
+        "name": "set riddle_status: Fix Riddle",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle3_fix_riddle)",
+        "x": 389,
+        "y": 457,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c48ebd0b.645d6",
+        "type": "ui_button",
+        "z": "8a0884d3.9de888",
+        "tab": "3f6201c7.f2f2fe",
+        "name": "Fix Riddle Manually",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 3",
+        "order": 1,
+        "x": 133,
+        "y": 457,
+        "wires": [
+            [
+                "62964138.7f428"
+            ]
+        ]
+    },
+    {
+        "id": "bb7ec0f2.02225",
+        "type": "ui_text",
+        "z": "8a0884d3.9de888",
+        "tab": "3f6201c7.f2f2fe",
+        "name": "Current LED",
+        "group": "חידה 3",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 766,
+        "y": 307,
+        "wires": []
+    },
+    {
+        "id": "ea2e635b.da5e1",
+        "type": "ui_text",
+        "z": "8a0884d3.9de888",
+        "tab": "3f6201c7.f2f2fe",
+        "name": "Status",
+        "group": "חידה 3",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 725,
+        "y": 91,
+        "wires": []
+    },
+    {
+        "id": "a9f92cbf.cc5b8",
+        "type": "ui_text",
+        "z": "8a0884d3.9de888",
+        "tab": "3f6201c7.f2f2fe",
+        "name": "Good LED",
+        "group": "חידה 3",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 745,
+        "y": 187,
+        "wires": []
+    },
+    {
+        "id": "19d8b9bb.310436",
+        "type": "http request",
+        "z": "fcbf68e3.f66ab8",
+        "name": "set riddle_status: START",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle2_fix_riddle)",
+        "x": 372,
+        "y": 344,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "411aa79d.a62318",
+        "type": "ui_button",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "name": "Fix Riddle Manually",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 2",
+        "order": 1,
+        "x": 126,
+        "y": 344,
+        "wires": [
+            [
+                "19d8b9bb.310436"
             ]
         ]
     }
