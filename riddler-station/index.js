@@ -54,7 +54,7 @@ function initNextBoard() {
 
 function identifyRiddle(board){
 	// TODO use input from board to identify hardware
-	return 'riddle1';
+	return 'riddle2';
 }
 
 app.listen(port, function () {

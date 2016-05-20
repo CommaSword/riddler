@@ -5,10 +5,23 @@
         "label": "Riddle1"
     },
     {
+        "type": "tab",
+        "id": "fcbf68e3.f66ab8",
+        "label": "Riddle2"
+    },
+    {
         "id": "bf128263.2b011",
         "type": "ui_tab",
         "z": "385b4489.4b962c",
         "name": "Riddle 1",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "5eb81702.6ee948",
+        "type": "ui_tab",
+        "z": "fcbf68e3.f66ab8",
+        "name": "Riddle2",
         "icon": "dashboard",
         "order": "1"
     },
@@ -26,9 +39,7 @@
         "x": 151,
         "y": 46,
         "wires": [
-            [
-                "349ca57b.aaff7a"
-            ]
+            []
         ]
     },
     {
@@ -212,6 +223,254 @@
             [
                 "90023c43.6b1de"
             ]
+        ]
+    },
+    {
+        "id": "d733f414.dedbf8",
+        "type": "inject",
+        "z": "fcbf68e3.f66ab8",
+        "name": "tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 103,
+        "y": 70,
+        "wires": [
+            [
+                "a76ea1a8.b9fee"
+            ]
+        ]
+    },
+    {
+        "id": "a76ea1a8.b9fee",
+        "type": "http request",
+        "z": "fcbf68e3.f66ab8",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "$(riddle2_get_url)",
+        "x": 183,
+        "y": 179,
+        "wires": [
+            [
+                "9fd22195.ae6e2",
+                "97b7f363.ad291",
+                "a7c12ad1.c51968",
+                "93cc2315.504f9"
+            ]
+        ]
+    },
+    {
+        "id": "97b7f363.ad291",
+        "type": "debug",
+        "z": "fcbf68e3.f66ab8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 319,
+        "y": 56,
+        "wires": []
+    },
+    {
+        "id": "9fcfad0c.a2b91",
+        "type": "ui_button",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "name": "Start Riddle",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 2",
+        "order": 1,
+        "x": 108,
+        "y": 279,
+        "wires": [
+            [
+                "8aa29757.728a58"
+            ]
+        ]
+    },
+    {
+        "id": "8aa29757.728a58",
+        "type": "http request",
+        "z": "fcbf68e3.f66ab8",
+        "name": "set riddle_status: BOTH_BAD",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle2_start_riddle)",
+        "x": 393,
+        "y": 279,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d09b50f6.35fe8",
+        "type": "ui_text_input",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "mode": "text",
+        "delay": 300,
+        "name": "Status",
+        "topic": "",
+        "group": "חידה 2",
+        "order": "3",
+        "x": 646,
+        "y": 107,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9fd22195.ae6e2",
+        "type": "contrib-json",
+        "z": "fcbf68e3.f66ab8",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .status",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 420,
+        "y": 107,
+        "wires": [
+            [
+                "d09b50f6.35fe8"
+            ]
+        ]
+    },
+    {
+        "id": "19d8b9bb.310436",
+        "type": "http request",
+        "z": "fcbf68e3.f66ab8",
+        "name": "set riddle_status: START",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle2_fix_riddle)",
+        "x": 372,
+        "y": 344,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "411aa79d.a62318",
+        "type": "ui_button",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "name": "Fix Riddle Manually",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 2",
+        "order": 1,
+        "x": 126,
+        "y": 344,
+        "wires": [
+            [
+                "19d8b9bb.310436"
+            ]
+        ]
+    },
+    {
+        "id": "a7c12ad1.c51968",
+        "type": "contrib-json",
+        "z": "fcbf68e3.f66ab8",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .code_to_enter",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 442,
+        "y": 157,
+        "wires": [
+            [
+                "1e255a55.408b76"
+            ]
+        ]
+    },
+    {
+        "id": "93cc2315.504f9",
+        "type": "contrib-json",
+        "z": "fcbf68e3.f66ab8",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .keys_pressed",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 443,
+        "y": 215,
+        "wires": [
+            [
+                "41091243.57c39c"
+            ]
+        ]
+    },
+    {
+        "id": "41091243.57c39c",
+        "type": "ui_text",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "name": "Keys pressed",
+        "group": "חידה 2",
+        "order": "5",
+        "format": "{{msg.payload}}",
+        "x": 678,
+        "y": 215,
+        "wires": []
+    },
+    {
+        "id": "1e255a55.408b76",
+        "type": "ui_text_input",
+        "z": "fcbf68e3.f66ab8",
+        "tab": "5eb81702.6ee948",
+        "mode": "text",
+        "delay": 300,
+        "name": "Code needed",
+        "topic": "",
+        "group": "חידה 2",
+        "order": "4",
+        "x": 682,
+        "y": 156,
+        "wires": [
+            [
+                "bc76deae.9fd25"
+            ]
+        ]
+    },
+    {
+        "id": "bc76deae.9fd25",
+        "type": "rbe",
+        "z": "fcbf68e3.f66ab8",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 900,
+        "y": 156,
+        "wires": [
+            [
+                "95fa3f.800275c"
+            ]
+        ]
+    },
+    {
+        "id": "95fa3f.800275c",
+        "type": "http request",
+        "z": "fcbf68e3.f66ab8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle2_change_code)",
+        "x": 909,
+        "y": 282,
+        "wires": [
+            []
         ]
     }
 ]
