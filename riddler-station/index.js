@@ -8,6 +8,17 @@ var express = require('express');
 var app = express();
 
 var port = process.env.port || 80;
+var idMap = {}
+
+function generateAvailableId(id) {
+	var decimal = 0;
+	while (!!idMap[id + '.' + decimal]) {
+		decimal++;
+	}
+	id += '.' + decimal;
+	idMap[id] = true;
+	return id;
+}
 
 // most basic body parser for raw strings
 app.use(function rawBody(req, res, next) {
@@ -45,7 +56,8 @@ function initNextBoard() {
 			});
 			try {
 				require('./riddles/' + id)(route, board);
-				app.use('/' + id, route);
+				var availableId = generateAvailableId(id);
+				app.use('/' + availableId, route);
 				console.log('started riddle' + id);
 			} catch(e){
 				console.error(e.message);
@@ -59,8 +71,8 @@ function initNextBoard() {
 }
 
 var riddles = {
-	0: 'riddle4',
-	512 : 'riddle2',
+	0: 'riddle2',
+	512 : 'riddle4',
 	1023: 'riddle3'
 };
 
