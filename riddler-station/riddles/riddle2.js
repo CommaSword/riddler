@@ -27,7 +27,7 @@ module.exports = function riddle1(api, board) {
         code_to_enter: 103856,
         keys_pressed: 0,
     };
-
+    interval = 1;
     var ledRed = new five.Led({
         pin:'A0',
         board:board
@@ -103,24 +103,8 @@ module.exports = function riddle1(api, board) {
     }
     calcSwitchesStatus();
 
-    // Updates the position of the switches
-    function updateSwitches(){
-        if (switchRed.on()){
-            state.current_switch_red == switch_status.UP;
-        }else{
-            state.current_switch_red == switch_status.DOWN;
-        }
-        if (switchBlue.on()){
-            state.current_switch_blue == switch_status.UP;
-        }else{
-            state.current_switch_blue == switch_status.DOWN;
-        }
-    }
-    updateSwitches();
-
     setInterval(function() {
         calcSwitchesStatus();
-        updateSwitches();
     }, interval * 500);
 
     //
