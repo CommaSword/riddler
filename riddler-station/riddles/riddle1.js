@@ -55,17 +55,17 @@ module.exports = function riddle1(api, board){
 	});
 
 	api.post('/timeout_value', function (req, res) {
-		console.log('set_timeout_value', req[BODY]);
+		console.log('set_timeout_value', req.rawBody);
 		if (req.rawBody.match(/^\d+$/)) {
-			state.timeout_value = parseInt(req[BODY]);
+			state.timeout_value = parseInt(req.rawBody);
 		}
 		res.json(state);
 	});
 
 	api.post('/time_since_press', function (req, res) {
-		console.log('set_time_since_press', req[BODY]);
+		console.log('set_time_since_press', req.rawBody);
 		if (req.rawBody.match(/^\d+$/)) {
-			state.time_since_press = parseInt(req[BODY]);
+			state.time_since_press = parseInt(req.rawBody);
 		}
 		res.json(state);
 	});
