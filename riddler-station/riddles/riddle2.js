@@ -16,7 +16,7 @@ var switch_status = {
     UP: 'Switch is Up',
     DOWN: 'Switch is Down',
 }
-module.exports = function riddle1(api, board) {
+module.exports = function riddle2(api, board) {
 
     var state = {
         status : riddle_status.START,
