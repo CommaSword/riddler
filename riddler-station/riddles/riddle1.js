@@ -63,9 +63,9 @@ module.exports = function riddle1(api, board){
 	});
 
 	api.post('/time_since_press', function (req, res) {
-		console.log('set_time_since_press', req[BODY]);
+		console.log('set_time_since_press', req.rawBody);
 		if (req.rawBody.match(/^\d+$/)) {
-			state.time_since_press = parseInt(req[BODY]);
+			state.time_since_press = parseInt(req.rawBody);
 		}
 		res.json(state);
 	});
