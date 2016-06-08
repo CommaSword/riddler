@@ -59,6 +59,7 @@ module.exports = function riddle1(api, board){
 		console.log('set_timeout_value', req.rawBody);
 		if (req.rawBody.match(/^\d+$/)) {
 			state.timeout_value = parseInt(req.rawBody);
+			calcLedsStatus();
 		}
 		res.json(state);
 	});
@@ -67,6 +68,7 @@ module.exports = function riddle1(api, board){
 		console.log('set_time_since_press', req.rawBody);
 		if (req.rawBody.match(/^\d+$/)) {
 			state.time_since_press = parseInt(req.rawBody);
+			calcLedsStatus();
 		}
 		res.json(state);
 	});
