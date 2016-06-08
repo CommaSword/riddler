@@ -8,15 +8,20 @@
     "url": "git://github.com/CommaSword/riddler.git"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "debug": "iron-node index.js"
   },
   "author": "Doron Tsur",
   "license": "MIT",
   "dependencies": {
+    "lodash" : "3.10.1",
     "express": "4.13.4",
     "dotenv": "2.0.0",
     "node-red": "0.13.4",
+    "when": "3.7.7",
+    "fs-extra": "0.26.7",
     "node-red-contrib-json": "0.2.0",
-    "node-red-contrib-ui": "1.2.19"
+    "node-red-contrib-ui": "1.2.19",
+    "node-red-contrib-file-function": "1.1.2"
   }
 }
