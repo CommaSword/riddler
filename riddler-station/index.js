@@ -8,10 +8,13 @@ var app = express();
 var port = process.env.port || 80;
 var Discover = require('node-discover');
 
-var schema = {};
+var advertisement = {
+	schema : {},
+	port : port
+};
 
 var d = Discover({
-	advertisement: schema,
+	advertisement: advertisement,
 	isMasterEligible: false
 });
 
@@ -31,9 +34,9 @@ function loadRiddle(config, raw, board){
 	var isOk = true;
 	board.on("close", function () {
 		isOk = false;
-		delete schema[config.id];
+		delete advertisement.schema[config.id];
 		console.log('board closed ' + config.id);
-		d.advertise(schema);
+		d.advertise(advertisement);
 	});
 	var route = express.Router();
 	route.get('/', function (req, res) {
@@ -45,9 +48,9 @@ function loadRiddle(config, raw, board){
 	try {
 		var riddleSchema = require('./riddles/' + config.type)(route, board);
 		app.use('/' + config.id, route);
-		schema[config.id] = riddleSchema;
+		advertisement.schema[config.id] = riddleSchema;
 		console.log('started riddle', config.id);
-		d.advertise(schema);
+		d.advertise(advertisement);
 	} catch(e){
 		console.error(e.message);
 		console.error(e.stack);

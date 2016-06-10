@@ -15,12 +15,12 @@ var d = Discover();
 setInterval(function(){
 	Object.keys(d.nodes).forEach(function(key){
 		var node = d.nodes[key];
-		Object.keys(node.advertisement).forEach(function(riddleId){
+		Object.keys(node.advertisement.schema).forEach(function(riddleId){
 			// {riddle1 : {data : '/data', timeout : '/timeout'}
 			var riddleProps = node.advertisement[riddleId];
 			Object.keys(riddleProps).forEach(function(property){
 				var resource = riddleProps[property];
-				process.env[riddleId + '_' + property] = 'http://'+ node.address+'/'+riddleId+'/' + resource;
+				process.env[riddleId + '_' + property] = 'http://'+ node.address+ ':' + node.advertisement.port + '/'+riddleId+'/' + resource;
 			});
 		});
 	});
