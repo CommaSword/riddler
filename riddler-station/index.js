@@ -104,6 +104,10 @@ function close(signal) {
 	process.exit();
 }
 
-process.on('SIGTERM', close);
+process.on('SIGTERM', function(){
+	close('SIGTERM');
+});
 
-process.on('SIGINT', close);
+process.on('SIGINT', function() {
+	close('SIGINT');
+});
