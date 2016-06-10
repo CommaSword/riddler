@@ -11,11 +11,11 @@ var riddle_status = {
     BLUE_GOOD: 'Blue is good',
     RED_GOOD: 'Red is good',
     BOTH_GOOD: 'Both lights are good'
-}
+};
 var switch_status = {
     UP: 'Switch is Up',
     DOWN: 'Switch is Down'
-}
+};
 module.exports = function riddle2(api, board) {
 
     var state = {
@@ -106,7 +106,7 @@ module.exports = function riddle2(api, board) {
 
     setInterval(function() {
         calcSwitchesStatus();
-        console.log('state: ', JSON.stringify(state));
+        // console.log('state: ', JSON.stringify(state));
     }, interval * 500);
 
     //

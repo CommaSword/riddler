@@ -10,7 +10,13 @@ var Discover = require('node-discover'); //https://github.com/wankdanker/node-di
 // load environment configurations to process.env
 require('dotenv').config();
 
-var d = Discover();
+var d = Discover({
+	multicast : '239.0.0.0'
+});
+
+d.on("added", function (obj) {
+	console.log("added", obj)
+});
 
 setInterval(function(){
 	var detected = {};
