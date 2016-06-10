@@ -31,12 +31,12 @@ app.use(function rawBody(req, res, next) {
 	});
 });
 
-function loadRiddle(id){
+function loadRiddle(id, raw, board){
+	var isOk = true;
 	board.on("close", function () {
 		isOk = false;
 		console.log('board closed ' + id);
 	});
-	var isOk = true;
 	var route = express.Router();
 	route.get('/', function (req, res) {
 		res.json(isOk);
