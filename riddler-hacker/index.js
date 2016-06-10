@@ -2,18 +2,20 @@ var blessed = require('blessed');
 
 // Create a screen object.
 var screen = blessed.screen({
-  smartCSR: true
+  smartCSR: true,
+  title: "Blessed penetration system"
 });
 
-screen.title = 'my window title';
+var layout = blessed.Layout({
+    parent: screen,
+    width:'100%',
+    height:'100%'
+});
 
-// Create a text perfectly centered horizontally and vertically.
 var text = blessed.Text({
-  content: ' Hello {bold}world{/bold}!',
+  parent: layout,
+  content: ' Enter call signes:',
   tags: true,
-  border: {
-    type: 'line'
-  },
   style: {
     fg: 'white',
     bg: 'magenta',
@@ -23,25 +25,50 @@ var text = blessed.Text({
   }
 });
 
-// Append our text to the screen.
-screen.append(text);
-
-// Add a png icon to the text
-var icon = blessed.image({
-  parent: text,
-  top: 0,
-  left: 0,
-  type: 'overlay',
-  width: 'shrink',
-  height: 'shrink',
-  file: __dirname + '/my-program-icon.png',
-  search: false
+var form = blessed.form({
+    parent: layout,
+    name: 'form',
+    top: 0,
+    left: 0,
+    width: '60%',
+    height: '60%',
 });
 
+var input = blessed.textarea({
+    parent: form,
+    inputOnFocus: true,
+    name: 'input',
+    input: true,
+    keys: true,
+    top: 0,
+    left: 0,
+    height: 1,
+    width: '100%',
+    style: {
+        fg: 'white',
+        bg: 'black',
+        focus: {
+            bg: 'red',
+            fg: 'white'
+        }
+    }
+});
+
+input.focus();
+input.on('submit', function() {
+  console.log('im here');
+})
+
 // Quit on Escape, q, or Control-C.
-screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+screen.key(['escape', 'C-c'], function(ch, key) {
   return process.exit(0);
+});
+
+screen.key('enter', function(ch, key) {
+  console.log('YO');
+  form.submit();
 });
 
 // Render the screen.
 screen.render();
+
