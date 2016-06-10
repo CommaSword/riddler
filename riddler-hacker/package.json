@@ -1,0 +1,16 @@
+{
+  "name": "riddler-back-office",
+  "version": "0.0.1",
+  "description": "back office for the riddler project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CommaSword/riddler.git"
+  },
+  "scripts": {},
+  "author": "Doron Tsur",
+  "license": "MIT",
+  "dependencies": {
+    "blessed": "^0.1.81",
+  }
+}
