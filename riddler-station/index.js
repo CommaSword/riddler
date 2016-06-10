@@ -2,13 +2,12 @@
  * Created by amira on 2/5/16.
  */
 require('dotenv').config();
-var five = require('johnny-five');
 var express = require('express');
-
+var detectBoard = require('./detect-board');
 var app = express();
 
 var port = process.env.port || 80;
-var idMap = {}
+var idMap = {};
 
 function generateAvailableId(id) {
 	var decimal = 0;
@@ -32,70 +31,35 @@ app.use(function rawBody(req, res, next) {
 	});
 });
 
-const boardConfig = {
-	repl:false,
-	// debug: false
-};
-
-function initNextBoard() {
-	var board = new five.Board(boardConfig);
-	board.on("ready", function () {
-		identifyRiddle(this, function(id){
-			console.log('identified board with riddle: ' + id);
-			board.on("close", function () {
-				isOk = false;
-				console.log('board closed ' + id);
-			});
-			var isOk = true;
-			var route = express.Router();
-			route.get('/', function (req, res) {
-				res.json(isOk);
-			});
-			route.use(function(req, res, next) {
-				isOk? next() : res.status(500).send('Board Disconnected');
-			});
-			try {
-				require('./riddles/' + id)(route, board);
-				var availableId = generateAvailableId(id);
-				app.use('/' + availableId, route);
-				console.log('started riddle' + id);
-			} catch(e){
-				console.error(e.message);
-				console.error(e.stack);
-			} finally {
-				initNextBoard();
-			}
-		});
+function loadRiddle(id, raw, board){
+	var isOk = true;
+	board.on("close", function () {
+		isOk = false;
+		console.log('board closed ' + id);
 	});
-
-}
-
-var riddles = {
-	0: 'riddle2',
-	512 : 'riddle1',
-	1023: 'riddle3'
-};
-
-function analog2Id(analog) {
-	var closestVal = Object.keys(riddles).reduce(function(prev, curr){
-		return Math.abs(analog - prev) < Math.abs(analog - curr) ? prev : curr;
+	var route = express.Router();
+	route.get('/', function (req, res) {
+		res.json(isOk);
 	});
-	return riddles[closestVal];
-}
-
-function identifyRiddle(board, callback){
-	new five.Pin({
-		pin: 'A5',
-		mode: 0,
-		board:board
-	}).query(function(state){
-		callback(analog2Id(state.value));
+	route.use(function(req, res, next) {
+		isOk? next() : res.status(500).send('Board Disconnected');
 	});
+	try {
+		require('./riddles/' + id)(route, board);
+		var availableId = generateAvailableId(id);
+		app.use('/' + availableId, route);
+		console.log('started riddle', id, 'at', availableId);
+	} catch(e){
+		console.error(e.message);
+		console.error(e.stack);
+	} finally {
+		detectBoard(loadRiddle);
+	}
 }
 
 var server = app.listen(port, function () {
 	console.log('Station API listening on port', port);
-	initNextBoard();
+	detectBoard(loadRiddle);
 });
 
 function close(signal) {
