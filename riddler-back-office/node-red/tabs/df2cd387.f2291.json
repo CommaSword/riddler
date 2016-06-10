@@ -1,0 +1,417 @@
+[
+    {
+        "type": "tab",
+        "id": "df2cd387.f2291",
+        "label": "ECR"
+    },
+    {
+        "id": "692264eb.cffd6c",
+        "type": "ui_tab",
+        "z": "df2cd387.f2291",
+        "name": "ECR",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "af089e6d.a4f5e",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Ray Weapons",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 264,
+        "y": 87,
+        "wires": []
+    },
+    {
+        "id": "b5b2704d.d9595",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Missles",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 612,
+        "y": 84,
+        "wires": []
+    },
+    {
+        "id": "8913fb60.1d39f8",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Maneuvering",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 261,
+        "y": 294,
+        "wires": []
+    },
+    {
+        "id": "f235ff0a.f1a31",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Space Engines",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 620,
+        "y": 290,
+        "wires": []
+    },
+    {
+        "id": "b5988409.078248",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Hyper-space Engines",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 905,
+        "y": 77,
+        "wires": []
+    },
+    {
+        "id": "f4c7550a.4a05d8",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Jump Drive",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 1193,
+        "y": 73,
+        "wires": []
+    },
+    {
+        "id": "9ce22d7c.7f0e2",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Rear Shields",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 913,
+        "y": 282,
+        "wires": []
+    },
+    {
+        "id": "bd8fa303.605ce",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Status",
+        "group": "Front Shields",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 1201,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "90e09df1.5c2a7",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Ray Weapons",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 260,
+        "y": 129,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e5c1ee7e.372ea",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Ray Weapons",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 269,
+        "y": 171,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d60c359.5e8a8",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Missles",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 612,
+        "y": 127,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b007d994.f76688",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Missles",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 617,
+        "y": 169,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1ca7041f.fb26ac",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Hyper-space Engines",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 901,
+        "y": 122,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "83a58858.70fcc8",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Hyper-space Engines",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 910,
+        "y": 164,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "484c8fc7.b3b18",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Jump Drive",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 1182,
+        "y": 122,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23dcf2ba.9ce27e",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Jump Drive",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 1187,
+        "y": 164,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "725f9b46.bbab04",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Maneuvering",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 252,
+        "y": 338,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "12a15285.3cadad",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Maneuvering",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 261,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6b3c3a7f.2fc364",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Space Engines",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 625,
+        "y": 333,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7d52061d.5a2678",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Space Engines",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 630,
+        "y": 375,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5c8e7170.78",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Rear Shields",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 914,
+        "y": 328,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6af62af0.effae4",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Rear Shields",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 923,
+        "y": 370,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a79a2e43.3e3a2",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Damage System",
+        "topic": "",
+        "group": "Front Shields",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 1195,
+        "y": 328,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "80294281.264de",
+        "type": "ui_switch",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "System Functional",
+        "topic": "",
+        "group": "Front Shields",
+        "order": 1,
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 1200,
+        "y": 370,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb576020.9d1e4",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Number of Damaged Systems",
+        "group": "Overall",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 1619,
+        "y": 73,
+        "wires": []
+    },
+    {
+        "id": "2c922c52.4b9424",
+        "type": "ui_text",
+        "z": "df2cd387.f2291",
+        "tab": "692264eb.cffd6c",
+        "name": "Overall Systems Status",
+        "group": "Overall",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 1608,
+        "y": 118,
+        "wires": []
+    }
+]
