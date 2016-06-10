@@ -1,0 +1,190 @@
+[
+    {
+        "type": "tab",
+        "id": "10494fbd.03df",
+        "label": "Hacking"
+    },
+    {
+        "id": "30359933.401966",
+        "type": "ui_tab",
+        "z": "10494fbd.03df",
+        "name": "Hacking",
+        "icon": "dashboard",
+        "order": "1"
+    },
+    {
+        "id": "c1553ffe.fdc1f",
+        "type": "ui_text",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Hacking Attempt Request",
+        "group": "Hacking Initiation",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 493,
+        "y": 66,
+        "wires": []
+    },
+    {
+        "id": "ea00adb0.014e6",
+        "type": "inject",
+        "z": "10494fbd.03df",
+        "name": "tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 81,
+        "y": 115,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "56bb0771.1a29b8",
+        "type": "ui_text",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Ship ID",
+        "group": "Hacking Initiation",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 453,
+        "y": 122,
+        "wires": []
+    },
+    {
+        "id": "be2ef40.1a8c61",
+        "type": "ui_button",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Hacking Attempt Initiation",
+        "payload": "Attempt Initiation",
+        "topic": "",
+        "group": "Hacking Initiation",
+        "order": 1,
+        "x": 386,
+        "y": 372,
+        "wires": [
+            [
+                "cfedefee.a98f6"
+            ]
+        ]
+    },
+    {
+        "id": "cfedefee.a98f6",
+        "type": "notify",
+        "z": "10494fbd.03df",
+        "title": "Hacking Attempt Notification",
+        "name": "Hacking Attempt Notification",
+        "x": 647.5,
+        "y": 374,
+        "wires": []
+    },
+    {
+        "id": "1d3aaec.72f9251",
+        "type": "inject",
+        "z": "10494fbd.03df",
+        "name": "",
+        "topic": "",
+        "payload": "FooBar",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 248,
+        "y": 117,
+        "wires": [
+            [
+                "c1553ffe.fdc1f",
+                "56bb0771.1a29b8",
+                "1a435d27.64f493",
+                "85a5bb2.a1cb548"
+            ]
+        ]
+    },
+    {
+        "id": "1a435d27.64f493",
+        "type": "rbe",
+        "z": "10494fbd.03df",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 410,
+        "y": 242,
+        "wires": [
+            [
+                "657232da.bc874c"
+            ]
+        ]
+    },
+    {
+        "id": "657232da.bc874c",
+        "type": "ui_toast",
+        "z": "10494fbd.03df",
+        "name": "New Attempt",
+        "x": 599,
+        "y": 232,
+        "wires": []
+    },
+    {
+        "id": "48f492.eedc2b7",
+        "type": "ui_gauge",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Progress",
+        "group": "Hacking Progress",
+        "order": 1,
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "x": 177,
+        "y": 402,
+        "wires": []
+    },
+    {
+        "id": "85a5bb2.a1cb548",
+        "type": "ui_text",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Hacking Attempt Status",
+        "group": "Hacking Progress",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 509,
+        "y": 185,
+        "wires": []
+    },
+    {
+        "id": "34c9a9a6.19b456",
+        "type": "ui_button",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Success Confirmation",
+        "payload": "Attempt Confirmation",
+        "topic": "",
+        "group": "Hacking Progress",
+        "order": 1,
+        "x": 385,
+        "y": 425,
+        "wires": [
+            [
+                "4a44b22b.376e3c"
+            ]
+        ]
+    },
+    {
+        "id": "4a44b22b.376e3c",
+        "type": "notify",
+        "z": "10494fbd.03df",
+        "title": "Hacking Attempt Notification",
+        "name": "Hacking Attempt Notification",
+        "x": 647.5,
+        "y": 426,
+        "wires": []
+    }
+]
