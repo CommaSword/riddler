@@ -7,7 +7,7 @@ var five = require('johnny-five');
 
 var boardConfig = {
 	repl:false,
-	// debug: false
+	debug: false
 };
 
 var riddles = {
@@ -38,7 +38,7 @@ function queryBoard(board, callback){
 	}).query(function(state){
 		var id = analog2Id(state.value);
 		console.log('detected board with riddle: ' + id);
-		callback(id);
+		callback(id, state.value);
 	});
 }
 
