@@ -6,6 +6,14 @@ var express = require('express');
 var detectBoard = require('./detect-board');
 var app = express();
 var port = process.env.port || 80;
+var Discover = require('node-discover');
+
+var schema = {};
+
+var d = Discover({
+	advertisement: schema,
+	isMasterEligible: false
+});
 
 // most basic body parser for raw strings
 app.use(function rawBody(req, res, next) {
@@ -23,7 +31,9 @@ function loadRiddle(config, raw, board){
 	var isOk = true;
 	board.on("close", function () {
 		isOk = false;
+		delete schema[config.id];
 		console.log('board closed ' + config.id);
+		d.advertise(schema);
 	});
 	var route = express.Router();
 	route.get('/', function (req, res) {
@@ -33,9 +43,11 @@ function loadRiddle(config, raw, board){
 		isOk? next() : res.status(500).send('Board Disconnected');
 	});
 	try {
-		require('./riddles/' + config.type)(route, board);
+		var riddleSchema = require('./riddles/' + config.type)(route, board);
 		app.use('/' + config.id, route);
+		schema[config.id] = riddleSchema;
 		console.log('started riddle', config.id);
+		d.advertise(schema);
 	} catch(e){
 		console.error(e.message);
 		console.error(e.stack);

@@ -6,9 +6,25 @@ var path = require('path');
 var express = require("express");
 var RED = require("node-red");
 var storageModule = require('./multi-file-flows');
-
+var Discover = require('node-discover'); //https://github.com/wankdanker/node-discover
 // load environment configurations to process.env
 require('dotenv').config();
+
+var d = Discover();
+
+setInterval(function(){
+	Object.keys(d.nodes).forEach(function(key){
+		var node = d.nodes[key];
+		Object.keys(node.advertisement).forEach(function(riddleId){
+			// {riddle1 : {data : '/data', timeout : '/timeout'}
+			var riddleProps = node.advertisement[riddleId];
+			Object.keys(riddleProps).forEach(function(property){
+				var resource = riddleProps[property];
+				process.env[riddleId + '_' + property] = 'http://'+ node.address+'/'+riddleId+'/' + resource;
+			});
+		});
+	});
+}, 500);
 
 // Create an Express app
 var app = express();
