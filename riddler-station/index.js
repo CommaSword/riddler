@@ -5,19 +5,7 @@ require('dotenv').config();
 var express = require('express');
 var detectBoard = require('./detect-board');
 var app = express();
-
 var port = process.env.port || 80;
-var idMap = {};
-
-function generateAvailableId(id) {
-	var decimal = 0;
-	while (!!idMap[id + '.' + decimal]) {
-		decimal++;
-	}
-	id += '.' + decimal;
-	idMap[id] = true;
-	return id;
-}
 
 // most basic body parser for raw strings
 app.use(function rawBody(req, res, next) {
@@ -31,11 +19,11 @@ app.use(function rawBody(req, res, next) {
 	});
 });
 
-function loadRiddle(id, raw, board){
+function loadRiddle(config, raw, board){
 	var isOk = true;
 	board.on("close", function () {
 		isOk = false;
-		console.log('board closed ' + id);
+		console.log('board closed ' + config.id);
 	});
 	var route = express.Router();
 	route.get('/', function (req, res) {
@@ -45,10 +33,9 @@ function loadRiddle(id, raw, board){
 		isOk? next() : res.status(500).send('Board Disconnected');
 	});
 	try {
-		require('./riddles/' + id)(route, board);
-		var availableId = generateAvailableId(id);
-		app.use('/' + availableId, route);
-		console.log('started riddle', id, 'at', availableId);
+		require('./riddles/' + config.type)(route, board);
+		app.use('/' + config.id, route);
+		console.log('started riddle', config.id);
 	} catch(e){
 		console.error(e.message);
 		console.error(e.stack);
