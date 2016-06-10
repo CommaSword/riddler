@@ -13,6 +13,7 @@ require('dotenv').config();
 var d = Discover();
 
 setInterval(function(){
+	var detected = {};
 	Object.keys(d.nodes).forEach(function(key){
 		var node = d.nodes[key];
 		Object.keys(node.advertisement.schema).forEach(function(riddleId){
@@ -21,10 +22,12 @@ setInterval(function(){
 			Object.keys(riddleProps).forEach(function(property){
 				var resource = riddleProps[property];
 				process.env[riddleId + '_' + property] = 'http://'+ node.address+ ':' + node.advertisement.port + '/'+riddleId+'/' + resource;
+				   detected[riddleId + '_' + property] = 'http://'+ node.address+ ':' + node.advertisement.port + '/'+riddleId+'/' + resource;
 			});
 		});
 	});
-}, 500);
+	console.log(detected);
+}, 2000);
 
 // Create an Express app
 var app = express();

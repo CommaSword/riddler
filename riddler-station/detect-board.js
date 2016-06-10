@@ -13,13 +13,15 @@ var boardConfig = {
 
 var configurations = {
 	0: {type: 'riddle2', id:'0'},
-	31: {type: 'riddle2', id:'31'},
+	32: {type: 'riddle2', id:'32'},
+	64: {type: 'riddle2', id:'64'},
+	95: {type: 'riddle2', id:'95'},
+	129: {type: 'riddle2', id:'129'},
+	164: {type: 'riddle3', id:'164'},
 	230: {type: 'riddle3', id:'230'},
 	262: {type: 'riddle3', id:'262'},
 	295: {type: 'riddle3', id:'295'},
-	326: {type: 'riddle3', id:'326'},
-	512 : {type: 'riddle1', id:'512'},
-	1023: {type: 'riddle3', id:'1023'}
+	326: {type: 'riddle3', id:'326'}
 };
 
 function detectBoard(cb) {
