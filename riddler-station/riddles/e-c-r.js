@@ -9,7 +9,6 @@ var REPAIR_BLINK_PHASE = 1000;
 var FAILURE_BLINK_PHASE = 300;
 
 module.exports = function EngineeringControlRoom(api, board){
-
 	var systems = {
 		'REACTOR' : {toggle:'A3', led: 5},
 		'BEAM WEAPON' : {toggle:'A2', led: 6},
@@ -102,5 +101,4 @@ module.exports = function EngineeringControlRoom(api, board){
 		});
 		api.use('/' + sysName, route);
 	}
-
 };
