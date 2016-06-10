@@ -5,6 +5,7 @@ var http = require('http');
 var path = require('path');
 var express = require("express");
 var RED = require("node-red");
+var storageModule = require('./multi-file-flows');
 
 // load environment configurations to process.env
 require('dotenv').config();
@@ -20,6 +21,7 @@ var server = http.createServer(app);
 
 // Create the settings object - see default settings.js file for other options
 var settings = {
+	storageModule : storageModule(),
 	flowFile: 'flows.json',
 	flowFilePretty: true,
 	verbose:true,

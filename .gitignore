@@ -1,5 +1,4 @@
 .idea
-.env
 *.iws
 logs
 *.log

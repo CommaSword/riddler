@@ -8,13 +8,17 @@
     "url": "git://github.com/CommaSword/riddler.git"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "detect" : "forever testBoard.js"
   },
   "author": "Doron Tsur",
   "license": "MIT",
   "dependencies": {
-    "express": "4.13.4",
     "dotenv": "2.0.0",
+    "express": "4.13.4",
     "johnny-five": "0.9.44"
+  },
+  "devDependencies": {
+    "forever": "0.15.2"
   }
 }

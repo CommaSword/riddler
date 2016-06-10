@@ -24,8 +24,8 @@ module.exports = function riddle2(api, board) {
         good_switch_blue : switch_status.DOWN,
         current_switch_red : switch_status.DOWN,
         current_switch_blue : switch_status.DOWN,
-        code_to_enter: 103856,
-        keys_pressed: 0,
+       // code_to_enter: 103856,
+      //  keys_pressed: 0,
     };
     interval = 1;
     var ledRed = new five.Led({
@@ -137,7 +137,7 @@ module.exports = function riddle2(api, board) {
 
     api.post('/fix_riddle_manually', function (req, res) {
         state.status =  riddle_status.START;
-        state.keys_pressed = 0;
+    //    state.keys_pressed = 0;
         // Define good position for switches manually
         state.good_switch_red = state.current_switch_red;
         state.good_switch_blue = state.current_switch_blue;
