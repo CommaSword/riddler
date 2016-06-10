@@ -20,27 +20,10 @@
         "name": "Hacking Attempt Request",
         "group": "Hacking Initiation",
         "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 493,
-        "y": 66,
+        "format": "{{msg.payload.initialization}}",
+        "x": 568,
+        "y": 65,
         "wires": []
-    },
-    {
-        "id": "ea00adb0.014e6",
-        "type": "inject",
-        "z": "10494fbd.03df",
-        "name": "tick",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "x": 81,
-        "y": 115,
-        "wires": [
-            []
-        ]
     },
     {
         "id": "56bb0771.1a29b8",
@@ -50,9 +33,9 @@
         "name": "Ship ID",
         "group": "Hacking Initiation",
         "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 453,
-        "y": 122,
+        "format": "{{msg.payload.ship_id}}",
+        "x": 523,
+        "y": 124,
         "wires": []
     },
     {
@@ -69,7 +52,8 @@
         "y": 372,
         "wires": [
             [
-                "cfedefee.a98f6"
+                "cfedefee.a98f6",
+                "eead9503.0282f8"
             ]
         ]
     },
@@ -84,28 +68,6 @@
         "wires": []
     },
     {
-        "id": "1d3aaec.72f9251",
-        "type": "inject",
-        "z": "10494fbd.03df",
-        "name": "",
-        "topic": "",
-        "payload": "FooBar",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 248,
-        "y": 117,
-        "wires": [
-            [
-                "c1553ffe.fdc1f",
-                "56bb0771.1a29b8",
-                "1a435d27.64f493",
-                "85a5bb2.a1cb548"
-            ]
-        ]
-    },
-    {
         "id": "1a435d27.64f493",
         "type": "rbe",
         "z": "10494fbd.03df",
@@ -114,8 +76,8 @@
         "gap": "",
         "start": "",
         "inout": "out",
-        "x": 410,
-        "y": 242,
+        "x": 415,
+        "y": 220,
         "wires": [
             [
                 "657232da.bc874c"
@@ -155,8 +117,8 @@
         "group": "Hacking Progress",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 509,
-        "y": 185,
+        "x": 572,
+        "y": 180,
         "wires": []
     },
     {
@@ -173,7 +135,8 @@
         "y": 425,
         "wires": [
             [
-                "4a44b22b.376e3c"
+                "4a44b22b.376e3c",
+                "e523b2c2.51fa4"
             ]
         ]
     },
@@ -186,5 +149,70 @@
         "x": 647.5,
         "y": 426,
         "wires": []
+    },
+    {
+        "id": "3e19548e.b26dfc",
+        "type": "inject",
+        "z": "10494fbd.03df",
+        "name": "tick",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 115,
+        "y": 62,
+        "wires": [
+            [
+                "ad040915.f65668"
+            ]
+        ]
+    },
+    {
+        "id": "ad040915.f65668",
+        "type": "http request",
+        "z": "10494fbd.03df",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "$(Hacking_get_url)",
+        "x": 301,
+        "y": 137,
+        "wires": [
+            [
+                "56bb0771.1a29b8",
+                "c1553ffe.fdc1f",
+                "1a435d27.64f493"
+            ]
+        ]
+    },
+    {
+        "id": "eead9503.0282f8",
+        "type": "http request",
+        "z": "10494fbd.03df",
+        "name": "set approve_init integrated",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$hacking_set_approve_init_url)",
+        "x": 649,
+        "y": 325,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e523b2c2.51fa4",
+        "type": "http request",
+        "z": "10494fbd.03df",
+        "name": "set approve_attempt integrated",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$hacking_set_approve_attempt_url)",
+        "x": 656,
+        "y": 474,
+        "wires": [
+            []
+        ]
     }
 ]
