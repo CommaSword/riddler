@@ -93,7 +93,17 @@ function identifyRiddle(board, callback){
 	});
 }
 
-app.listen(port, function () {
+var server = app.listen(port, function () {
 	console.log('Station API listening on port', port);
 	initNextBoard();
 });
+
+function close(signal) {
+	console.log( "\nGracefully shutting down from " + signal );
+	server.close();
+	process.exit();
+}
+
+process.on('SIGTERM', close);
+
+process.on('SIGINT', close);
