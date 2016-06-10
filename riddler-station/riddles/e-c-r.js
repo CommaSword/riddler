@@ -1,9 +1,6 @@
 /**
  * Created by amira on 10/6/16.
  */
-/**
- * Created by amira on 17/5/16.
- */
 var five = require('johnny-five');
 var REPAIR_BLINK_PHASE = 1000;
 var FAILURE_BLINK_PHASE = 300;
