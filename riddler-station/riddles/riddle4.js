@@ -26,4 +26,7 @@ module.exports = function riddle4(api, board){
 		state.pinStates /= 10;
 		console.log("pin state is ", state.pinStates);
 	}, interval * 1000)
+
+
+	return {};
 };

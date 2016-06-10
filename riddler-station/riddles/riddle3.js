@@ -190,4 +190,9 @@ module.exports = function riddle4(api, board) {
         res.json(state);
     });
 
+    return {
+        state : 'data',
+        set_start : 'set_start',
+        fix_riddle_manually : 'fix_riddle_manually'
+    };
 };

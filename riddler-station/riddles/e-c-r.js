@@ -28,6 +28,9 @@ module.exports = function EngineeringControlRoom(api, board){
 	});
 	Object.keys(systems).forEach(initSystem);
 
+	var schema = {
+		state : 'data'
+	};
 	function initSystem(sysName){
 		state[sysName] = {
 			damaged : false,
@@ -99,5 +102,9 @@ module.exports = function EngineeringControlRoom(api, board){
 			res.json(state[sysName]);
 		});
 		api.use('/' + sysName, route);
+		schema[sysName + '.state'] = sysName + '/data';
+		schema[sysName + '.damaged'] = sysName + '/damaged';
+		schema[sysName + '.functional'] = sysName + '/functional';
 	}
+	return schema;
 };

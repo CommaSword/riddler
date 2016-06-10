@@ -73,5 +73,9 @@ module.exports = function riddle1(api, board){
 		res.json(state);
 	});
 
-
+	return {
+		state : 'data',
+		timeout_value : 'timeout_value',
+		time_since_press : 'time_since_press'
+	};
 };
