@@ -1,0 +1,15 @@
+.idea
+.env
+*.iws
+logs
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+node_modules
+.npm
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.
+*.sublime-workspace

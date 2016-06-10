@@ -19,7 +19,7 @@ module.exports = function riddle4(api, board) {
     var state = {
         status: riddle_status.START,
         place: 1,
-        good_led: led_activate[1],
+        good_led: led_activate[0],
         current_led: led_activate[0]
     };
 
