@@ -2,13 +2,15 @@
  * Created by amira on 10/6/16.
  */
 var five = require('johnny-five');
+var express = require('express');
+
 var REPAIR_BLINK_PHASE = 1000;
 var FAILURE_BLINK_PHASE = 300;
 
 module.exports = function EngineeringControlRoom(api, board){
 	var systems = {
 		'REACTOR' : {toggle:'A3', led: 5},
-		'BEAM WEAPON' : {toggle:'A2', led: 6},
+		'BEAM_WEAPON' : {toggle:'A2', led: 6},
 		'MISSILES' : {toggle:'A1', led: 7},
 		'MANEUVERING' : {toggle:'A0', led: 8},
 		'IMPULSE ENGINE' : {toggle:0, led: 9},
