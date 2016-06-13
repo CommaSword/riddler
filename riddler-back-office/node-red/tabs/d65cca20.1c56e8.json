@@ -1,0 +1,135 @@
+[
+    {
+        "id": "d65cca20.1c56e8",
+        "type": "subflow",
+        "name": "Riddle 2",
+        "info": "",
+        "in": [
+            {
+                "x": 208,
+                "y": 146,
+                "wires": [
+                    {
+                        "id": "a76ea1a8.b9fee"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "a76ea1a8.b9fee",
+        "type": "http request",
+        "z": "d65cca20.1c56e8",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "$(riddle2.0_get_url)",
+        "x": 398,
+        "y": 146,
+        "wires": [
+            [
+                "9fd22195.ae6e2"
+            ]
+        ]
+    },
+    {
+        "id": "9fcfad0c.a2b91",
+        "type": "ui_button",
+        "z": "d65cca20.1c56e8",
+        "tab": "de243966.edb1a8",
+        "name": "Start Riddle",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 2.0",
+        "order": 1,
+        "x": 323,
+        "y": 246,
+        "wires": [
+            [
+                "8aa29757.728a58"
+            ]
+        ]
+    },
+    {
+        "id": "8aa29757.728a58",
+        "type": "http request",
+        "z": "d65cca20.1c56e8",
+        "name": "set riddle_status: BOTH_BAD",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle2.0_start_riddle)",
+        "x": 608,
+        "y": 246,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d09b50f6.35fe8",
+        "type": "ui_text_input",
+        "z": "d65cca20.1c56e8",
+        "tab": "de243966.edb1a8",
+        "mode": "text",
+        "delay": 300,
+        "name": "Status",
+        "topic": "",
+        "group": "חידה 2.0",
+        "order": "3",
+        "x": 859,
+        "y": 146,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9fd22195.ae6e2",
+        "type": "contrib-json",
+        "z": "d65cca20.1c56e8",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .status",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 633,
+        "y": 146,
+        "wires": [
+            [
+                "d09b50f6.35fe8"
+            ]
+        ]
+    },
+    {
+        "id": "19d8b9bb.310436",
+        "type": "http request",
+        "z": "d65cca20.1c56e8",
+        "name": "set riddle_status: START",
+        "method": "POST",
+        "ret": "txt",
+        "url": "$(riddle2.0_fix_riddle)",
+        "x": 587,
+        "y": 311,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "411aa79d.a62318",
+        "type": "ui_button",
+        "z": "d65cca20.1c56e8",
+        "tab": "de243966.edb1a8",
+        "name": "Fix Riddle Manually",
+        "payload": "",
+        "topic": "",
+        "group": "חידה 2.0",
+        "order": 1,
+        "x": 341,
+        "y": 311,
+        "wires": [
+            [
+                "19d8b9bb.310436"
+            ]
+        ]
+    }
+]

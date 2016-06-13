@@ -1,39 +1,27 @@
 [
     {
-        "type": "tab",
-        "id": "385b4489.4b962c",
-        "label": "Riddle1"
-    },
-    {
-        "id": "bf128263.2b011",
-        "type": "ui_tab",
-        "z": "385b4489.4b962c",
+        "id": "8d01c84a.b2b6f8",
+        "type": "subflow",
         "name": "Riddle 1",
-        "icon": "dashboard",
-        "order": "1"
-    },
-    {
-        "id": "c6ab67d6.00af38",
-        "type": "inject",
-        "z": "385b4489.4b962c",
-        "name": "tick",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "x": 158,
-        "y": 101,
-        "wires": [
-            []
-        ]
+        "info": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "349ca57b.aaff7a"
+                    }
+                ]
+            }
+        ],
+        "out": []
     },
     {
         "id": "5924d25f.6742ac",
         "type": "ui_numeric",
-        "z": "385b4489.4b962c",
-        "tab": "bf128263.2b011",
+        "z": "8d01c84a.b2b6f8",
+        "tab": "de243966.edb1a8",
         "name": "timeout_value",
         "topic": "",
         "group": "חידה 1",
@@ -45,15 +33,16 @@
         "y": 126,
         "wires": [
             [
-                "dfd04df5.5ebaa"
+                "dfd04df5.5ebaa",
+                "464d3c82.c8ec14"
             ]
         ]
     },
     {
         "id": "37a3c7e8.9dc178",
         "type": "ui_numeric",
-        "z": "385b4489.4b962c",
-        "tab": "bf128263.2b011",
+        "z": "8d01c84a.b2b6f8",
+        "tab": "de243966.edb1a8",
         "name": "time_since_press",
         "topic": "",
         "group": "חידה 1",
@@ -72,7 +61,7 @@
     {
         "id": "10a5a3b2.386edc",
         "type": "rbe",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "name": "changes only",
         "func": "rbe",
         "gap": "",
@@ -89,7 +78,7 @@
     {
         "id": "dfd04df5.5ebaa",
         "type": "rbe",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "name": "changes only",
         "func": "rbe",
         "gap": "",
@@ -106,15 +95,15 @@
     {
         "id": "b317c97d.ab3da8",
         "type": "contrib-json",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "engine": "JSONSelect",
         "command": "jq",
         "expr": ":root > .timeout_value",
         "complete": "property",
         "prop": "payload",
         "name": "",
-        "x": 365.5,
-        "y": 163,
+        "x": 385.5,
+        "y": 151,
         "wires": [
             [
                 "5924d25f.6742ac"
@@ -124,15 +113,15 @@
     {
         "id": "cd808c95.c3f81",
         "type": "contrib-json",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "engine": "JSONSelect",
         "command": "jq",
         "expr": ":root > .time_since_press",
         "complete": "property",
         "prop": "payload",
         "name": "",
-        "x": 362,
-        "y": 234,
+        "x": 392,
+        "y": 243,
         "wires": [
             [
                 "37a3c7e8.9dc178"
@@ -142,13 +131,13 @@
     {
         "id": "349ca57b.aaff7a",
         "type": "http request",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "name": "get data from integration",
         "method": "GET",
         "ret": "obj",
         "url": "$(riddle1_get_url)",
-        "x": 117,
-        "y": 179,
+        "x": 145,
+        "y": 197,
         "wires": [
             [
                 "cd808c95.c3f81",
@@ -159,7 +148,7 @@
     {
         "id": "7bfdb0d8.f3341",
         "type": "http request",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "name": "set timeout_value integrated",
         "method": "POST",
         "ret": "txt",
@@ -173,7 +162,7 @@
     {
         "id": "90023c43.6b1de",
         "type": "http request",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "name": "set time_since_press integrated",
         "method": "POST",
         "ret": "txt",
@@ -187,7 +176,7 @@
     {
         "id": "a8b95b31.8889a8",
         "type": "comment",
-        "z": "385b4489.4b962c",
+        "z": "8d01c84a.b2b6f8",
         "name": "Riddle 1: timeout button",
         "info": "",
         "x": 638.5,
@@ -197,8 +186,8 @@
     {
         "id": "c34c9a43.26dfe8",
         "type": "ui_button",
-        "z": "385b4489.4b962c",
-        "tab": "bf128263.2b011",
+        "z": "8d01c84a.b2b6f8",
+        "tab": "de243966.edb1a8",
         "name": "Reset Timer",
         "payload": "0",
         "topic": "",
@@ -211,5 +200,36 @@
                 "90023c43.6b1de"
             ]
         ]
+    },
+    {
+        "id": "70bf8fa7.c491e",
+        "type": "inject",
+        "z": "8d01c84a.b2b6f8",
+        "name": "",
+        "topic": "",
+        "payload": "10",
+        "payloadType": "num",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 364.5,
+        "y": 54,
+        "wires": [
+            [
+                "5924d25f.6742ac"
+            ]
+        ]
+    },
+    {
+        "id": "464d3c82.c8ec14",
+        "type": "debug",
+        "z": "8d01c84a.b2b6f8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 875.5,
+        "y": 53,
+        "wires": []
     }
 ]

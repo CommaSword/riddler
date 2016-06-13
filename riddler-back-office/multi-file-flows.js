@@ -81,7 +81,7 @@ module.exports = function multiFileFlows(localFileSystemFactory){
 		saveFlows: function saveFlows(flows) {
 			// clean old tabs older
 			var tabIds = flows.filter(function (node) {
-				return node && node.type === 'tab';
+				return node && (node.type === 'tab' || node.type === 'subflow');
 			}).map(function(tab){return tab.id;});
 			var tabPaths = tabIds.map(function (tabId) {
 				return path.join(state.tabsDirPath, tabId + '.json');
@@ -94,7 +94,7 @@ module.exports = function multiFileFlows(localFileSystemFactory){
 				nextTabsObject[tabPath] = state.tabMgrs[tabPath]
 			});
 			// remove deleted tabs files
-			return when.map(removedPaths, promiseRemove)
+			return when.map(removedPaths, function(path){ return promiseRemove(path);})
 				.then(function () {
 					// initialize new tabs manager objects
 					return when.map(addedPaths, function (tabPath) {

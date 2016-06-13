@@ -11,31 +11,29 @@ var Discover = require('node-discover'); //https://github.com/wankdanker/node-di
 require('dotenv').config();
 
 var d = Discover({
-	multicast : '239.0.0.0'
-});
-
-d.on("added", function (obj) {
-	console.log("added", obj)
+	multicast : process.env.multicastAddr || '239.0.0.0'
 });
 
 setInterval(function(){
-	var detected = {};
+	//var detected = {};
 	Object.keys(d.nodes).forEach(function(key){
 		var node = d.nodes[key];
 		if (node.advertisement && node.advertisement.schema) {
 			Object.keys(node.advertisement.schema).forEach(function (riddleId) {
 				// {riddle1 : {data : '/data', timeout : '/timeout'}
-				var riddleProps = node.advertisement[riddleId];
+				var riddleProps = node.advertisement.schema[riddleId];
 				Object.keys(riddleProps).forEach(function (property) {
 					var resource = riddleProps[property];
-					process.env[riddleId + '_' + property] = 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId + '/' + resource;
-					detected[riddleId + '_' + property] = 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId + '/' + resource;
+					var value = 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId + '/' + resource;
+					if (process.env[riddleId + '_' + property] !== value){
+						process.env[riddleId + '_' + property] = value;
+						console.log('detected', riddleId+'_'+property, '=', value);
+					}
 				});
 			});
 		}
 	});
-	console.log(detected);
-}, 2000);
+}, 1000);
 
 // Create an Express app
 var app = express();

@@ -1,40 +1,26 @@
 [
     {
-        "type": "tab",
-        "id": "8a0884d3.9de888",
-        "label": "Riddle 3"
-    },
-    {
-        "id": "3f6201c7.f2f2fe",
-        "type": "ui_tab",
-        "z": "8a0884d3.9de888",
+        "id": "ab5df3e3.53db5",
+        "type": "subflow",
         "name": "Riddle 3",
-        "icon": "dashboard",
-        "order": "1"
-    },
-    {
-        "id": "f64749dc.f7c568",
-        "type": "inject",
-        "z": "8a0884d3.9de888",
-        "name": "tick",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "x": 144,
-        "y": 87,
-        "wires": [
-            [
-                "f33ab4fd.8d3f68"
-            ]
-        ]
+        "info": "",
+        "in": [
+            {
+                "x": 54,
+                "y": 70,
+                "wires": [
+                    {
+                        "id": "f33ab4fd.8d3f68"
+                    }
+                ]
+            }
+        ],
+        "out": []
     },
     {
         "id": "f33ab4fd.8d3f68",
         "type": "http request",
-        "z": "8a0884d3.9de888",
+        "z": "ab5df3e3.53db5",
         "name": "get data from integration",
         "method": "GET",
         "ret": "obj",
@@ -53,7 +39,7 @@
     {
         "id": "3ba3135.ca634ec",
         "type": "debug",
-        "z": "8a0884d3.9de888",
+        "z": "ab5df3e3.53db5",
         "name": "",
         "active": true,
         "console": "false",
@@ -65,7 +51,7 @@
     {
         "id": "8805ad01.2009c",
         "type": "contrib-json",
-        "z": "8a0884d3.9de888",
+        "z": "ab5df3e3.53db5",
         "engine": "JSONSelect",
         "command": "jq",
         "expr": ":root > .status",
@@ -83,7 +69,7 @@
     {
         "id": "d2d9c2f2.6c2b5",
         "type": "contrib-json",
-        "z": "8a0884d3.9de888",
+        "z": "ab5df3e3.53db5",
         "engine": "JSONSelect",
         "command": "jq",
         "expr": ":root > .good_led",
@@ -101,7 +87,7 @@
     {
         "id": "c04f4d51.85d13",
         "type": "contrib-json",
-        "z": "8a0884d3.9de888",
+        "z": "ab5df3e3.53db5",
         "engine": "JSONSelect",
         "command": "jq",
         "expr": ":root > .current_led",
@@ -119,8 +105,8 @@
     {
         "id": "7155e588.86b95c",
         "type": "ui_button",
-        "z": "8a0884d3.9de888",
-        "tab": "3f6201c7.f2f2fe",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
         "name": "Start Riddle",
         "payload": "",
         "topic": "",
@@ -137,7 +123,7 @@
     {
         "id": "91780020.0f81a",
         "type": "http request",
-        "z": "8a0884d3.9de888",
+        "z": "ab5df3e3.53db5",
         "name": "set riddle_status: Start Riddle",
         "method": "POST",
         "ret": "txt",
@@ -151,7 +137,7 @@
     {
         "id": "62964138.7f428",
         "type": "http request",
-        "z": "8a0884d3.9de888",
+        "z": "ab5df3e3.53db5",
         "name": "set riddle_status: Fix Riddle",
         "method": "POST",
         "ret": "txt",
@@ -165,8 +151,8 @@
     {
         "id": "c48ebd0b.645d6",
         "type": "ui_button",
-        "z": "8a0884d3.9de888",
-        "tab": "3f6201c7.f2f2fe",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
         "name": "Fix Riddle Manually",
         "payload": "",
         "topic": "",
@@ -183,8 +169,8 @@
     {
         "id": "bb7ec0f2.02225",
         "type": "ui_text",
-        "z": "8a0884d3.9de888",
-        "tab": "3f6201c7.f2f2fe",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
         "name": "Current LED",
         "group": "חידה 3",
         "order": 1,
@@ -196,8 +182,8 @@
     {
         "id": "ea2e635b.da5e1",
         "type": "ui_text",
-        "z": "8a0884d3.9de888",
-        "tab": "3f6201c7.f2f2fe",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
         "name": "Status",
         "group": "חידה 3",
         "order": 1,
@@ -209,8 +195,8 @@
     {
         "id": "a9f92cbf.cc5b8",
         "type": "ui_text",
-        "z": "8a0884d3.9de888",
-        "tab": "3f6201c7.f2f2fe",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
         "name": "Good LED",
         "group": "חידה 3",
         "order": 1,

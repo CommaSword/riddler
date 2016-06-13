@@ -16,7 +16,7 @@ var advertisement = {
 var d = Discover({
 	advertisement: advertisement,
 	isMasterEligible: false,
-	multicast : '239.0.0.0'
+	multicast : process.env.multicastAddr || '239.0.0.0'
 });
 
 // most basic body parser for raw strings

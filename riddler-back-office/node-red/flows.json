@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "id": "de243966.edb1a8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Dash1",
+        "icon": "dashboard",
+        "order": "1"
+    }
+]
