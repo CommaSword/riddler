@@ -1,0 +1,353 @@
+[
+    {
+        "id": "9e21335d.82775",
+        "type": "subflow",
+        "name": "ECR subsystem",
+        "info": "",
+        "in": [
+            {
+                "x": 66.5,
+                "y": 38,
+                "wires": [
+                    {
+                        "id": "504c97d5.bcefb8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 838,
+                "y": 46,
+                "wires": [
+                    {
+                        "id": "690930b1.2fd19",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "af089e6d.a4f5e",
+        "type": "ui_text",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "Repairing",
+        "group": "shazam!",
+        "order": "2",
+        "format": "{{msg.payload}}",
+        "x": 755,
+        "y": 175,
+        "wires": []
+    },
+    {
+        "id": "90e09df1.5c2a7",
+        "type": "ui_switch",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "Damaged",
+        "topic": "",
+        "group": "shazam!",
+        "order": "3",
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 753,
+        "y": 243,
+        "wires": [
+            [
+                "d40c876e.b4f2d8"
+            ]
+        ]
+    },
+    {
+        "id": "e5c1ee7e.372ea",
+        "type": "ui_switch",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "Repairable",
+        "topic": "",
+        "group": "shazam!",
+        "order": "4",
+        "onvalue": "true",
+        "offvalue": "false",
+        "x": 757,
+        "y": 290,
+        "wires": [
+            [
+                "22644f13.225ba"
+            ]
+        ]
+    },
+    {
+        "id": "896291ad.1d185",
+        "type": "contrib-json",
+        "z": "9e21335d.82775",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .autoRepair",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 539,
+        "y": 169,
+        "wires": [
+            [
+                "af089e6d.a4f5e"
+            ]
+        ]
+    },
+    {
+        "id": "3c1869e0.811846",
+        "type": "http request",
+        "z": "9e21335d.82775",
+        "name": "set beam damage",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "x": 1166,
+        "y": 218,
+        "wires": [
+            [
+                "690930b1.2fd19"
+            ]
+        ]
+    },
+    {
+        "id": "f1418395.56158",
+        "type": "http request",
+        "z": "9e21335d.82775",
+        "name": "set beam functional",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "x": 1169,
+        "y": 264,
+        "wires": [
+            [
+                "690930b1.2fd19"
+            ]
+        ]
+    },
+    {
+        "id": "d2b3bda7.60b73",
+        "type": "contrib-json",
+        "z": "9e21335d.82775",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .damaged",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 537,
+        "y": 213,
+        "wires": [
+            [
+                "90e09df1.5c2a7"
+            ]
+        ]
+    },
+    {
+        "id": "279e5288.669f6e",
+        "type": "contrib-json",
+        "z": "9e21335d.82775",
+        "engine": "JSONSelect",
+        "command": "jq",
+        "expr": ":root > .functional",
+        "complete": "property",
+        "prop": "payload",
+        "name": "",
+        "x": 536,
+        "y": 253,
+        "wires": [
+            [
+                "e5c1ee7e.372ea"
+            ]
+        ]
+    },
+    {
+        "id": "690930b1.2fd19",
+        "type": "function",
+        "z": "9e21335d.82775",
+        "name": "identity",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 578.5,
+        "y": 40,
+        "wires": [
+            [
+                "896291ad.1d185",
+                "d2b3bda7.60b73",
+                "279e5288.669f6e"
+            ]
+        ]
+    },
+    {
+        "id": "504c97d5.bcefb8",
+        "type": "function",
+        "z": "9e21335d.82775",
+        "name": "configure",
+        "func": "flow.set('id', msg.payload);\nglobal.get('riddlesEvents').on('added-ECR', \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/' + msg.payload);\n    flow.set('damaged_url', baseUrl + '/' + msg.payload + '/damaged');\n    flow.set('functional_url', baseUrl + '/' + msg.payload + '/functional');\n    flow.set('configured', true);\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 196,
+        "y": 38,
+        "wires": [
+            [
+                "17d65ca1.cbe193"
+            ]
+        ]
+    },
+    {
+        "id": "17d65ca1.cbe193",
+        "type": "ui_text",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "Name",
+        "group": "shazam!",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 336.5,
+        "y": 38,
+        "wires": []
+    },
+    {
+        "id": "90099c37.1d359",
+        "type": "http request",
+        "z": "9e21335d.82775",
+        "name": "get data from integration",
+        "method": "GET",
+        "ret": "obj",
+        "url": "",
+        "x": 168,
+        "y": 112,
+        "wires": [
+            [
+                "690930b1.2fd19"
+            ]
+        ]
+    },
+    {
+        "id": "51a59173.1f22f",
+        "type": "change",
+        "z": "9e21335d.82775",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "state_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 127,
+        "y": 163,
+        "wires": [
+            [
+                "90099c37.1d359"
+            ]
+        ]
+    },
+    {
+        "id": "5c2b12ae.c2cc0c",
+        "type": "switch",
+        "z": "9e21335d.82775",
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 117,
+        "y": 216,
+        "wires": [
+            [
+                "51a59173.1f22f"
+            ]
+        ]
+    },
+    {
+        "id": "50777216.6d99ec",
+        "type": "inject",
+        "z": "9e21335d.82775",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 99,
+        "y": 280,
+        "wires": [
+            [
+                "5c2b12ae.c2cc0c"
+            ]
+        ]
+    },
+    {
+        "id": "d40c876e.b4f2d8",
+        "type": "change",
+        "z": "9e21335d.82775",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "damaged_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 971,
+        "y": 266,
+        "wires": [
+            [
+                "3c1869e0.811846"
+            ]
+        ]
+    },
+    {
+        "id": "22644f13.225ba",
+        "type": "change",
+        "z": "9e21335d.82775",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "functional_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 979,
+        "y": 316,
+        "wires": [
+            [
+                "f1418395.56158"
+            ]
+        ]
+    }
+]

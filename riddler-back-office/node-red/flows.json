@@ -6,5 +6,13 @@
         "name": "Riddles",
         "icon": "dashboard",
         "order": "1"
+    },
+    {
+        "id": "692264eb.cffd6c",
+        "type": "ui_tab",
+        "z": "",
+        "name": "ECR",
+        "icon": "dashboard",
+        "order": "1"
     }
 ]
