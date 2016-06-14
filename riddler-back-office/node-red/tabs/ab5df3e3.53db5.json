@@ -10,12 +10,23 @@
                 "y": 70,
                 "wires": [
                     {
-                        "id": "f33ab4fd.8d3f68"
+                        "id": "81ce5f05.53b38"
                     }
                 ]
             }
         ],
-        "out": []
+        "out": [
+            {
+                "x": 596,
+                "y": 90,
+                "wires": [
+                    {
+                        "id": "59ee1679.a11ec8",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
     },
     {
         "id": "f33ab4fd.8d3f68",
@@ -24,29 +35,14 @@
         "name": "get data from integration",
         "method": "GET",
         "ret": "obj",
-        "url": "$(riddle3_get_url)",
+        "url": "",
         "x": 208,
         "y": 219,
         "wires": [
             [
-                "8805ad01.2009c",
-                "3ba3135.ca634ec",
-                "d2d9c2f2.6c2b5",
-                "c04f4d51.85d13"
+                "59ee1679.a11ec8"
             ]
         ]
-    },
-    {
-        "id": "3ba3135.ca634ec",
-        "type": "debug",
-        "z": "ab5df3e3.53db5",
-        "name": "",
-        "active": true,
-        "console": "false",
-        "complete": "payload",
-        "x": 505,
-        "y": 79,
-        "wires": []
     },
     {
         "id": "8805ad01.2009c",
@@ -58,8 +54,8 @@
         "complete": "property",
         "prop": "payload",
         "name": "",
-        "x": 540,
-        "y": 155,
+        "x": 787,
+        "y": 118,
         "wires": [
             [
                 "ea2e635b.da5e1"
@@ -76,8 +72,8 @@
         "complete": "property",
         "prop": "payload",
         "name": "",
-        "x": 532,
-        "y": 231,
+        "x": 779,
+        "y": 194,
         "wires": [
             [
                 "a9f92cbf.cc5b8"
@@ -94,8 +90,8 @@
         "complete": "property",
         "prop": "payload",
         "name": "",
-        "x": 537,
-        "y": 305,
+        "x": 784,
+        "y": 268,
         "wires": [
             [
                 "bb7ec0f2.02225"
@@ -112,11 +108,11 @@
         "topic": "",
         "group": "חידה 3",
         "order": 1,
-        "x": 115,
-        "y": 392,
+        "x": 138,
+        "y": 447,
         "wires": [
             [
-                "91780020.0f81a"
+                "79a9d224.94898c"
             ]
         ]
     },
@@ -127,11 +123,13 @@
         "name": "set riddle_status: Start Riddle",
         "method": "POST",
         "ret": "txt",
-        "url": "$(riddle3_start_riddle)",
-        "x": 400,
-        "y": 392,
+        "url": "",
+        "x": 621,
+        "y": 447,
         "wires": [
-            []
+            [
+                "59ee1679.a11ec8"
+            ]
         ]
     },
     {
@@ -141,11 +139,13 @@
         "name": "set riddle_status: Fix Riddle",
         "method": "POST",
         "ret": "txt",
-        "url": "$(riddle3_fix_riddle)",
-        "x": 389,
-        "y": 457,
+        "url": "",
+        "x": 610,
+        "y": 512,
         "wires": [
-            []
+            [
+                "59ee1679.a11ec8"
+            ]
         ]
     },
     {
@@ -158,11 +158,11 @@
         "topic": "",
         "group": "חידה 3",
         "order": 1,
-        "x": 133,
-        "y": 457,
+        "x": 156,
+        "y": 512,
         "wires": [
             [
-                "62964138.7f428"
+                "4935bcc4.5a5ea4"
             ]
         ]
     },
@@ -175,8 +175,8 @@
         "group": "חידה 3",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 766,
-        "y": 307,
+        "x": 1013,
+        "y": 270,
         "wires": []
     },
     {
@@ -188,8 +188,8 @@
         "group": "חידה 3",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 725,
-        "y": 91,
+        "x": 972,
+        "y": 54,
         "wires": []
     },
     {
@@ -201,8 +201,162 @@
         "group": "חידה 3",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 745,
-        "y": 187,
+        "x": 992,
+        "y": 150,
         "wires": []
+    },
+    {
+        "id": "81ce5f05.53b38",
+        "type": "function",
+        "z": "ab5df3e3.53db5",
+        "name": "configure",
+        "func": "global.get('riddlesEvents').on('added-'+msg.payload, \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/data');\n    flow.set('set_start', baseUrl + '/set_start');\n    flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n    flow.set('configured', true);\n});\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 196,
+        "y": 69,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e5d07ba.ca7508",
+        "type": "change",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "state_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 167,
+        "y": 270,
+        "wires": [
+            [
+                "f33ab4fd.8d3f68"
+            ]
+        ]
+    },
+    {
+        "id": "b26b514a.36d05",
+        "type": "switch",
+        "z": "ab5df3e3.53db5",
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 157,
+        "y": 323,
+        "wires": [
+            [
+                "3e5d07ba.ca7508"
+            ]
+        ]
+    },
+    {
+        "id": "53fb53c1.6ada6c",
+        "type": "inject",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 139,
+        "y": 387,
+        "wires": [
+            [
+                "b26b514a.36d05"
+            ]
+        ]
+    },
+    {
+        "id": "79a9d224.94898c",
+        "type": "change",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "set_start",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 448,
+        "wires": [
+            [
+                "91780020.0f81a"
+            ]
+        ]
+    },
+    {
+        "id": "4935bcc4.5a5ea4",
+        "type": "change",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "fix_riddle_manually",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 354,
+        "y": 512,
+        "wires": [
+            [
+                "62964138.7f428"
+            ]
+        ]
+    },
+    {
+        "id": "59ee1679.a11ec8",
+        "type": "function",
+        "z": "ab5df3e3.53db5",
+        "name": "identity",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 478.5,
+        "y": 219,
+        "wires": [
+            [
+                "8805ad01.2009c",
+                "d2d9c2f2.6c2b5",
+                "c04f4d51.85d13"
+            ]
+        ]
     }
 ]

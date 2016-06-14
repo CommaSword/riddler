@@ -5,35 +5,13 @@ var http = require('http');
 var path = require('path');
 var express = require("express");
 var RED = require("node-red");
+var EventEmitter = require('events');
 var storageModule = require('./multi-file-flows');
 var Discover = require('node-discover'); //https://github.com/wankdanker/node-discover
 // load environment configurations to process.env
 require('dotenv').config();
+require('./spoon-node-red-ui')();
 
-var d = Discover({
-	multicast : process.env.multicastAddr || '239.0.0.0'
-});
-
-setInterval(function(){
-	//var detected = {};
-	Object.keys(d.nodes).forEach(function(key){
-		var node = d.nodes[key];
-		if (node.advertisement && node.advertisement.schema) {
-			Object.keys(node.advertisement.schema).forEach(function (riddleId) {
-				// {riddle1 : {data : '/data', timeout : '/timeout'}
-				var riddleProps = node.advertisement.schema[riddleId];
-				Object.keys(riddleProps).forEach(function (property) {
-					var resource = riddleProps[property];
-					var value = 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId + '/' + resource;
-					if (process.env[riddleId + '_' + property] !== value){
-						process.env[riddleId + '_' + property] = value;
-						console.log('detected', riddleId+'_'+property, '=', value);
-					}
-				});
-			});
-		}
-	});
-}, 1000);
 
 // Create an Express app
 var app = express();
@@ -45,6 +23,7 @@ var app = express();
 var server = http.createServer(app);
 
 // Create the settings object - see default settings.js file for other options
+var riddlesEvents = new EventEmitter();
 var settings = {
 	storageModule : storageModule(),
 	flowFile: 'flows.json',
@@ -53,9 +32,11 @@ var settings = {
 	httpAdminRoot:"/",
 	httpNodeRoot: "/",
 	userDir: path.join(__dirname , 'node-red'),
-	functionGlobalContext: { } ,   // enables global context
+	functionGlobalContext: {
+		riddlesEvents : riddlesEvents
+	} ,   // enables global context
 	ui:{  // https://github.com/andrei-tatar/node-red-contrib-ui/blob/master/ui.js#L162
-
+		title: 'riddler back office'
 	}
 };
 
@@ -71,4 +52,35 @@ app.use(settings.httpNodeRoot,RED.httpNode);
 server.listen(process.env.node_red_port || 80);
 
 // Start the runtime
-RED.start();
+RED.start()
+	.then(function(){
+
+		var d = Discover({
+			multicast : process.env.multicastAddr || '239.0.0.0'
+		});
+
+		d.on('added', function addRiddles(node){
+			if (node.advertisement && node.advertisement.schema) {
+				Object.keys(node.advertisement.schema).forEach(function (riddleId) {
+					// {riddle1 : {data : '/data', timeout : '/timeout'}
+					riddlesEvents.emit('added-'+riddleId, 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId);
+					//var riddleProps = node.advertisement.schema[riddleId];
+					//Object.keys(riddleProps).forEach(function (property) {
+					//	var resource = riddleProps[property];
+					//	var value = 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId + '/' + resource;
+					//	if (process.env[riddleId + '_' + property] !== value){
+					//		process.env[riddleId + '_' + property] = value;
+					//		console.log('detected', riddleId+'_'+property, '=', value);
+					//	}
+					//});
+				});
+			}
+		});
+		setInterval(function(){
+			//var detected = {};
+			Object.keys(d.nodes).forEach(function(key){
+				var node = d.nodes[key];
+
+			});
+		}, 1000);
+	});

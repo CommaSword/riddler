@@ -6,16 +6,27 @@
         "info": "",
         "in": [
             {
-                "x": 50,
-                "y": 30,
+                "x": 51,
+                "y": 84,
                 "wires": [
                     {
-                        "id": "349ca57b.aaff7a"
+                        "id": "25e84c64.935304"
                     }
                 ]
             }
         ],
-        "out": []
+        "out": [
+            {
+                "x": 455,
+                "y": 69,
+                "wires": [
+                    {
+                        "id": "693d799b.940e58",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
     },
     {
         "id": "5924d25f.6742ac",
@@ -29,12 +40,11 @@
         "format": "{{value}}",
         "min": 0,
         "max": "10000",
-        "x": 618.5,
-        "y": 126,
+        "x": 758.5,
+        "y": 133,
         "wires": [
             [
-                "dfd04df5.5ebaa",
-                "464d3c82.c8ec14"
+                "dfd04df5.5ebaa"
             ]
         ]
     },
@@ -50,8 +60,8 @@
         "format": "{{value}}",
         "min": 0,
         "max": "10000",
-        "x": 618,
-        "y": 212,
+        "x": 758,
+        "y": 219,
         "wires": [
             [
                 "10a5a3b2.386edc"
@@ -67,11 +77,11 @@
         "gap": "",
         "start": "",
         "inout": "out",
-        "x": 844.5,
-        "y": 209,
+        "x": 972.5,
+        "y": 210,
         "wires": [
             [
-                "90023c43.6b1de"
+                "c6779dae.7c7ca"
             ]
         ]
     },
@@ -84,11 +94,11 @@
         "gap": "",
         "start": "",
         "inout": "out",
-        "x": 838,
-        "y": 124,
+        "x": 978,
+        "y": 131,
         "wires": [
             [
-                "7bfdb0d8.f3341"
+                "da53ea71.79a188"
             ]
         ]
     },
@@ -102,8 +112,8 @@
         "complete": "property",
         "prop": "payload",
         "name": "",
-        "x": 385.5,
-        "y": 151,
+        "x": 517.5,
+        "y": 135,
         "wires": [
             [
                 "5924d25f.6742ac"
@@ -120,8 +130,8 @@
         "complete": "property",
         "prop": "payload",
         "name": "",
-        "x": 392,
-        "y": 243,
+        "x": 524,
+        "y": 227,
         "wires": [
             [
                 "37a3c7e8.9dc178"
@@ -135,13 +145,12 @@
         "name": "get data from integration",
         "method": "GET",
         "ret": "obj",
-        "url": "$(riddle1_get_url)",
-        "x": 145,
-        "y": 197,
+        "url": "",
+        "x": 127,
+        "y": 199,
         "wires": [
             [
-                "cd808c95.c3f81",
-                "b317c97d.ab3da8"
+                "693d799b.940e58"
             ]
         ]
     },
@@ -152,11 +161,13 @@
         "name": "set timeout_value integrated",
         "method": "POST",
         "ret": "txt",
-        "url": "$(riddle1_set_timeout_value_url)",
-        "x": 1126,
-        "y": 112,
+        "url": "",
+        "x": 1287,
+        "y": 159,
         "wires": [
-            []
+            [
+                "693d799b.940e58"
+            ]
         ]
     },
     {
@@ -166,11 +177,13 @@
         "name": "set time_since_press integrated",
         "method": "POST",
         "ret": "txt",
-        "url": "$(riddle1_set_time_since_press_url)",
-        "x": 1119,
-        "y": 208,
+        "url": "",
+        "x": 1293,
+        "y": 278,
         "wires": [
-            []
+            [
+                "693d799b.940e58"
+            ]
         ]
     },
     {
@@ -179,8 +192,8 @@
         "z": "8d01c84a.b2b6f8",
         "name": "Riddle 1: timeout button",
         "info": "",
-        "x": 638.5,
-        "y": 40,
+        "x": 778.5,
+        "y": 47,
         "wires": []
     },
     {
@@ -193,8 +206,89 @@
         "topic": "",
         "group": "חידה 1",
         "order": "30",
-        "x": 618.5,
-        "y": 288,
+        "x": 759.5,
+        "y": 285,
+        "wires": [
+            [
+                "c6779dae.7c7ca"
+            ]
+        ]
+    },
+    {
+        "id": "aa6a080.c76f4f8",
+        "type": "change",
+        "z": "8d01c84a.b2b6f8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "state_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 142.5,
+        "y": 245,
+        "wires": [
+            [
+                "349ca57b.aaff7a"
+            ]
+        ]
+    },
+    {
+        "id": "da53ea71.79a188",
+        "type": "change",
+        "z": "8d01c84a.b2b6f8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "timeout_value_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1143,
+        "y": 87,
+        "wires": [
+            [
+                "7bfdb0d8.f3341"
+            ]
+        ]
+    },
+    {
+        "id": "c6779dae.7c7ca",
+        "type": "change",
+        "z": "8d01c84a.b2b6f8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "time_since_press_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1167,
+        "y": 216,
         "wires": [
             [
                 "90023c43.6b1de"
@@ -202,34 +296,75 @@
         ]
     },
     {
-        "id": "70bf8fa7.c491e",
-        "type": "inject",
+        "id": "46420ad3.2e0ac4",
+        "type": "switch",
         "z": "8d01c84a.b2b6f8",
-        "name": "",
-        "topic": "",
-        "payload": "10",
-        "payloadType": "num",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 364.5,
-        "y": 54,
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 132.5,
+        "y": 298,
         "wires": [
             [
-                "5924d25f.6742ac"
+                "aa6a080.c76f4f8"
             ]
         ]
     },
     {
-        "id": "464d3c82.c8ec14",
-        "type": "debug",
+        "id": "9ff5cbaa.72cd08",
+        "type": "inject",
         "z": "8d01c84a.b2b6f8",
         "name": "",
-        "active": true,
-        "console": "false",
-        "complete": "false",
-        "x": 875.5,
-        "y": 53,
-        "wires": []
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 114.5,
+        "y": 362,
+        "wires": [
+            [
+                "46420ad3.2e0ac4"
+            ]
+        ]
+    },
+    {
+        "id": "25e84c64.935304",
+        "type": "function",
+        "z": "8d01c84a.b2b6f8",
+        "name": "configure",
+        "func": "global.get('riddlesEvents').on('added-'+msg.payload, \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/data');\n    flow.set('time_since_press_url', baseUrl + '/time_since_press');\n    flow.set('timeout_value_url', baseUrl + '/timeout_value');\n    flow.set('configured', true);\n});\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 179.5,
+        "y": 87,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "693d799b.940e58",
+        "type": "function",
+        "z": "8d01c84a.b2b6f8",
+        "name": "identity",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 347.5,
+        "y": 181,
+        "wires": [
+            [
+                "b317c97d.ab3da8",
+                "cd808c95.c3f81"
+            ]
+        ]
     }
 ]
