@@ -106,8 +106,8 @@
         "name": "Start Riddle",
         "payload": "",
         "topic": "",
-        "group": "חידה 3",
-        "order": 1,
+        "group": "shazam!",
+        "order": "6",
         "x": 138,
         "y": 447,
         "wires": [
@@ -156,8 +156,8 @@
         "name": "Fix Riddle Manually",
         "payload": "",
         "topic": "",
-        "group": "חידה 3",
-        "order": 1,
+        "group": "shazam!",
+        "order": "7",
         "x": 156,
         "y": 512,
         "wires": [
@@ -172,8 +172,8 @@
         "z": "ab5df3e3.53db5",
         "tab": "de243966.edb1a8",
         "name": "Current LED",
-        "group": "חידה 3",
-        "order": 1,
+        "group": "shazam!",
+        "order": "5",
         "format": "{{msg.payload}}",
         "x": 1013,
         "y": 270,
@@ -185,8 +185,8 @@
         "z": "ab5df3e3.53db5",
         "tab": "de243966.edb1a8",
         "name": "Status",
-        "group": "חידה 3",
-        "order": 1,
+        "group": "shazam!",
+        "order": "3",
         "format": "{{msg.payload}}",
         "x": 972,
         "y": 54,
@@ -198,8 +198,8 @@
         "z": "ab5df3e3.53db5",
         "tab": "de243966.edb1a8",
         "name": "Good LED",
-        "group": "חידה 3",
-        "order": 1,
+        "group": "shazam!",
+        "order": "4",
         "format": "{{msg.payload}}",
         "x": 992,
         "y": 150,
@@ -210,13 +210,15 @@
         "type": "function",
         "z": "ab5df3e3.53db5",
         "name": "configure",
-        "func": "global.get('riddlesEvents').on('added-'+msg.payload, \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/data');\n    flow.set('set_start', baseUrl + '/set_start');\n    flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n    flow.set('configured', true);\n});\nreturn;",
+        "func": "flow.set('id', msg.payload);\nglobal.get('riddlesEvents').on('added-'+msg.payload, \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/data');\n    flow.set('set_start', baseUrl + '/set_start');\n    flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n    flow.set('configured', true);\n});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 196,
         "y": 69,
         "wires": [
-            []
+            [
+                "f189d4e.5b18628"
+            ]
         ]
     },
     {
@@ -358,5 +360,31 @@
                 "c04f4d51.85d13"
             ]
         ]
+    },
+    {
+        "id": "917f23c1.0b445",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "Type",
+        "group": "shazam!",
+        "order": "2",
+        "format": "Riddle 3",
+        "x": 180,
+        "y": 116,
+        "wires": []
+    },
+    {
+        "id": "f189d4e.5b18628",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "ID",
+        "group": "shazam!",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 388.5,
+        "y": 73,
+        "wires": []
     }
 ]

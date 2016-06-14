@@ -158,11 +158,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "repeat": "1",
+        "repeat": "10",
         "crontab": "",
         "once": false,
-        "x": 115,
-        "y": 62,
+        "x": 99,
+        "y": 64,
         "wires": [
             []
         ]
