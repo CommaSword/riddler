@@ -2,78 +2,30 @@
     {
         "type": "tab",
         "id": "df2cd387.f2291",
-        "label": "ECR"
-    },
-    {
-        "id": "cb576020.9d1e4",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Overloaded",
-        "group": "",
-        "order": 1,
-        "format": "{{msg.payload.numToggled > msg.payload.numToggledMax}}",
-        "x": 142,
-        "y": 282,
-        "wires": []
-    },
-    {
-        "id": "9ca374ee.95dd58",
-        "type": "inject",
-        "z": "df2cd387.f2291",
-        "name": "tick",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "x": 153,
-        "y": 68,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "63d8d1be.a051e",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "get data from integration",
-        "method": "GET",
-        "ret": "obj",
-        "url": "$(ECR_get_url)",
-        "x": 148,
-        "y": 186,
-        "wires": [
-            [
-                "cb576020.9d1e4"
-            ]
-        ]
+        "label": "ECR systems"
     },
     {
         "id": "a290f55d.f853d8",
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "reactor",
-        "x": 757.75,
-        "y": 56,
-        "wires": [
-            []
-        ]
+        "x": 823.75,
+        "y": 90,
+        "wires": []
     },
     {
         "id": "96e3cc5a.800af",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "reactor",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 504.5,
-        "y": 55,
+        "x": 833.5,
+        "y": 58,
         "wires": [
             [
                 "a290f55d.f853d8"
@@ -85,25 +37,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "beam_weapon",
-        "x": 776,
-        "y": 118,
-        "wires": [
-            []
-        ]
+        "x": 843,
+        "y": 183,
+        "wires": []
     },
     {
         "id": "dd55b465.e57638",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "beam_weapon",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 532.75,
-        "y": 117,
+        "x": 861.75,
+        "y": 154,
         "wires": [
             [
                 "36c7746d.24027c"
@@ -115,25 +65,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "missiles",
-        "x": 754,
-        "y": 180,
-        "wires": [
-            []
-        ]
+        "x": 825,
+        "y": 272,
+        "wires": []
     },
     {
         "id": "44ed62a5.b7619c",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "missiles",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 500.75,
-        "y": 179,
+        "x": 843.75,
+        "y": 242,
         "wires": [
             [
                 "f61a20ff.e827d"
@@ -145,25 +93,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "maneuvering",
-        "x": 764,
-        "y": 253,
-        "wires": [
-            []
-        ]
+        "x": 833,
+        "y": 363,
+        "wires": []
     },
     {
         "id": "5867b9c7.f87b18",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "maneuvering",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 520.75,
-        "y": 252,
+        "x": 852.75,
+        "y": 332,
         "wires": [
             [
                 "cfdfbb63.0ef3e8"
@@ -175,25 +121,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "impulse_engine",
-        "x": 772,
-        "y": 324,
-        "wires": [
-            []
-        ]
+        "x": 844,
+        "y": 468,
+        "wires": []
     },
     {
         "id": "9cdb869.a69e078",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "impulse_engine",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 528.75,
-        "y": 323,
+        "x": 864.75,
+        "y": 437,
         "wires": [
             [
                 "976c4257.12505"
@@ -205,25 +149,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "warp_drive",
-        "x": 762,
-        "y": 399,
-        "wires": [
-            []
-        ]
+        "x": 832,
+        "y": 567,
+        "wires": []
     },
     {
         "id": "9f5c0525.47d408",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "warp_drive",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 508.75,
-        "y": 398,
+        "x": 852.75,
+        "y": 536,
         "wires": [
             [
                 "9ece9648.8fbfa8"
@@ -235,25 +177,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "jump_drive",
-        "x": 755,
-        "y": 481,
-        "wires": [
-            []
-        ]
+        "x": 835,
+        "y": 664,
+        "wires": []
     },
     {
         "id": "26adf0f1.cd61e",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "jump_drive",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 501.75,
-        "y": 480,
+        "x": 854.75,
+        "y": 633,
         "wires": [
             [
                 "1a518078.1e67a"
@@ -265,25 +205,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "front_shield",
-        "x": 755,
-        "y": 560,
-        "wires": [
-            []
-        ]
+        "x": 835,
+        "y": 765,
+        "wires": []
     },
     {
         "id": "9e840b18.dd0e08",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "front_shield",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 511.75,
-        "y": 559,
+        "x": 853.75,
+        "y": 734,
         "wires": [
             [
                 "473f2fae.359aa"
@@ -295,25 +233,23 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "rear_shield",
-        "x": 755,
-        "y": 634,
-        "wires": [
-            []
-        ]
+        "x": 833,
+        "y": 870,
+        "wires": []
     },
     {
         "id": "214f8179.5c109e",
         "type": "inject",
         "z": "df2cd387.f2291",
         "name": "",
-        "topic": "",
+        "topic": "config",
         "payload": "rear_shield",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 501.75,
-        "y": 633,
+        "x": 843.75,
+        "y": 839,
         "wires": [
             [
                 "2c5f8e69.a2bbd2"
@@ -321,18 +257,271 @@
         ]
     },
     {
-        "id": "177372e.62ddf8d",
-        "type": "ui_template",
+        "id": "f7a133b5.c3523",
+        "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "style override",
-        "group": "",
-        "order": 1,
-        "format": "<style>\n.md-title {\n  display: none;\n}   \n</style>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "x": 142,
-        "y": 380,
+        "name": "0",
+        "x": 216,
+        "y": 61,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f5df656f.52e3b8",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "0",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 217,
+        "y": 31,
+        "wires": [
+            [
+                "f7a133b5.c3523"
+            ]
+        ]
+    },
+    {
+        "id": "1ad250f9.16310f",
+        "type": "subflow:d65cca20.1c56e8",
+        "z": "df2cd387.f2291",
+        "name": "32",
+        "x": 214.5,
+        "y": 170,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "57417be8.3bfa44",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "32",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 224.5,
+        "y": 138,
+        "wires": [
+            [
+                "1ad250f9.16310f"
+            ]
+        ]
+    },
+    {
+        "id": "bddb34bd.f96238",
+        "type": "subflow:d65cca20.1c56e8",
+        "z": "df2cd387.f2291",
+        "name": "64",
+        "x": 213.5,
+        "y": 281,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f77e893.3cfdb8",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "64",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 223.5,
+        "y": 249,
+        "wires": [
+            [
+                "bddb34bd.f96238"
+            ]
+        ]
+    },
+    {
+        "id": "919e1922.384c28",
+        "type": "subflow:d65cca20.1c56e8",
+        "z": "df2cd387.f2291",
+        "name": "95",
+        "x": 213.5,
+        "y": 392,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fa53da48.9167f8",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "95",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 223.5,
+        "y": 362,
+        "wires": [
+            [
+                "919e1922.384c28"
+            ]
+        ]
+    },
+    {
+        "id": "25d5735c.b05f7c",
+        "type": "subflow:ab5df3e3.53db5",
+        "z": "df2cd387.f2291",
+        "name": "164",
+        "x": 212,
+        "y": 503,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c1e58f20.d67dd",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "164",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 222,
+        "y": 472,
+        "wires": [
+            [
+                "25d5735c.b05f7c"
+            ]
+        ]
+    },
+    {
+        "id": "659ee65e.06c268",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "230",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 220.5,
+        "y": 587,
+        "wires": [
+            [
+                "30d3876a.5be5b8"
+            ]
+        ]
+    },
+    {
+        "id": "30d3876a.5be5b8",
+        "type": "subflow:ab5df3e3.53db5",
+        "z": "df2cd387.f2291",
+        "name": "230",
+        "x": 212.5,
+        "y": 618,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "136b9430.ce1e8c",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "262",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 220.5,
+        "y": 693,
+        "wires": [
+            [
+                "2b3be649.37d7ca"
+            ]
+        ]
+    },
+    {
+        "id": "2b3be649.37d7ca",
+        "type": "subflow:ab5df3e3.53db5",
+        "z": "df2cd387.f2291",
+        "name": "262",
+        "x": 211.5,
+        "y": 726,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1911020e.d9154e",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "295",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 217.5,
+        "y": 804,
+        "wires": [
+            [
+                "fce1be.22002e4"
+            ]
+        ]
+    },
+    {
+        "id": "fce1be.22002e4",
+        "type": "subflow:ab5df3e3.53db5",
+        "z": "df2cd387.f2291",
+        "name": "295",
+        "x": 207.5,
+        "y": 834,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f02569de.879878",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "326",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 212.5,
+        "y": 896,
+        "wires": [
+            [
+                "91a8761.24d9688"
+            ]
+        ]
+    },
+    {
+        "id": "91a8761.24d9688",
+        "type": "subflow:ab5df3e3.53db5",
+        "z": "df2cd387.f2291",
+        "name": "326",
+        "x": 202.5,
+        "y": 928,
         "wires": [
             []
         ]

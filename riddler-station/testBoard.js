@@ -3,6 +3,6 @@
  */
 
 require('./detect-board')(function (config, raw) {
-	console.log('\n\n\nraw value: ' + raw + '\n\n\n');
+	console.log('\nraw value: ' + raw + '\n');
 	process.exit(0);
 });

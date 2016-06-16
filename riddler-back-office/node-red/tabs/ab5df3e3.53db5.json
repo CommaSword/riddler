@@ -6,23 +6,26 @@
         "info": "",
         "in": [
             {
-                "x": 54,
-                "y": 70,
+                "x": 117,
+                "y": 129,
                 "wires": [
                     {
                         "id": "81ce5f05.53b38"
+                    },
+                    {
+                        "id": "f189d4e.5b18628"
                     }
                 ]
             }
         ],
         "out": [
             {
-                "x": 596,
-                "y": 90,
+                "x": 702,
+                "y": 295,
                 "wires": [
                     {
                         "id": "59ee1679.a11ec8",
-                        "port": 0
+                        "port": 3
                     }
                 ]
             }
@@ -32,69 +35,15 @@
         "id": "f33ab4fd.8d3f68",
         "type": "http request",
         "z": "ab5df3e3.53db5",
-        "name": "get data from integration",
+        "name": "get state",
         "method": "GET",
         "ret": "obj",
         "url": "",
-        "x": 208,
+        "x": 158,
         "y": 219,
         "wires": [
             [
                 "59ee1679.a11ec8"
-            ]
-        ]
-    },
-    {
-        "id": "8805ad01.2009c",
-        "type": "contrib-json",
-        "z": "ab5df3e3.53db5",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .status",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 787,
-        "y": 118,
-        "wires": [
-            [
-                "ea2e635b.da5e1"
-            ]
-        ]
-    },
-    {
-        "id": "d2d9c2f2.6c2b5",
-        "type": "contrib-json",
-        "z": "ab5df3e3.53db5",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .good_led",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 779,
-        "y": 194,
-        "wires": [
-            [
-                "a9f92cbf.cc5b8"
-            ]
-        ]
-    },
-    {
-        "id": "c04f4d51.85d13",
-        "type": "contrib-json",
-        "z": "ab5df3e3.53db5",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .current_led",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 784,
-        "y": 268,
-        "wires": [
-            [
-                "bb7ec0f2.02225"
             ]
         ]
     },
@@ -175,8 +124,8 @@
         "group": "shazam!",
         "order": "5",
         "format": "{{msg.payload}}",
-        "x": 1013,
-        "y": 270,
+        "x": 743,
+        "y": 253,
         "wires": []
     },
     {
@@ -188,8 +137,8 @@
         "group": "shazam!",
         "order": "3",
         "format": "{{msg.payload}}",
-        "x": 972,
-        "y": 54,
+        "x": 721,
+        "y": 169,
         "wires": []
     },
     {
@@ -201,8 +150,8 @@
         "group": "shazam!",
         "order": "4",
         "format": "{{msg.payload}}",
-        "x": 992,
-        "y": 150,
+        "x": 742,
+        "y": 211,
         "wires": []
     },
     {
@@ -210,15 +159,13 @@
         "type": "function",
         "z": "ab5df3e3.53db5",
         "name": "configure",
-        "func": "flow.set('id', msg.payload);\nglobal.get('riddlesEvents').on('added-'+msg.payload, \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/data');\n    flow.set('set_start', baseUrl + '/set_start');\n    flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n    flow.set('configured', true);\n});\nreturn msg;",
+        "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-'+msg.payload, function(baseUrl) {\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start', baseUrl + '/set_start');\n        flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 196,
-        "y": 69,
+        "x": 259,
+        "y": 128,
         "wires": [
-            [
-                "f189d4e.5b18628"
-            ]
+            []
         ]
     },
     {
@@ -347,18 +294,23 @@
         "id": "59ee1679.a11ec8",
         "type": "function",
         "z": "ab5df3e3.53db5",
-        "name": "identity",
-        "func": "\nreturn msg;",
-        "outputs": 1,
+        "name": "demux state",
+        "func": "\nreturn [\n    {payload:msg.payload.status},\n    {payload:msg.payload.good_led},\n    {payload:msg.payload.current_led},\n    {payload:msg.payload.functional}\n    ];",
+        "outputs": "4",
         "noerr": 0,
-        "x": 478.5,
+        "x": 488.5,
         "y": 219,
         "wires": [
             [
-                "8805ad01.2009c",
-                "d2d9c2f2.6c2b5",
-                "c04f4d51.85d13"
-            ]
+                "ea2e635b.da5e1"
+            ],
+            [
+                "a9f92cbf.cc5b8"
+            ],
+            [
+                "bb7ec0f2.02225"
+            ],
+            []
         ]
     },
     {
@@ -370,8 +322,8 @@
         "group": "shazam!",
         "order": "2",
         "format": "Riddle 3",
-        "x": 180,
-        "y": 116,
+        "x": 482,
+        "y": 96,
         "wires": []
     },
     {
@@ -383,8 +335,8 @@
         "group": "shazam!",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 388.5,
-        "y": 73,
+        "x": 245.5,
+        "y": 87,
         "wires": []
     }
 ]

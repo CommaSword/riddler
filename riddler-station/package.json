@@ -17,9 +17,10 @@
     "dotenv": "2.0.0",
     "express": "4.13.4",
     "johnny-five": "0.9.44",
-    "node-discover": "^0.6.0"
+    "node-discover": "0.6.0"
   },
   "devDependencies": {
-    "forever": "0.15.2"
+    "forever": "0.15.2",
+    "mock-firmata": "0.0.7"
   }
 }

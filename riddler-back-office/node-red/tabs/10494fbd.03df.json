@@ -161,8 +161,8 @@
         "repeat": "10",
         "crontab": "",
         "once": false,
-        "x": 99,
-        "y": 64,
+        "x": 111,
+        "y": 63,
         "wires": [
             []
         ]

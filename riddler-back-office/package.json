@@ -18,7 +18,7 @@
     "express": "4.13.4",
     "fs-extra": "0.26.7",
     "lodash": "3.10.1",
-    "node-discover": "^0.6.0",
+    "node-discover": "0.6.0",
     "node-red": "0.13.4",
     "node-red-contrib-file-function": "1.1.2",
     "node-red-contrib-json": "0.2.0",

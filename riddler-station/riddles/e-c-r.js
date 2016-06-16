@@ -23,8 +23,16 @@ module.exports = function EngineeringControlRoom(api, board){
 		numToggled : 0,
 		numToggledMax : 3
 	};
+
+	function readState(){
+		return {
+			numToggled : state.numToggled,
+			numToggledMax : state.numToggledMax,
+			functional : state.numToggled <= state.numToggledMax
+		};
+	}
 	api.get('/data', function (req, res) {
-		res.json(state);
+		res.json(readState());
 	});
 	Object.keys(systems).forEach(initSystem);
 

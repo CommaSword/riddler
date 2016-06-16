@@ -6,27 +6,16 @@
         "info": "",
         "in": [
             {
-                "x": 66.5,
-                "y": 38,
+                "x": 41.5,
+                "y": 569,
                 "wires": [
                     {
-                        "id": "504c97d5.bcefb8"
+                        "id": "40a99dca.1f4f64"
                     }
                 ]
             }
         ],
-        "out": [
-            {
-                "x": 838,
-                "y": 46,
-                "wires": [
-                    {
-                        "id": "690930b1.2fd19",
-                        "port": 0
-                    }
-                ]
-            }
-        ]
+        "out": []
     },
     {
         "id": "af089e6d.a4f5e",
@@ -56,44 +45,7 @@
         "y": 243,
         "wires": [
             [
-                "d40c876e.b4f2d8"
-            ]
-        ]
-    },
-    {
-        "id": "e5c1ee7e.372ea",
-        "type": "ui_switch",
-        "z": "9e21335d.82775",
-        "tab": "692264eb.cffd6c",
-        "name": "Repairable",
-        "topic": "",
-        "group": "shazam!",
-        "order": "4",
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 757,
-        "y": 290,
-        "wires": [
-            [
-                "22644f13.225ba"
-            ]
-        ]
-    },
-    {
-        "id": "896291ad.1d185",
-        "type": "contrib-json",
-        "z": "9e21335d.82775",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 539,
-        "y": 169,
-        "wires": [
-            [
-                "af089e6d.a4f5e"
+                "8dab9bbc.391598"
             ]
         ]
     },
@@ -101,12 +53,12 @@
         "id": "3c1869e0.811846",
         "type": "http request",
         "z": "9e21335d.82775",
-        "name": "set beam damage",
+        "name": "set system damage",
         "method": "POST",
         "ret": "txt",
         "url": "",
-        "x": 1166,
-        "y": 218,
+        "x": 860,
+        "y": 419,
         "wires": [
             [
                 "690930b1.2fd19"
@@ -117,12 +69,12 @@
         "id": "f1418395.56158",
         "type": "http request",
         "z": "9e21335d.82775",
-        "name": "set beam functional",
+        "name": "set system functional",
         "method": "POST",
         "ret": "txt",
         "url": "",
-        "x": 1169,
-        "y": 264,
+        "x": 388,
+        "y": 405,
         "wires": [
             [
                 "690930b1.2fd19"
@@ -130,56 +82,24 @@
         ]
     },
     {
-        "id": "d2b3bda7.60b73",
-        "type": "contrib-json",
-        "z": "9e21335d.82775",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .damaged",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 537,
-        "y": 213,
-        "wires": [
-            [
-                "90e09df1.5c2a7"
-            ]
-        ]
-    },
-    {
-        "id": "279e5288.669f6e",
-        "type": "contrib-json",
-        "z": "9e21335d.82775",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .functional",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 536,
-        "y": 253,
-        "wires": [
-            [
-                "e5c1ee7e.372ea"
-            ]
-        ]
-    },
-    {
         "id": "690930b1.2fd19",
         "type": "function",
         "z": "9e21335d.82775",
-        "name": "identity",
-        "func": "\nreturn msg;",
-        "outputs": 1,
+        "name": "demux state",
+        "func": "\nreturn [\n        {payload:msg.payload.autoRepair},\n        {payload:msg.payload.damaged},\n        {payload:msg.payload.functional}\n    ];",
+        "outputs": "3",
         "noerr": 0,
-        "x": 578.5,
-        "y": 40,
+        "x": 520.5,
+        "y": 234,
         "wires": [
             [
-                "896291ad.1d185",
-                "d2b3bda7.60b73",
-                "279e5288.669f6e"
+                "af089e6d.a4f5e"
+            ],
+            [
+                "90e09df1.5c2a7"
+            ],
+            [
+                "da5779ce.2a86f8"
             ]
         ]
     },
@@ -188,15 +108,13 @@
         "type": "function",
         "z": "9e21335d.82775",
         "name": "configure",
-        "func": "flow.set('id', msg.payload);\nglobal.get('riddlesEvents').on('added-ECR', \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/' + msg.payload);\n    flow.set('damaged_url', baseUrl + '/' + msg.payload + '/damaged');\n    flow.set('functional_url', baseUrl + '/' + msg.payload + '/functional');\n    flow.set('configured', true);\n});\nreturn msg;",
+        "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-ECR', function(baseUrl) {\n        flow.set('state_url', baseUrl + '/' + msg.payload);\n        flow.set('damaged_url', baseUrl + '/' + msg.payload + '/damaged');\n        flow.set('functional_url', baseUrl + '/' + msg.payload + '/functional');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 196,
-        "y": 38,
+        "x": 380,
+        "y": 519,
         "wires": [
-            [
-                "17d65ca1.cbe193"
-            ]
+            []
         ]
     },
     {
@@ -208,20 +126,20 @@
         "group": "shazam!",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 336.5,
-        "y": 38,
+        "x": 370.5,
+        "y": 552,
         "wires": []
     },
     {
         "id": "90099c37.1d359",
         "type": "http request",
         "z": "9e21335d.82775",
-        "name": "get data from integration",
+        "name": "get state of system",
         "method": "GET",
         "ret": "obj",
         "url": "",
-        "x": 168,
-        "y": 112,
+        "x": 201,
+        "y": 140,
         "wires": [
             [
                 "690930b1.2fd19"
@@ -247,8 +165,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 127,
-        "y": 163,
+        "x": 180,
+        "y": 191,
         "wires": [
             [
                 "90099c37.1d359"
@@ -269,8 +187,8 @@
         ],
         "checkall": "false",
         "outputs": 1,
-        "x": 117,
-        "y": 216,
+        "x": 170,
+        "y": 244,
         "wires": [
             [
                 "51a59173.1f22f"
@@ -288,8 +206,8 @@
         "repeat": "1",
         "crontab": "",
         "once": false,
-        "x": 99,
-        "y": 280,
+        "x": 152,
+        "y": 308,
         "wires": [
             [
                 "5c2b12ae.c2cc0c"
@@ -315,8 +233,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 971,
-        "y": 266,
+        "x": 939,
+        "y": 343,
         "wires": [
             [
                 "3c1869e0.811846"
@@ -342,11 +260,110 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 979,
-        "y": 316,
+        "x": 184,
+        "y": 406,
         "wires": [
             [
                 "f1418395.56158"
+            ]
+        ]
+    },
+    {
+        "id": "da5779ce.2a86f8",
+        "type": "ui_text",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "Functional",
+        "group": "shazam!",
+        "order": "4",
+        "format": "{{msg.payload}}",
+        "x": 763.5,
+        "y": 299,
+        "wires": []
+    },
+    {
+        "id": "40a99dca.1f4f64",
+        "type": "switch",
+        "z": "9e21335d.82775",
+        "name": "config or input",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "config",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 175.5,
+        "y": 568,
+        "wires": [
+            [
+                "504c97d5.bcefb8",
+                "17d65ca1.cbe193"
+            ],
+            [
+                "7deb9256.ad0ccc"
+            ]
+        ]
+    },
+    {
+        "id": "7deb9256.ad0ccc",
+        "type": "function",
+        "z": "9e21335d.82775",
+        "name": "and",
+        "func": "function clear(topic){\n    var falses = context.get('falses')\n    if (falses[topic]){\n        clearTimeout(falses[topic]);\n        delete falses[topic];\n    }\n}\n\nvar falses = context.get('falses');\nif (!falses){\n    falses = {};\n    context.set('falses', falses);\n    node.on('close', function() {\n        Object.keys(context.get('falses')).forEach(clear);\n    });\n}\n\nif (msg.payload){\n    clear(msg.topic);\n} else{\n    falses[msg.topic] = setTimeout(clear.bind(null, msg.topic));\n}\nmsg.payload = !Object.keys(falses).length;\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 185.5,
+        "y": 508,
+        "wires": [
+            [
+                "5e558b49.0463f4"
+            ]
+        ]
+    },
+    {
+        "id": "5e558b49.0463f4",
+        "type": "switch",
+        "z": "9e21335d.82775",
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 183,
+        "y": 455,
+        "wires": [
+            [
+                "22644f13.225ba"
+            ]
+        ]
+    },
+    {
+        "id": "8dab9bbc.391598",
+        "type": "rbe",
+        "z": "9e21335d.82775",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 970.5,
+        "y": 278,
+        "wires": [
+            [
+                "d40c876e.b4f2d8"
             ]
         ]
     }

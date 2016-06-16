@@ -24,11 +24,12 @@ var server = http.createServer(app);
 
 // Create the settings object - see default settings.js file for other options
 var riddlesEvents = new EventEmitter();
+riddlesEvents.setMaxListeners(30);
 var settings = {
 	storageModule : storageModule(),
 	flowFile: 'flows.json',
 	flowFilePretty: true,
-	verbose:true,
+	verbose:false,
 	httpAdminRoot:"/",
 	httpNodeRoot: "/",
 	userDir: path.join(__dirname , 'node-red'),
@@ -59,28 +60,13 @@ RED.start()
 			multicast : process.env.multicastAddr || '239.0.0.0'
 		});
 
-		d.on('added', function addRiddles(node){
-			if (node.advertisement && node.advertisement.schema) {
-				Object.keys(node.advertisement.schema).forEach(function (riddleId) {
-					// {riddle1 : {data : '/data', timeout : '/timeout'}
-					riddlesEvents.emit('added-'+riddleId, 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId);
-					//var riddleProps = node.advertisement.schema[riddleId];
-					//Object.keys(riddleProps).forEach(function (property) {
-					//	var resource = riddleProps[property];
-					//	var value = 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId + '/' + resource;
-					//	if (process.env[riddleId + '_' + property] !== value){
-					//		process.env[riddleId + '_' + property] = value;
-					//		console.log('detected', riddleId+'_'+property, '=', value);
-					//	}
-					//});
-				});
-			}
-		});
 		setInterval(function(){
-			//var detected = {};
-			Object.keys(d.nodes).forEach(function(key){
-				var node = d.nodes[key];
-
+			d.eachNode(function(node){
+				if (node.advertisement && node.advertisement.schema) {
+					Object.keys(node.advertisement.schema).forEach(function (riddleId) {
+						riddlesEvents.emit('added-'+riddleId, 'http://' + node.address + ':' + node.advertisement.port + '/' + riddleId);
+					});
+				}
 			});
 		}, 1000);
 	});

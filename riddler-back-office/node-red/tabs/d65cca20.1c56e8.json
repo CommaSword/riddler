@@ -11,18 +11,21 @@
                 "wires": [
                     {
                         "id": "f7cf7695.e5b828"
+                    },
+                    {
+                        "id": "c73fbbac.834e48"
                     }
                 ]
             }
         ],
         "out": [
             {
-                "x": 602,
-                "y": 52,
+                "x": 835,
+                "y": 193,
                 "wires": [
                     {
                         "id": "cd2e3824.0c6ee8",
-                        "port": 0
+                        "port": 1
                     }
                 ]
             }
@@ -32,11 +35,11 @@
         "id": "a76ea1a8.b9fee",
         "type": "http request",
         "z": "d65cca20.1c56e8",
-        "name": "get data from integration",
+        "name": "get state",
         "method": "GET",
         "ret": "obj",
-        "url": "$(riddle2.0_get_url)",
-        "x": 398,
+        "url": "",
+        "x": 348,
         "y": 146,
         "wires": [
             [
@@ -54,8 +57,8 @@
         "topic": "",
         "group": "shazam!",
         "order": "4",
-        "x": 341,
-        "y": 343,
+        "x": 131,
+        "y": 357,
         "wires": [
             [
                 "94450a7.13d55f8"
@@ -70,29 +73,11 @@
         "method": "POST",
         "ret": "txt",
         "url": "",
-        "x": 889,
-        "y": 343,
+        "x": 679,
+        "y": 357,
         "wires": [
             [
                 "cd2e3824.0c6ee8"
-            ]
-        ]
-    },
-    {
-        "id": "9fd22195.ae6e2",
-        "type": "contrib-json",
-        "z": "d65cca20.1c56e8",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .status",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 824,
-        "y": 147,
-        "wires": [
-            [
-                "88f93479.326aa8"
             ]
         ]
     },
@@ -104,8 +89,8 @@
         "method": "POST",
         "ret": "txt",
         "url": "",
-        "x": 868,
-        "y": 408,
+        "x": 658,
+        "y": 422,
         "wires": [
             [
                 "cd2e3824.0c6ee8"
@@ -122,8 +107,8 @@
         "topic": "",
         "group": "shazam!",
         "order": "5",
-        "x": 359,
-        "y": 408,
+        "x": 149,
+        "y": 422,
         "wires": [
             [
                 "e0cf300c.cf8ff"
@@ -135,15 +120,13 @@
         "type": "function",
         "z": "d65cca20.1c56e8",
         "name": "configure",
-        "func": "flow.set('id', msg.payload);\nglobal.get('riddlesEvents').on('added-'+msg.payload, \nfunction(baseUrl) {\n    flow.set('state_url', baseUrl + '/data');\n    flow.set('set_start', baseUrl + '/set_start');\n    flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n    flow.set('configured', true);\n});\nreturn msg;",
+        "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-'+msg.payload, function(baseUrl) {\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start', baseUrl + '/set_start');\n        flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 205,
-        "y": 46,
+        "x": 326,
+        "y": 34,
         "wires": [
-            [
-                "c73fbbac.834e48"
-            ]
+            []
         ]
     },
     {
@@ -200,7 +183,7 @@
         "type": "inject",
         "z": "d65cca20.1c56e8",
         "name": "",
-        "topic": "",
+        "topic": "tick",
         "payload": "",
         "payloadType": "date",
         "repeat": "1",
@@ -233,8 +216,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 592,
-        "y": 343,
+        "x": 382,
+        "y": 357,
         "wires": [
             [
                 "8aa29757.728a58"
@@ -260,8 +243,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 596,
-        "y": 406,
+        "x": 386,
+        "y": 420,
         "wires": [
             [
                 "19d8b9bb.310436"
@@ -272,16 +255,17 @@
         "id": "cd2e3824.0c6ee8",
         "type": "function",
         "z": "d65cca20.1c56e8",
-        "name": "identity",
-        "func": "\nreturn msg;",
-        "outputs": 1,
+        "name": "demux state",
+        "func": "return [\n        {payload:msg.payload.status},\n    {payload:msg.payload.functional}\n    ];",
+        "outputs": "2",
         "noerr": 0,
-        "x": 633.5,
+        "x": 643.5,
         "y": 152,
         "wires": [
             [
-                "9fd22195.ae6e2"
-            ]
+                "88f93479.326aa8"
+            ],
+            []
         ]
     },
     {
@@ -293,8 +277,8 @@
         "group": "shazam!",
         "order": "3",
         "format": "{{msg.payload}}",
-        "x": 1055.5,
-        "y": 145,
+        "x": 828.5,
+        "y": 149,
         "wires": []
     },
     {
@@ -306,8 +290,8 @@
         "group": "shazam!",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 395.5,
-        "y": 47,
+        "x": 186.5,
+        "y": 53,
         "wires": []
     },
     {
