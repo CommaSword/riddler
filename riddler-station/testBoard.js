@@ -5,9 +5,9 @@ var five = require('johnny-five');
 
 require('./detect-board')(function (config, raw, board) {
 	console.log('\nraw value: ' + raw + '\n');
-	/*
+
 	var p = new five.Pin({
-		pin: 2,
+		pin: 8,
 		mode: 0,
 		board:board
 	});
@@ -18,11 +18,12 @@ require('./detect-board')(function (config, raw, board) {
 		//	process.exit(0);
 		})
 	}, 500);
-	*/
-	//new five.Led({
-	//	pin:'A2',
-	//	board:board
-	//}).blink(500);
+
+	/*
+	new five.Led({
+		pin:10,
+		board:board
+	}).blink(500);
 
 	var toggleSwitch = new five.Button({
 		pin:2,
@@ -36,4 +37,5 @@ require('./detect-board')(function (config, raw, board) {
 	toggleSwitch.on("release", function() {
 		console.log('release!');
 	});
+	*/
 });
