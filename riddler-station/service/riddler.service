@@ -2,16 +2,16 @@
 Description=Node.js Example Server
 
 [Service]
-ExecStartPre=/usr/local/bin/node ~/riddler/riddler-station/service/prestart.js
-ExecStart=/usr/local/bin/node ~/riddler/riddler-station/index.js
+ExecStartPre=/usr/bin/node /home/pi/riddler/riddler-station/service/prestart.js
+ExecStart=/usr/bin/node /home/pi/riddler/riddler-station/index.js
 Restart=always
-RestartSec=1                       # Restart service after 10 seconds if node service crashes
-StandardOutput=syslog               # Output to syslog
-StandardError=syslog                # Output to syslog
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
 SyslogIdentifier=riddler
 #User=<alternate user>
 #Group=<alternate group>
-Environment=NODE_ENV=production PORT=5000
+
 
 [Install]
 WantedBy=multi-user.target
