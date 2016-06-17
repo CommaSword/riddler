@@ -1,13 +1,5 @@
 var express = require('express');
 
-// var hacking_status = {
-//     hackingWelcome: 'Welcome screen',
-//     hackingPreHack : 'Not trying to hack',
-//     hackingWaitingForHack: 'Hacking start waiting for confirmation',
-//     hackingInProgress: 'Hacking in progress',
-//     hackingWaitConfirm: 'Hacking successful - waiting for final confirmation'
-// };
-
 var hacking_level = {
     0: 'Easy',
     1: 'Medium',
@@ -33,7 +25,12 @@ module.exports = function hacking(eventEmitter) {
     }
 
     eventEmitter.on('ui-message', (data) => {
-        var newStatus = data.status;
+        switch (data.status) {
+            case "welcome": state.status = 'User not hacking';
+            case "preHack": state.status = 'User waiting for confirmation';
+            case 'hacking': state.status = 'Hacking in progress';
+            case 'postHack': state.status = '';
+        }
         var newShipId = data.shipId || null;
         var newDetails = data.details || null;
         state.request_details = newDetails || state.request_details;
