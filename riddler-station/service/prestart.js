@@ -1,6 +1,6 @@
 var exec = require('child_process').execSync;
 try {
-  process.chdir('~/riddler/riddler-station/');
+  process.chdir('/home/pi/riddler/riddler-station/');
 }
 catch (err) {
   console.log('sorry no folder');
