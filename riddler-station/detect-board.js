@@ -11,11 +11,18 @@ var boardConfig = {
 	debug: debug
 };
 
-var riddles = {
-	0: 'riddle2',
-	31: 'riddle2',
-	512 : 'riddle1',
-	1023: 'riddle3'
+var configurations = {
+	0: {type: 'riddle2', id:'0'},
+	32: {type: 'riddle2', id:'32'},
+	64: {type: 'riddle2', id:'64'},
+	95: {type: 'riddle2', id:'95'},
+	129: {type: 'riddle2', id:'129'},
+	164: {type: 'riddle3', id:'164'},
+	230: {type: 'riddle3', id:'230'},
+	262: {type: 'riddle3', id:'262'},
+	295: {type: 'riddle3', id:'295'},
+	326: {type: 'riddle3', id:'326'},
+	1024: {type: 'e-c-r', id:'1024'}
 };
 
 function detectBoard(cb) {
@@ -25,11 +32,11 @@ function detectBoard(cb) {
 	});
 }
 
-function analog2Id(analog) {
-	var closestVal = Object.keys(riddles).reduce(function(prev, curr){
+function findConfig(analog) {
+	var closestVal = Object.keys(configurations).reduce(function(prev, curr){
 		return Math.abs(analog - prev) < Math.abs(analog - curr) ? prev : curr;
 	});
-	return riddles[closestVal];
+	return configurations[closestVal];
 }
 
 function queryBoard(board, callback){
@@ -38,9 +45,9 @@ function queryBoard(board, callback){
 		mode: 0,
 		board:board
 	}).query(function(state){
-		var id = analog2Id(state.value);
-		console.log('detected board with riddle: ' + id + ' (raw:'+state.value+')');
-		callback(id, state.value, board);
+		var config = findConfig(state.value);
+		console.log('detected board '+ config.id +' with riddle: ' + config.type + ' (raw:'+state.value+')');
+		callback(config, state.value, board);
 	});
 }
 

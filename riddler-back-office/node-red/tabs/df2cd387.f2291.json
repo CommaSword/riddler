@@ -2,1150 +2,528 @@
     {
         "type": "tab",
         "id": "df2cd387.f2291",
-        "label": "ECR"
+        "label": "ECR systems"
     },
     {
-        "id": "692264eb.cffd6c",
-        "type": "ui_tab",
+        "id": "a290f55d.f853d8",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "name": "ECR",
-        "icon": "dashboard",
-        "order": "1"
-    },
-    {
-        "id": "af089e6d.a4f5e",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Beam Weapons",
-        "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 820,
-        "y": 55,
+        "name": "reactor",
+        "x": 823.75,
+        "y": 90,
         "wires": []
     },
     {
-        "id": "b5b2704d.d9595",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Missles",
-        "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 823,
-        "y": 222,
-        "wires": []
-    },
-    {
-        "id": "8913fb60.1d39f8",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Maneuvering",
-        "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 840,
-        "y": 407,
-        "wires": []
-    },
-    {
-        "id": "f235ff0a.f1a31",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Impulse Engine",
-        "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 840,
-        "y": 967,
-        "wires": []
-    },
-    {
-        "id": "b5988409.078248",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Warp Drive",
-        "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 839,
-        "y": 578,
-        "wires": []
-    },
-    {
-        "id": "f4c7550a.4a05d8",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Jump Drive",
-        "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 834,
-        "y": 1124,
-        "wires": []
-    },
-    {
-        "id": "9ce22d7c.7f0e2",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Rear Shields",
-        "order": 1,
-        "format": "{{msg.payload}}",
-        "x": 847,
-        "y": 783,
-        "wires": []
-    },
-    {
-        "id": "bd8fa303.605ce",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Status",
-        "group": "Front Shields",
-        "order": 1,
-        "format": "{{msg.payload.status}}",
-        "x": 812,
-        "y": 1341,
-        "wires": []
-    },
-    {
-        "id": "90e09df1.5c2a7",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Beam Weapons",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 825,
-        "y": 95,
-        "wires": [
-            [
-                "3c1869e0.811846"
-            ]
-        ]
-    },
-    {
-        "id": "e5c1ee7e.372ea",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Beam Weapons",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 829,
-        "y": 142,
-        "wires": [
-            [
-                "f1418395.56158"
-            ]
-        ]
-    },
-    {
-        "id": "9d60c359.5e8a8",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Missles",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 823,
-        "y": 265,
-        "wires": [
-            [
-                "e352d242.e1453"
-            ]
-        ]
-    },
-    {
-        "id": "b007d994.f76688",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Missles",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 828,
-        "y": 307,
-        "wires": [
-            [
-                "5247d15b.50afa"
-            ]
-        ]
-    },
-    {
-        "id": "1ca7041f.fb26ac",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Warp Drive",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 835,
-        "y": 623,
-        "wires": [
-            [
-                "a2456c1d.b5e55"
-            ]
-        ]
-    },
-    {
-        "id": "83a58858.70fcc8",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Warp Drive",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 844,
-        "y": 665,
-        "wires": [
-            [
-                "9381fe24.5039a"
-            ]
-        ]
-    },
-    {
-        "id": "484c8fc7.b3b18",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Jump Drive",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 823,
-        "y": 1173,
-        "wires": [
-            [
-                "1894734e.60cecd"
-            ]
-        ]
-    },
-    {
-        "id": "23dcf2ba.9ce27e",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Jump Drive",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 828,
-        "y": 1215,
-        "wires": [
-            [
-                "20d53e3.1442cc2"
-            ]
-        ]
-    },
-    {
-        "id": "725f9b46.bbab04",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Maneuvering",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 841,
-        "y": 452,
-        "wires": [
-            [
-                "8e2cf83d.2ff8c8"
-            ]
-        ]
-    },
-    {
-        "id": "12a15285.3cadad",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Maneuvering",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 840,
-        "y": 493,
-        "wires": [
-            [
-                "c13102ab.297d8"
-            ]
-        ]
-    },
-    {
-        "id": "6b3c3a7f.2fc364",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Impulse Engine",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 845,
-        "y": 1010,
-        "wires": [
-            [
-                "382a626b.500a3e"
-            ]
-        ]
-    },
-    {
-        "id": "7d52061d.5a2678",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Impulse Engine",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 850,
-        "y": 1052,
-        "wires": [
-            [
-                "e848d20d.390dd"
-            ]
-        ]
-    },
-    {
-        "id": "5c8e7170.78",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Rear Shields",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 848,
-        "y": 829,
-        "wires": [
-            [
-                "3bd5f339.7bf77c"
-            ]
-        ]
-    },
-    {
-        "id": "6af62af0.effae4",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Rear Shields",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 857,
-        "y": 871,
-        "wires": [
-            [
-                "3bcb60dc.193bf"
-            ]
-        ]
-    },
-    {
-        "id": "a79a2e43.3e3a2",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "Damage System",
-        "topic": "",
-        "group": "Front Shields",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 806,
-        "y": 1389,
-        "wires": [
-            [
-                "ac0ed0db.db161"
-            ]
-        ]
-    },
-    {
-        "id": "80294281.264de",
-        "type": "ui_switch",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Functional",
-        "topic": "",
-        "group": "Front Shields",
-        "order": 1,
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 811,
-        "y": 1431,
-        "wires": [
-            [
-                "2b01ec43.739ab4"
-            ]
-        ]
-    },
-    {
-        "id": "cb576020.9d1e4",
-        "type": "ui_text",
-        "z": "df2cd387.f2291",
-        "tab": "692264eb.cffd6c",
-        "name": "System Overloaded",
-        "group": "Overall",
-        "order": 1,
-        "format": "{{msg.payload.numToggled > msg.payload.numToggledMax}}",
-        "x": 142,
-        "y": 282,
-        "wires": []
-    },
-    {
-        "id": "9ca374ee.95dd58",
+        "id": "96e3cc5a.800af",
         "type": "inject",
         "z": "df2cd387.f2291",
-        "name": "tick",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "1",
+        "name": "",
+        "topic": "config",
+        "payload": "reactor",
+        "payloadType": "str",
+        "repeat": "",
         "crontab": "",
-        "once": false,
-        "x": 153,
-        "y": 68,
+        "once": true,
+        "x": 833.5,
+        "y": 58,
         "wires": [
             [
-                "63d8d1be.a051e"
+                "a290f55d.f853d8"
             ]
         ]
     },
     {
-        "id": "63d8d1be.a051e",
-        "type": "http request",
+        "id": "36c7746d.24027c",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "name": "get data from integration",
-        "method": "GET",
-        "ret": "obj",
-        "url": "$(ECR_get_url)",
-        "x": 148,
-        "y": 186,
-        "wires": [
-            [
-                "896291ad.1d185",
-                "d2b3bda7.60b73",
-                "279e5288.669f6e",
-                "8f5d4f82.71472",
-                "d3d758df.40a1c8",
-                "a53881ba.1276b",
-                "c128e058.6c273",
-                "27e45ed8.54c352",
-                "8454703a.7223e",
-                "43145acb.aa7374",
-                "672cf15d.041eb",
-                "bb102573.38f0c8",
-                "a1c58def.cc205",
-                "3ef3d7c3.6588c8",
-                "a2013984.691b08",
-                "b04b8ed3.642b",
-                "6b0f043d.dda54c",
-                "8f8f91e.bd8f87",
-                "6e3ac2d5.045b8c",
-                "954feae4.433838",
-                "1ad8c814.56f8d8",
-                "996fafeb.5e487",
-                "b2de22f0.ced6e",
-                "bfa718b6.b87c08",
-                "cb576020.9d1e4"
-            ]
-        ]
+        "name": "beam_weapon",
+        "x": 843,
+        "y": 183,
+        "wires": []
     },
     {
-        "id": "896291ad.1d185",
-        "type": "contrib-json",
+        "id": "dd55b465.e57638",
+        "type": "inject",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .beam_weapons > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
         "name": "",
-        "x": 528,
-        "y": 59,
+        "topic": "config",
+        "payload": "beam_weapon",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 861.75,
+        "y": 154,
         "wires": [
             [
-                "af089e6d.a4f5e"
+                "36c7746d.24027c"
             ]
         ]
     },
     {
-        "id": "3c1869e0.811846",
-        "type": "http request",
+        "id": "f61a20ff.e827d",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "name": "set beam damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.missles.damage)",
-        "x": 1046,
-        "y": 95,
-        "wires": [
-            []
-        ]
+        "name": "missiles",
+        "x": 825,
+        "y": 272,
+        "wires": []
     },
     {
-        "id": "f1418395.56158",
-        "type": "http request",
+        "id": "44ed62a5.b7619c",
+        "type": "inject",
         "z": "df2cd387.f2291",
-        "name": "set beam functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.beam.functional)",
-        "x": 1049,
-        "y": 141,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e352d242.e1453",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set missles damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.missles.damage)",
-        "x": 1043,
-        "y": 256,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "5247d15b.50afa",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set missles functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.missles.functional)",
-        "x": 1046,
-        "y": 302,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "8e2cf83d.2ff8c8",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set maneuvering damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.maneuvering.damage)",
-        "x": 1072,
-        "y": 447,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c13102ab.297d8",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set maneuvering functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.maneuvering.functional)",
-        "x": 1085,
-        "y": 493,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "a2456c1d.b5e55",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set warp damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.warp.damage)",
-        "x": 1066,
-        "y": 619,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9381fe24.5039a",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set warp functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.warp.functional)",
-        "x": 1069,
-        "y": 665,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "3bd5f339.7bf77c",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set rear damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.rear.damage)",
-        "x": 1098,
-        "y": 837,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "3bcb60dc.193bf",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set rear functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.rear.functional)",
-        "x": 1111,
-        "y": 883,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "382a626b.500a3e",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set impulse damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.impulse.damage)",
-        "x": 1096,
-        "y": 1001,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e848d20d.390dd",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set impulse functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.impulse.functional)",
-        "x": 1099,
-        "y": 1047,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "1894734e.60cecd",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set jump damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.jump.damage)",
-        "x": 1074,
-        "y": 1173,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "20d53e3.1442cc2",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set jump functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.jump.functional)",
-        "x": 1077,
-        "y": 1219,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ac0ed0db.db161",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set front damage",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.front.damage)",
-        "x": 1076,
-        "y": 1383,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "2b01ec43.739ab4",
-        "type": "http request",
-        "z": "df2cd387.f2291",
-        "name": "set front functional",
-        "method": "POST",
-        "ret": "txt",
-        "url": "$(ECR.front.functional)",
-        "x": 1079,
-        "y": 1429,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "d2b3bda7.60b73",
-        "type": "contrib-json",
-        "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .beam_weapons > .damaged",
-        "complete": "property",
-        "prop": "payload",
         "name": "",
-        "x": 526,
-        "y": 103,
+        "topic": "config",
+        "payload": "missiles",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 843.75,
+        "y": 242,
         "wires": [
             [
-                "90e09df1.5c2a7"
+                "f61a20ff.e827d"
             ]
         ]
     },
     {
-        "id": "279e5288.669f6e",
-        "type": "contrib-json",
+        "id": "cfdfbb63.0ef3e8",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .beam_weapons > .functional",
-        "complete": "property",
-        "prop": "payload",
+        "name": "maneuvering",
+        "x": 833,
+        "y": 363,
+        "wires": []
+    },
+    {
+        "id": "5867b9c7.f87b18",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 525,
-        "y": 143,
+        "topic": "config",
+        "payload": "maneuvering",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 852.75,
+        "y": 332,
         "wires": [
             [
-                "e5c1ee7e.372ea"
+                "cfdfbb63.0ef3e8"
             ]
         ]
     },
     {
-        "id": "8f5d4f82.71472",
-        "type": "contrib-json",
+        "id": "976c4257.12505",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .missles > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
+        "name": "impulse_engine",
+        "x": 844,
+        "y": 468,
+        "wires": []
+    },
+    {
+        "id": "9cdb869.a69e078",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 509,
-        "y": 219,
+        "topic": "config",
+        "payload": "impulse_engine",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 864.75,
+        "y": 437,
         "wires": [
             [
-                "b5b2704d.d9595"
+                "976c4257.12505"
             ]
         ]
     },
     {
-        "id": "d3d758df.40a1c8",
-        "type": "contrib-json",
+        "id": "9ece9648.8fbfa8",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .missles > .damaged",
-        "complete": "property",
-        "prop": "payload",
+        "name": "warp_drive",
+        "x": 832,
+        "y": 567,
+        "wires": []
+    },
+    {
+        "id": "9f5c0525.47d408",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 497,
-        "y": 263,
+        "topic": "config",
+        "payload": "warp_drive",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 852.75,
+        "y": 536,
         "wires": [
             [
-                "9d60c359.5e8a8"
+                "9ece9648.8fbfa8"
             ]
         ]
     },
     {
-        "id": "a53881ba.1276b",
-        "type": "contrib-json",
+        "id": "1a518078.1e67a",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .missles > .functional",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 496,
-        "y": 303,
-        "wires": [
-            [
-                "b007d994.f76688"
-            ]
-        ]
-    },
-    {
-        "id": "c128e058.6c273",
-        "type": "contrib-json",
-        "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .maneuvering > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 518,
-        "y": 405,
-        "wires": [
-            [
-                "8913fb60.1d39f8"
-            ]
-        ]
-    },
-    {
-        "id": "27e45ed8.54c352",
-        "type": "contrib-json",
-        "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .maneuvering > .damaged",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 516,
-        "y": 449,
-        "wires": [
-            [
-                "725f9b46.bbab04"
-            ]
-        ]
-    },
-    {
-        "id": "8454703a.7223e",
-        "type": "contrib-json",
-        "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .maneuvering > .functional",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 515,
-        "y": 489,
-        "wires": [
-            [
-                "12a15285.3cadad"
-            ]
-        ]
-    },
-    {
-        "id": "bb102573.38f0c8",
-        "type": "contrib-json",
-        "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .warp_drive > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 532,
-        "y": 580,
-        "wires": [
-            [
-                "b5988409.078248"
-            ]
-        ]
-    },
-    {
-        "id": "672cf15d.041eb",
-        "type": "contrib-json",
-        "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .warp_drive > .damaged",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 520,
-        "y": 624,
-        "wires": [
-            [
-                "1ca7041f.fb26ac"
-            ]
-        ]
-    },
-    {
-        "id": "43145acb.aa7374",
-        "type": "contrib-json",
-        "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .warp_drive > .functional",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 519,
+        "name": "jump_drive",
+        "x": 835,
         "y": 664,
+        "wires": []
+    },
+    {
+        "id": "26adf0f1.cd61e",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "jump_drive",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 854.75,
+        "y": 633,
         "wires": [
             [
-                "83a58858.70fcc8"
+                "1a518078.1e67a"
             ]
         ]
     },
     {
-        "id": "a2013984.691b08",
-        "type": "contrib-json",
+        "id": "473f2fae.359aa",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .rear_shields > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
+        "name": "front_shield",
+        "x": 835,
+        "y": 765,
+        "wires": []
+    },
+    {
+        "id": "9e840b18.dd0e08",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 528,
-        "y": 779,
+        "topic": "config",
+        "payload": "front_shield",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 853.75,
+        "y": 734,
         "wires": [
             [
-                "9ce22d7c.7f0e2"
+                "473f2fae.359aa"
             ]
         ]
     },
     {
-        "id": "3ef3d7c3.6588c8",
-        "type": "contrib-json",
+        "id": "2c5f8e69.a2bbd2",
+        "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .rear_shields > .damaged",
-        "complete": "property",
-        "prop": "payload",
+        "name": "rear_shield",
+        "x": 833,
+        "y": 870,
+        "wires": []
+    },
+    {
+        "id": "214f8179.5c109e",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 516,
-        "y": 823,
+        "topic": "config",
+        "payload": "rear_shield",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 843.75,
+        "y": 839,
         "wires": [
             [
-                "5c8e7170.78"
+                "2c5f8e69.a2bbd2"
             ]
         ]
     },
     {
-        "id": "a1c58def.cc205",
-        "type": "contrib-json",
+        "id": "f7a133b5.c3523",
+        "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .rear_shields > .functional",
-        "complete": "property",
-        "prop": "payload",
+        "name": "0",
+        "x": 216,
+        "y": 61,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f5df656f.52e3b8",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 525,
-        "y": 863,
+        "topic": "config",
+        "payload": "0",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 217,
+        "y": 31,
         "wires": [
             [
-                "6af62af0.effae4"
+                "f7a133b5.c3523"
             ]
         ]
     },
     {
-        "id": "b04b8ed3.642b",
-        "type": "contrib-json",
+        "id": "1ad250f9.16310f",
+        "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .impulse_engines > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
+        "name": "32",
+        "x": 214.5,
+        "y": 170,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "57417be8.3bfa44",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 567,
-        "y": 964,
+        "topic": "config",
+        "payload": "32",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 224.5,
+        "y": 138,
         "wires": [
             [
-                "f235ff0a.f1a31"
+                "1ad250f9.16310f"
             ]
         ]
     },
     {
-        "id": "6b0f043d.dda54c",
-        "type": "contrib-json",
+        "id": "bddb34bd.f96238",
+        "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .impulse_engines > .damaged",
-        "complete": "property",
-        "prop": "payload",
+        "name": "64",
+        "x": 213.5,
+        "y": 281,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f77e893.3cfdb8",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 565,
-        "y": 1008,
+        "topic": "config",
+        "payload": "64",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 223.5,
+        "y": 249,
         "wires": [
             [
-                "6b3c3a7f.2fc364"
+                "bddb34bd.f96238"
             ]
         ]
     },
     {
-        "id": "8f8f91e.bd8f87",
-        "type": "contrib-json",
+        "id": "919e1922.384c28",
+        "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .impulse_engines > .functional",
-        "complete": "property",
-        "prop": "payload",
+        "name": "95",
+        "x": 213.5,
+        "y": 392,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fa53da48.9167f8",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 564,
-        "y": 1048,
+        "topic": "config",
+        "payload": "95",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 223.5,
+        "y": 362,
         "wires": [
             [
-                "7d52061d.5a2678"
+                "919e1922.384c28"
             ]
         ]
     },
     {
-        "id": "6e3ac2d5.045b8c",
-        "type": "contrib-json",
+        "id": "25d5735c.b05f7c",
+        "type": "subflow:ab5df3e3.53db5",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .jump_drive > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
+        "name": "164",
+        "x": 212,
+        "y": 503,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c1e58f20.d67dd",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 543,
-        "y": 1128,
+        "topic": "config",
+        "payload": "164",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 222,
+        "y": 472,
         "wires": [
             [
-                "f4c7550a.4a05d8"
+                "25d5735c.b05f7c"
             ]
         ]
     },
     {
-        "id": "954feae4.433838",
-        "type": "contrib-json",
+        "id": "659ee65e.06c268",
+        "type": "inject",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .jump_drive > .damaged",
-        "complete": "property",
-        "prop": "payload",
         "name": "",
-        "x": 531,
-        "y": 1172,
+        "topic": "config",
+        "payload": "230",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 220.5,
+        "y": 587,
         "wires": [
             [
-                "484c8fc7.b3b18"
+                "30d3876a.5be5b8"
             ]
         ]
     },
     {
-        "id": "1ad8c814.56f8d8",
-        "type": "contrib-json",
+        "id": "30d3876a.5be5b8",
+        "type": "subflow:ab5df3e3.53db5",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .jump_drive > .functional",
-        "complete": "property",
-        "prop": "payload",
+        "name": "230",
+        "x": 212.5,
+        "y": 618,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "136b9430.ce1e8c",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 530,
-        "y": 1212,
+        "topic": "config",
+        "payload": "262",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 220.5,
+        "y": 693,
         "wires": [
             [
-                "23dcf2ba.9ce27e"
+                "2b3be649.37d7ca"
             ]
         ]
     },
     {
-        "id": "bfa718b6.b87c08",
-        "type": "contrib-json",
+        "id": "2b3be649.37d7ca",
+        "type": "subflow:ab5df3e3.53db5",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .front_shields > .autoRepair",
-        "complete": "property",
-        "prop": "payload",
+        "name": "262",
+        "x": 211.5,
+        "y": 726,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1911020e.d9154e",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 530,
-        "y": 1346,
+        "topic": "config",
+        "payload": "295",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 217.5,
+        "y": 804,
         "wires": [
             [
-                "bd8fa303.605ce"
+                "fce1be.22002e4"
             ]
         ]
     },
     {
-        "id": "b2de22f0.ced6e",
-        "type": "contrib-json",
+        "id": "fce1be.22002e4",
+        "type": "subflow:ab5df3e3.53db5",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .front_shields > .damaged",
-        "complete": "property",
-        "prop": "payload",
+        "name": "295",
+        "x": 207.5,
+        "y": 834,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f02569de.879878",
+        "type": "inject",
+        "z": "df2cd387.f2291",
         "name": "",
-        "x": 539,
-        "y": 1388,
+        "topic": "config",
+        "payload": "326",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 212.5,
+        "y": 896,
         "wires": [
             [
-                "a79a2e43.3e3a2"
+                "91a8761.24d9688"
             ]
         ]
     },
     {
-        "id": "996fafeb.5e487",
-        "type": "contrib-json",
+        "id": "91a8761.24d9688",
+        "type": "subflow:ab5df3e3.53db5",
         "z": "df2cd387.f2291",
-        "engine": "JSONSelect",
-        "command": "jq",
-        "expr": ":root > .front_shields > .functional",
-        "complete": "property",
-        "prop": "payload",
-        "name": "",
-        "x": 544,
-        "y": 1436,
+        "name": "326",
+        "x": 202.5,
+        "y": 928,
         "wires": [
-            [
-                "80294281.264de"
-            ]
+            []
         ]
     }
 ]

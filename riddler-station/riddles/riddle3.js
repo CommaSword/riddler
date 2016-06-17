@@ -14,15 +14,22 @@ var led_activate = {
     1: 'Middle LED',
     2: 'Left LED'
 };
-module.exports = function riddle4(api, board) {
-    interval = 1;
+module.exports = function riddle3(api, board) {
     var state = {
         status: riddle_status.START,
         place: 1,
         good_led: led_activate[0],
         current_led: led_activate[0]
     };
-
+    function readState(){
+        return {
+            status : state.status,
+            place : state.place,
+            good_led : state.good_led,
+            current_led : state.current_led,
+            functional : state.status === riddle_status.SUCCESS
+        };
+    }
     var pinsState = {
         pinStatePairs: [0, 0, 0,0, 0, 0]
     };
@@ -41,7 +48,7 @@ module.exports = function riddle4(api, board) {
         board: board
     });
 
-    leds = [];
+    var leds = [];
     leds.push(new five.Led({
         pin: 12,
         board: board
@@ -49,40 +56,24 @@ module.exports = function riddle4(api, board) {
     leds.push(new five.Led({
         pin: 10,
         board: board
-    }));    leds.push(new five.Led({
+    }));
+    leds.push(new five.Led({
         pin: 9,
         board: board
     }));
 
-
-    pins = [];
-    pairs = [[],[],[]];
-    for (i = 2; i < 8; i++) {
+    var pins = [];
+    for (var i = 0; i < 6; i++) {
         pins.push(new five.Pin({
-            pin: i,
+            pin: i + 2,
             mode: 0
         }));
-        switch (i) {
-            case 2: pairs[0].push(pins[i - 2]); break;
-            case 3: pairs[0].push(pins[i - 2]); break;
-            case 4: pairs[1].push(pins[i - 2]); break;
-            case 5: pairs[1].push(pins[i - 2]); break;
-            case 6: pairs[2].push(pins[i - 2]); break;
-            case 7: pairs[2].push(pins[i - 2]); break;
-        }
     }
 
     function checkPins() {
         pins.forEach(function (currentPin, pinIndex) {
             currentPin.query(function (pinState) {
-                switch (pinIndex) {
-                    case 0: pinsState.pinStatePairs[0] = pinState.value; break;
-                    case 1: pinsState.pinStatePairs[1] = pinState.value; break;
-                    case 2: pinsState.pinStatePairs[2] = pinState.value; break;
-                    case 3: pinsState.pinStatePairs[3] = pinState.value; break;
-                    case 4: pinsState.pinStatePairs[4] = pinState.value; break;
-                    case 5: pinsState.pinStatePairs[5] = pinState.value; break;
-                }
+                pinsState.pinStatePairs[pinIndex] = pinState.value;
             });
         });
     }
@@ -158,18 +149,14 @@ module.exports = function riddle4(api, board) {
     }
 
     setInterval(function() {
-        console.log('pin state: ', JSON.stringify(pinsState));
         checkPins();
         checkWires();
         checkLeds();
         checkInterval();
-
-
-    }, interval * 500);
+    }, 500);
 
     api.get('/data', function (req, res) {
-        res.json(state);
-        console.log('state: ', JSON.stringify(state));
+        res.json(readState());
     });
 
     api.post('/set_start', function (req, res) {
@@ -181,13 +168,13 @@ module.exports = function riddle4(api, board) {
             state.place = (state.place + 2) % 3;
         }
         state.good_led = led_activate[state.place];
+        res.json(readState());
     });
 
     api.post('/fix_riddle_manually', function (req, res) {
         // Define good position for switches manually
         state.status =  riddle_status.SUCCESS;
         state.good_led = state.current_led;
-        res.json(state);
+        res.json(readState());
     });
-
 };

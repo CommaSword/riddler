@@ -1,8 +1,6 @@
 /**
  * Created by omers on 20-5-2016.
  */
-
-
 var five = require('johnny-five');
 
 var riddle_status = {
@@ -11,11 +9,11 @@ var riddle_status = {
     BLUE_GOOD: 'Blue is good',
     RED_GOOD: 'Red is good',
     BOTH_GOOD: 'Both lights are good'
-}
+};
 var switch_status = {
     UP: 'Switch is Up',
     DOWN: 'Switch is Down'
-}
+};
 module.exports = function riddle2(api, board) {
 
     var state = {
@@ -27,6 +25,18 @@ module.exports = function riddle2(api, board) {
        // code_to_enter: 103856,
       //  keys_pressed: 0,
     };
+
+    function readState(){
+        return {
+            status : state.status,
+            good_switch_red : state.good_switch_red,
+            good_switch_blue : state.good_switch_blue,
+            current_switch_red : state.current_switch_red,
+            current_switch_blue : state.current_switch_blue,
+            functional : state.status == riddle_status.BOTH_GOOD
+        };
+    }
+
     interval = 1;
     var ledRed = new five.Led({
         pin:'A0',
@@ -46,36 +56,30 @@ module.exports = function riddle2(api, board) {
         board:board
     });
 
-
-    function redButtonPress(){
+    switchRed.on('press', function(){
         state.current_switch_red = switch_status.UP;
         console.log('Clicked on red button! state: ', JSON.stringify(state));
-        calcLedsStatus();
-    }
-    function redButtonRelease(){
+        calcSwitchesStatus();
+    });
+    switchRed.on('release', function(){
         state.current_switch_red = switch_status.DOWN;
         console.log('Released red button! state: ', JSON.stringify(state));
-        calcLedsStatus();
-    }
-    function blueButtonPress(){
+        calcSwitchesStatus();
+    });
+    switchBlue.on('press', function(){
         state.current_switch_blue = switch_status.UP;
         console.log('Clicked on blue button! state: ', JSON.stringify(state));
-        calcLedsStatus();
-    }
-    function blueButtonRelease(){
+        calcSwitchesStatus();
+    });
+    switchBlue.on('release', function(){
         state.current_switch_blue = switch_status.DOWN;
         console.log('Released blue button! state: ', JSON.stringify(state));
-        calcLedsStatus();
-    }
-
-    switchRed.on('press', redButtonPress);
-    switchRed.on('release', redButtonRelease);
-    switchBlue.on('press', blueButtonPress);
-    switchBlue.on('release', blueButtonRelease);
+        calcSwitchesStatus();
+    });
 
 
     function calcLedsStatus(){
-        if (state.status == riddle_status.BOTH_GOOD){
+        if (readState().functional){
             ledGreen.on();
             ledRed.off();
         } else {
@@ -83,7 +87,6 @@ module.exports = function riddle2(api, board) {
             ledRed.on();
         }
     }
-    calcLedsStatus();
 
     // Calculates if the positions of both switches are correct.
     // Changes state.status to the new status according to the switches
@@ -104,23 +107,17 @@ module.exports = function riddle2(api, board) {
     }
     calcSwitchesStatus();
 
-    setInterval(function() {
-        calcSwitchesStatus();
-        console.log('state: ', JSON.stringify(state));
-    }, interval * 500);
-
     //
     // Json's to server
     //
 
     api.get('/data', function (req, res) {
-        res.json(state);
+        res.json(readState());
     });
 
     api.post('/set_start', function (req, res) {
         state.status =  riddle_status.BOTH_BAD;
         state.keys_pressed = 0;
-        // Switches the good positions for the switches to be opposite then the last positions
         if (state.good_switch_red == switch_status.DOWN){
             state.good_switch_red = switch_status.UP;
         }else{
@@ -131,21 +128,17 @@ module.exports = function riddle2(api, board) {
         }else{
             state.good_switch_blue = switch_status.DOWN;
         }
-        calcLedsStatus();
-        res.json(state);
+        calcSwitchesStatus();
+        res.json(readState());
     });
 
     api.post('/fix_riddle_manually', function (req, res) {
         state.status =  riddle_status.START;
-    //    state.keys_pressed = 0;
-        // Define good position for switches manually
         state.good_switch_red = state.current_switch_red;
         state.good_switch_blue = state.current_switch_blue;
         calcSwitchesStatus();
-        calcLedsStatus();
-        res.json(state);
+        res.json(readState());
     });
-
 };
 
 
