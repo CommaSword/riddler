@@ -1,0 +1,12 @@
+Everything in sudo
+move riddler.service to /etc/systemd/system/
+systemctl enable riddler.service
+systemctl start nodeserver.service
+
+for test
+systemctl daemon-reload
+systemctl restart nodeserver.service
+
+for ssh
+ssh pi@<ip>
+password: raspberry
