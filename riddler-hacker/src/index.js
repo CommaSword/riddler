@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
+// import Input from './input';
 
 const stylesheet  = {
   layout: {
@@ -8,50 +9,102 @@ const stylesheet  = {
     height:'1',
   }
 }
+
+const pages = {
+  welcome: 'welcome', 
+  preHack : 'preHack',
+  hacking : 'hacking',
+  postHack : 'postHack',
+  result : 'result'
+};
+
+class Welcome extends Component{
+  constructor(props) {
+    super(props);
+
+    
+  }
+  render() {
+    return(
+      <box 
+        width={'100%'}
+        height={'100%'}
+        class={stylesheet.layout}>
+        <text height={1} width={'100%'}>Welcome</text>
+        <button top={3} width={50} height={20} border={{type: 'line'}}>Button</button>
+      </box>
+      )
+  }
+}
+
+class PreHack extends Component{
+  constructor(props) {
+    super(props);
+
+
+  }
+  render() {
+    return(<text width={'100%'}>PreHack</text>)
+  }
+}
+
+class Hacking extends Component{
+  constructor(props) {
+    super(props);
+
+
+  }
+  render() {
+    return(<text width={'100%'}>Hacking</text>)
+  }
+}
+
+class PostHack extends Component{
+  constructor(props) {
+    super(props);
+
+
+  }
+  render() {
+    return(<text width={'100%'}>PostHack</text>)
+  }
+}
+
+class Result extends Component{
+  constructor(props) {
+    super(props);
+
+
+  }
+  render() {
+    return(<text width={'100%'}>Result</text>)
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {level: 0};
-    // here I hooked this.setState({level: <<something>> }) to input
+    this.state = {
+      page: pages.welcome
+    };
   }
   render() {
 
     return (
       <box label="Hacker Console $"
-         border={{type: 'line'}}
-         style={{border: {fg: 'cyan'}}}>
-        <ProgressBar top={4} name="Bar" level={this.state.level}/>
-        <layout class={stylesheet.layout}>
-          <text top="0" left="0" height="1">call sign:</text>
-        </layout>
-        <layout class={stylesheet.layout}>
-          <text top="1" left="0" height="1">acion:</text>
-        </layout>
+        border={{type: 'line'}}
+        style={{border: {fg: 'cyan'}}}>
+        {(()=>{
+          switch (this.state.page) {
+            case "welcome": return <Welcome/>;
+            case "preHack": return <PreHack/>;
+            case 'hacking': return <Hacking/>;
+            case 'postHack': return <PostHack/>;
+            case 'result': return <Result/>;
+        }})()}
       </box>
     );
-  }
-}
-
-class ProgressBar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {level: 0};
-
-  }
-
-  render() {
-    //console.log(level);
-    return <progressbar orientation="horizontal"
-              filled={this.props.level}
-              top={(this.props.top * 20) + '%'}
-              left="center"
-              height="15%"
-              width="80%"
-              label={this.props.name + ':' +this.props.level}
-              border={{type: 'line'}}
-              style={{border: {fg: 'red'}, bar: {bg: 'red'}}} />
   }
 }
 
