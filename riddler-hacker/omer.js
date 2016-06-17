@@ -29,13 +29,12 @@ module.exports = function hacking(api, board) {
         };
     }
 
-    function setHackingStatus(newStatus) {
+    function sendHackingData(newStatus, shipId, parameters) {
         state.status = newStatus;
-    }
-
-    function sendHackingParameters(shipId, parameters) {
-        state.request_parameters = shipId;
-        state.ship_id = parameters;
+        shipId = shipId || null;
+        parameters = parameters || null;
+        state.request_parameters = parameters || state.request_parameters;
+        state.ship_id = shipId || state.ship_id;
     }
 
     app.get('/data', function(req, res){
