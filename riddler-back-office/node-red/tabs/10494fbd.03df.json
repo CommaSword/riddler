@@ -20,9 +20,9 @@
         "name": "Hacking Attempt Request",
         "group": "Hacking Initiation",
         "order": 1,
-        "format": "{{msg.payload.initialization}}",
-        "x": 568,
-        "y": 65,
+        "format": "{{msg.payload}}",
+        "x": 788,
+        "y": 57,
         "wires": []
     },
     {
@@ -33,9 +33,9 @@
         "name": "Ship ID",
         "group": "Hacking Initiation",
         "order": 1,
-        "format": "{{msg.payload.ship_id}}",
-        "x": 523,
-        "y": 124,
+        "format": "{{msg.payload}}",
+        "x": 738,
+        "y": 105,
         "wires": []
     },
     {
@@ -43,29 +43,18 @@
         "type": "ui_button",
         "z": "10494fbd.03df",
         "tab": "30359933.401966",
-        "name": "Hacking Attempt Initiation",
-        "payload": "Attempt Initiation",
+        "name": "Initialize Hacking Attempt",
+        "payload": "Initialize Hacking Attempt",
         "topic": "",
         "group": "Hacking Initiation",
         "order": 1,
-        "x": 386,
-        "y": 372,
+        "x": 171,
+        "y": 360,
         "wires": [
             [
-                "cfedefee.a98f6",
-                "eead9503.0282f8"
+                "c6930a7d.f3c258"
             ]
         ]
-    },
-    {
-        "id": "cfedefee.a98f6",
-        "type": "notify",
-        "z": "10494fbd.03df",
-        "title": "Hacking Attempt Notification",
-        "name": "Hacking Attempt Notification",
-        "x": 647.5,
-        "y": 374,
-        "wires": []
     },
     {
         "id": "1a435d27.64f493",
@@ -76,8 +65,8 @@
         "gap": "",
         "start": "",
         "inout": "out",
-        "x": 415,
-        "y": 220,
+        "x": 755,
+        "y": 207,
         "wires": [
             [
                 "657232da.bc874c"
@@ -89,23 +78,8 @@
         "type": "ui_toast",
         "z": "10494fbd.03df",
         "name": "New Attempt",
-        "x": 599,
-        "y": 232,
-        "wires": []
-    },
-    {
-        "id": "48f492.eedc2b7",
-        "type": "ui_gauge",
-        "z": "10494fbd.03df",
-        "tab": "30359933.401966",
-        "name": "Progress",
-        "group": "Hacking Progress",
-        "order": 1,
-        "format": "{{value}}",
-        "min": 0,
-        "max": 10,
-        "x": 177,
-        "y": 402,
+        "x": 955,
+        "y": 207,
         "wires": []
     },
     {
@@ -117,8 +91,8 @@
         "group": "Hacking Progress",
         "order": 1,
         "format": "{{msg.payload}}",
-        "x": 572,
-        "y": 180,
+        "x": 785,
+        "y": 155,
         "wires": []
     },
     {
@@ -131,57 +105,11 @@
         "topic": "",
         "group": "Hacking Progress",
         "order": 1,
-        "x": 385,
-        "y": 425,
+        "x": 159,
+        "y": 448,
         "wires": [
             [
-                "4a44b22b.376e3c",
-                "e523b2c2.51fa4"
-            ]
-        ]
-    },
-    {
-        "id": "4a44b22b.376e3c",
-        "type": "notify",
-        "z": "10494fbd.03df",
-        "title": "Hacking Attempt Notification",
-        "name": "Hacking Attempt Notification",
-        "x": 647.5,
-        "y": 426,
-        "wires": []
-    },
-    {
-        "id": "3e19548e.b26dfc",
-        "type": "inject",
-        "z": "10494fbd.03df",
-        "name": "tick",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "10",
-        "crontab": "",
-        "once": false,
-        "x": 111,
-        "y": 63,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ad040915.f65668",
-        "type": "http request",
-        "z": "10494fbd.03df",
-        "name": "get data from integration",
-        "method": "GET",
-        "ret": "obj",
-        "url": "$(Hacking_get_url)",
-        "x": 301,
-        "y": 137,
-        "wires": [
-            [
-                "56bb0771.1a29b8",
-                "c1553ffe.fdc1f",
-                "1a435d27.64f493"
+                "b134437d.713f5"
             ]
         ]
     },
@@ -192,11 +120,13 @@
         "name": "set approve_init integrated",
         "method": "POST",
         "ret": "txt",
-        "url": "$hacking_set_approve_init_url)",
-        "x": 649,
-        "y": 325,
+        "url": "",
+        "x": 628,
+        "y": 360,
         "wires": [
-            []
+            [
+                "442722a1.84761c"
+            ]
         ]
     },
     {
@@ -206,11 +136,462 @@
         "name": "set approve_attempt integrated",
         "method": "POST",
         "ret": "txt",
-        "url": "$hacking_set_approve_attempt_url)",
-        "x": 656,
-        "y": 474,
+        "url": "",
+        "x": 641,
+        "y": 447,
+        "wires": [
+            [
+                "442722a1.84761c"
+            ]
+        ]
+    },
+    {
+        "id": "d22eef21.fff22",
+        "type": "function",
+        "z": "10494fbd.03df",
+        "name": "configure",
+        "func": "    global.get('riddlesEvents').on('added-hacking', function(baseUrl) {\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start', baseUrl + '/set_start');\n        flow.set('set_deny', baseUrl + '/set_deny');\n        flow.set('attempt_succeed', baseUrl + '/attempt_succeed');\n        flow.set('attempt_fail', baseUrl + '/attempt_fail');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 138,
+        "y": 84,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "e34639da.37e5d8",
+        "type": "inject",
+        "z": "10494fbd.03df",
+        "name": "",
+        "topic": "config",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 135,
+        "y": 42,
+        "wires": [
+            [
+                "d22eef21.fff22"
+            ]
+        ]
+    },
+    {
+        "id": "52b2269e.471a28",
+        "type": "http request",
+        "z": "10494fbd.03df",
+        "name": "get state",
+        "method": "GET",
+        "ret": "obj",
+        "url": "",
+        "x": 135,
+        "y": 174,
+        "wires": [
+            [
+                "442722a1.84761c"
+            ]
+        ]
+    },
+    {
+        "id": "60d887ef.e21868",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "state_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 145,
+        "y": 204,
+        "wires": [
+            [
+                "52b2269e.471a28"
+            ]
+        ]
+    },
+    {
+        "id": "d653ec90.4e7f2",
+        "type": "switch",
+        "z": "10494fbd.03df",
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 145,
+        "y": 251,
+        "wires": [
+            [
+                "60d887ef.e21868"
+            ]
+        ]
+    },
+    {
+        "id": "8ad69837.8c4ae8",
+        "type": "inject",
+        "z": "10494fbd.03df",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 141,
+        "y": 301,
+        "wires": [
+            [
+                "d653ec90.4e7f2"
+            ]
+        ]
+    },
+    {
+        "id": "442722a1.84761c",
+        "type": "function",
+        "z": "10494fbd.03df",
+        "name": "demux state",
+        "func": "\nreturn [\n    {payload:msg.payload.initialization},\n    {payload:msg.payload.ship_id},\n    {payload:msg.payload.status},\n    {payload:msg.payload.integration},\n    {payload:msg.payload.functional}\n    ];",
+        "outputs": "5",
+        "noerr": 0,
+        "x": 460,
+        "y": 133,
+        "wires": [
+            [
+                "c1553ffe.fdc1f"
+            ],
+            [
+                "56bb0771.1a29b8"
+            ],
+            [
+                "85a5bb2.a1cb548",
+                "111cbd6d.a59d13"
+            ],
+            [
+                "1a435d27.64f493"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "36a7a1d6.6d664e",
+        "type": "ui_button",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Fail Attempt",
+        "payload": "Fail Attempt",
+        "topic": "",
+        "group": "Hacking Progress",
+        "order": 1,
+        "x": 130,
+        "y": 494,
+        "wires": [
+            [
+                "a2c125ea.658798"
+            ]
+        ]
+    },
+    {
+        "id": "112efa5.c865406",
+        "type": "http request",
+        "z": "10494fbd.03df",
+        "name": "set approve_attempt integrated",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "x": 637,
+        "y": 496,
+        "wires": [
+            [
+                "442722a1.84761c"
+            ]
+        ]
+    },
+    {
+        "id": "4c4605ba.0e12dc",
+        "type": "ui_button",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "Deny Hacking Attempt",
+        "payload": "Deny Hacking Attempt",
+        "topic": "",
+        "group": "Hacking Initiation",
+        "order": 1,
+        "x": 158,
+        "y": 406,
+        "wires": [
+            [
+                "b4b3c388.969f"
+            ]
+        ]
+    },
+    {
+        "id": "13038935.e5c6b7",
+        "type": "http request",
+        "z": "10494fbd.03df",
+        "name": "set approve_attempt integrated",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "x": 637,
+        "y": 407,
+        "wires": [
+            [
+                "442722a1.84761c"
+            ]
+        ]
+    },
+    {
+        "id": "c6930a7d.f3c258",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "set_start",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 405,
+        "y": 360,
+        "wires": [
+            [
+                "eead9503.0282f8"
+            ]
+        ]
+    },
+    {
+        "id": "b4b3c388.969f",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "set_deny",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 407,
+        "wires": [
+            [
+                "13038935.e5c6b7"
+            ]
+        ]
+    },
+    {
+        "id": "b134437d.713f5",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "attempt_succeed",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 398,
+        "y": 447,
+        "wires": [
+            [
+                "e523b2c2.51fa4"
+            ]
+        ]
+    },
+    {
+        "id": "a2c125ea.658798",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "attempt_fail",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 394,
+        "y": 494,
+        "wires": [
+            [
+                "112efa5.c865406"
+            ]
+        ]
+    },
+    {
+        "id": "40c8ef01.80c3",
+        "type": "switch",
+        "z": "10494fbd.03df",
+        "name": "Status Notification",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "hacking_false",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "hacking_ready_start",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "hacking_progress",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "hacking_wait_confirm",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "hacking_successful",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "hacking_failed",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 6,
+        "x": 906,
+        "y": 314,
+        "wires": [
+            [],
+            [
+                "9a568c6f.2ccf5"
+            ],
+            [
+                "93d5c010.e0e5d"
+            ],
+            [
+                "d23a5495.f7e958"
+            ],
+            [
+                "e657b72f.022c48"
+            ],
+            [
+                "a488d566.c9c558"
+            ]
+        ]
+    },
+    {
+        "id": "111cbd6d.a59d13",
+        "type": "rbe",
+        "z": "10494fbd.03df",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 736,
+        "y": 274,
+        "wires": [
+            [
+                "40c8ef01.80c3"
+            ]
+        ]
+    },
+    {
+        "id": "9a568c6f.2ccf5",
+        "type": "notify",
+        "z": "10494fbd.03df",
+        "title": "hacking ready start",
+        "name": "Hacking waiting to start",
+        "x": 1164,
+        "y": 278,
+        "wires": []
+    },
+    {
+        "id": "93d5c010.e0e5d",
+        "type": "notify",
+        "z": "10494fbd.03df",
+        "title": "Hacking in Progress",
+        "name": "Hacking in Progress",
+        "x": 1151,
+        "y": 323,
+        "wires": []
+    },
+    {
+        "id": "d23a5495.f7e958",
+        "type": "notify",
+        "z": "10494fbd.03df",
+        "title": "Hacking waiting for confirmation",
+        "name": "Hacking waiting for confirmation",
+        "x": 1182,
+        "y": 366,
+        "wires": []
+    },
+    {
+        "id": "e657b72f.022c48",
+        "type": "notify",
+        "z": "10494fbd.03df",
+        "title": "Hacking successful",
+        "name": "Hacking successful",
+        "x": 1144,
+        "y": 409,
+        "wires": []
+    },
+    {
+        "id": "a488d566.c9c558",
+        "type": "notify",
+        "z": "10494fbd.03df",
+        "title": "Hacking Failed",
+        "name": "Hacking Failed",
+        "x": 1134,
+        "y": 450,
+        "wires": []
     }
 ]
