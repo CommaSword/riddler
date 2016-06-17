@@ -9,6 +9,7 @@ var FAILURE_BLINK_PHASE = 300;
 
 module.exports = function EngineeringControlRoom(api, board){
 	var systems = {
+
 		'reactor' : {toggles:[2], led: 10} ,
 		'beam_weapon' : {toggles:[3], led: 11},
 		'missiles' : {toggles:[4], led: 12},
