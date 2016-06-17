@@ -21,7 +21,8 @@ var configurations = {
 	230: {type: 'riddle3', id:'230'},
 	262: {type: 'riddle3', id:'262'},
 	295: {type: 'riddle3', id:'295'},
-	326: {type: 'riddle3', id:'326'}
+	326: {type: 'riddle3', id:'326'},
+	1024: {type: 'e-c-r', id:'1024'}
 };
 
 function detectBoard(cb) {
