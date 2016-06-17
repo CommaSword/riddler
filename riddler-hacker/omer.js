@@ -29,6 +29,14 @@ module.exports = function hacking(api, board) {
         };
     }
 
+    function setHackingStatus(newStatus) {
+        state.status = newStatus;
+    }
+
+    function sendHackingParameters(shipId, parameters) {
+        state.request_parameters = shipId;
+        state.ship_id = parameters;
+    }
 
     app.get('/data', function(req, res){
         res.json(readState());
