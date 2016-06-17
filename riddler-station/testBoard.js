@@ -5,6 +5,7 @@ var five = require('johnny-five');
 
 require('./detect-board')(function (config, raw, board) {
 	console.log('\nraw value: ' + raw + '\n');
+	/*
 
 	var p = new five.Pin({
 		pin: 8,
@@ -19,7 +20,6 @@ require('./detect-board')(function (config, raw, board) {
 		})
 	}, 500);
 
-	/*
 	new five.Led({
 		pin:10,
 		board:board

@@ -326,8 +326,8 @@
         ],
         "checkall": "false",
         "outputs": 1,
-        "x": 224,
-        "y": 440,
+        "x": 216,
+        "y": 447,
         "wires": [
             [
                 "22644f13.225ba"
@@ -352,31 +352,31 @@
         ]
     },
     {
-        "id": "d53f3ea8.551ab",
-        "type": "rbe",
+        "id": "751439fa.3dd4b8",
+        "type": "subflow:7dbbf841.470ad8",
         "z": "9e21335d.82775",
-        "name": "changes only",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "x": 221.5,
-        "y": 475,
+        "name": "",
+        "x": 185.5,
+        "y": 515,
         "wires": [
             [
-                "5e558b49.0463f4"
+                "7d1fd1fc.c89cd"
             ]
         ]
     },
     {
-        "id": "751439fa.3dd4b8",
-        "type": "subflow:7dbbf841.470ad8",
+        "id": "7d1fd1fc.c89cd",
+        "type": "function",
         "z": "9e21335d.82775",
-        "x": 185.5,
-        "y": 508,
+        "name": "tostring",
+        "func": "msg.payload = '' + msg.payload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 209.5,
+        "y": 474,
         "wires": [
             [
-                "d53f3ea8.551ab"
+                "5e558b49.0463f4"
             ]
         ]
     }
