@@ -69,4 +69,11 @@ RED.start()
 				}
 			});
 		}, 1000);
+
+		d.on("added", function(data){
+			if(data.advertisement && data.advertisement.service == 'hacking'){
+				var baseUrl = 'http://127.0.0.1:5000'
+				riddlesEvents.emit('added-hacking', baseUrl);
+			}
+		});
 	});

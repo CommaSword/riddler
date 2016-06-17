@@ -38,15 +38,18 @@ module.exports = function(eventEmmiter) {
         if(this.state.index == 0 || this.state.index == 2){
           this.setPage(this.state.index+1);
         }
+        if(this.state.index == 4 || this.state.index == 5){
+          this.setPage(0)
+        }
       });
 
       eventEmmiter.on('server-message', (data) => {
         screen.log("server-message: ", data);
         switch (data.state){
-          case "hackStart": setPage(2);
-          case "hackDenied": setPage(5);
-          case "hackSuccessful": setPage(4, "Full");
-          case "hackPartialSuccessful": setPage(4, "Partial");
+          case "hackStart": this.setPage(2); break;
+          case "hackDeny": this.setPage(5); break;
+          case "hackSuccessful": this.setPage(4, "Full"); break;
+          case "hackPartialSuccessful": this.setPage(4, "Partial"); break;
         }
       })
 
@@ -64,12 +67,15 @@ module.exports = function(eventEmmiter) {
     }
 
     setPage(page_index, message) {
+      screen.log("changing to ", page_index)
       this.setState({
         index: page_index,
         page: pages[page_index]
       });
 
       var data = {}
+
+      screen.log("state.page is now ", this.state.page)
 
       switch (this.state.page) {
         case 'welcome':
@@ -78,8 +84,10 @@ module.exports = function(eventEmmiter) {
         case 'preHack':
           data = {
             status: 'preHack',
-            shipId: this.state.shipId,
-            detail: this.state.detail
+            shipId: "foo1",
+            details: "bar2"
+            // shipId: this.state.shipId,
+            // detail: this.state.detail
           } // shipId, detail
           break;
         case 'hacking':
@@ -92,14 +100,14 @@ module.exports = function(eventEmmiter) {
           data = {
             status: 'result',
             shipId: '',
-            detail: ''
+            details: ''
           }
           break;
         case 'abort':
           data = {
             status: 'result',
             shipId: '',
-            detail: ''
+            details: ''
           }
           break;
       }
