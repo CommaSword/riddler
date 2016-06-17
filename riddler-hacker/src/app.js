@@ -24,7 +24,8 @@ module.exports = function(eventEmmiter) {
   const screen = blessed.screen({
     autoPadding: true,
     smartCSR: true,
-    title: 'Hack and be blessed'
+    title: 'Hack and be blessed',
+    log: 'log.txt'
   });
 
 
@@ -33,12 +34,14 @@ module.exports = function(eventEmmiter) {
       super(props);
 
       screen.key(['enter'], (ch, key) => {
+        screen.log("enter pressed");
         if(this.state.index == 0 || this.state.index == 2){
           this.setPage(this.state.index+1);
         }
       });
 
       eventEmmiter.on('server-message', (data) => {
+        screen.log("server-message: ", data);
         switch (data.state){
           case "hackStart": setPage(2);
           case "hackDenied": setPage(5);
@@ -64,13 +67,11 @@ module.exports = function(eventEmmiter) {
       this.setState({
         index: page_index,
         page: pages[page_index]
-        // index: this.state.index >= pages.length ? 0: ++this.state.index,
-        // page: pages[this.state.index >= pages.length ? 0: ++this.state.index]
       });
 
       var data = {}
 
-      switch (this.state.pages) {
+      switch (this.state.page) {
         case 'welcome':
           data = {status: 'welcome'}
           break;
@@ -103,6 +104,7 @@ module.exports = function(eventEmmiter) {
           break;
       }
 
+      screen.log("ui-message: ", data);
       eventEmmiter.emit("ui-message", data)
     }
 
