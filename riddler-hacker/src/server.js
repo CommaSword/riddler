@@ -1,3 +1,5 @@
+var express = require('express');
+
 var hacking_status = {
     hacking_false : 'Not trying to hack',
     hacking_ready_start: 'Hacking start waiting for confirmation',

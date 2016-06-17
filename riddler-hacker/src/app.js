@@ -10,12 +10,20 @@ const stylesheet  = {
   }
 }
 
+var IncomingMessages = {
+    start_hacking:1,
+    hack_denied:2,
+    hack_succesful:3,
+    hack_partial:4,
+}
+
 const pages = [
    'welcome',
-   'preHack',
+   'preHack', // shipId, detail
    'hacking',
    'postHack',
-   'result'
+   'result',
+   'abort'
 ];
 
 module.exports = function(eventEmmiter) {
