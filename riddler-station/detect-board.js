@@ -46,6 +46,7 @@ function queryBoard(board, callback){
 		board:board
 	}).query(function(state){
 		var config = findConfig(state.value);
+		console.log('find confid: ' + JSON.stringify(state));
 		console.log('detected board '+ config.id +' with riddle: ' + config.type + ' (raw:'+state.value+')');
 		callback(config, state.value, board);
 	});
