@@ -2,8 +2,8 @@
 Description=Node.js Example Server
 
 [Service]
-ExecStartPre=sudo /usr/bin/node /home/pi/riddler/riddler-station/service/prestart.js
-ExecStart=sudo /usr/bin/node /home/pi/riddler/riddler-station/index.js
+ExecStartPre=/usr/bin/node /home/pi/riddler/riddler-station/service/prestart.js
+ExecStart=/usr/bin/node /home/pi/riddler/riddler-station/index.js
 Restart=always
 RestartSec=10
 StandardOutput=syslog
