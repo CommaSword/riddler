@@ -1,10 +1,6 @@
 /**
  * Created by amira on 16/6/16.
  */
-
-/**
- * Created by amira on 2/5/16.
- */
 var express = require('express');
 var port = process.env.port || 80;
 var discover = require('node-discover');

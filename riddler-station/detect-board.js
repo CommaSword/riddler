@@ -22,7 +22,7 @@ var configurations = {
 	262: {type: 'riddle3', id:'262'},
 	295: {type: 'riddle3', id:'295'},
 	326: {type: 'riddle3', id:'326'},
-	1024: {type: 'e-c-r', id:'1024'}
+	1024: {type: 'e-c-r', id:'ECR'}
 };
 
 function detectBoard(cb) {

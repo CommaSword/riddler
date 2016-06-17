@@ -110,7 +110,7 @@ module.exports = function riddle3(api, board) {
             state.current_led = led_activate[2];
             state.status = riddle_status.BROKEN;
         }
-        if (!success) {
+        if (false && !success) {
             buzzer.play({
                 tempo: 150, // Beats per minute, default 150
                 song: [ // An array of notes that comprise the tune

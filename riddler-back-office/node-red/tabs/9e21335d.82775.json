@@ -73,7 +73,7 @@
         "method": "POST",
         "ret": "txt",
         "url": "",
-        "x": 388,
+        "x": 453,
         "y": 405,
         "wires": [
             [
@@ -260,8 +260,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 184,
-        "y": 406,
+        "x": 231,
+        "y": 401,
         "wires": [
             [
                 "f1418395.56158"
@@ -308,23 +308,7 @@
                 "17d65ca1.cbe193"
             ],
             [
-                "7deb9256.ad0ccc"
-            ]
-        ]
-    },
-    {
-        "id": "7deb9256.ad0ccc",
-        "type": "function",
-        "z": "9e21335d.82775",
-        "name": "and",
-        "func": "function clear(topic){\n    var falses = context.get('falses')\n    if (falses[topic]){\n        clearTimeout(falses[topic]);\n        delete falses[topic];\n    }\n}\n\nvar falses = context.get('falses');\nif (!falses){\n    falses = {};\n    context.set('falses', falses);\n    node.on('close', function() {\n        Object.keys(context.get('falses')).forEach(clear);\n    });\n}\n\nif (msg.payload){\n    clear(msg.topic);\n} else{\n    falses[msg.topic] = setTimeout(clear.bind(null, msg.topic));\n}\nmsg.payload = !Object.keys(falses).length;\n\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 185.5,
-        "y": 508,
-        "wires": [
-            [
-                "5e558b49.0463f4"
+                "751439fa.3dd4b8"
             ]
         ]
     },
@@ -342,8 +326,8 @@
         ],
         "checkall": "false",
         "outputs": 1,
-        "x": 183,
-        "y": 455,
+        "x": 224,
+        "y": 440,
         "wires": [
             [
                 "22644f13.225ba"
@@ -364,6 +348,35 @@
         "wires": [
             [
                 "d40c876e.b4f2d8"
+            ]
+        ]
+    },
+    {
+        "id": "d53f3ea8.551ab",
+        "type": "rbe",
+        "z": "9e21335d.82775",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 221.5,
+        "y": 475,
+        "wires": [
+            [
+                "5e558b49.0463f4"
+            ]
+        ]
+    },
+    {
+        "id": "751439fa.3dd4b8",
+        "type": "subflow:7dbbf841.470ad8",
+        "z": "9e21335d.82775",
+        "x": 185.5,
+        "y": 508,
+        "wires": [
+            [
+                "d53f3ea8.551ab"
             ]
         ]
     }
