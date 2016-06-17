@@ -15,8 +15,8 @@ module.exports = function EngineeringControlRoom(api, board){
 		'maneuvering' : {toggles:[5], led: 13},
 		'impulse_engine' : {toggles:[6], led: 'A0'},
 		'warp_drive' : {toggles:[7], led: 'A1'},
-		'jump_drive' : {toggles:[8], led: 'A2'},
-		'front_shield' : {toggles:[9], led: 'A3'},
+		'jump_drive' : {toggles:[2], led: 'A2'},
+		'front_shield' : {toggles:[2], led: 'A3'},
 		'rear_shield' : {toggles:[2], led: 'A4'}
 	};
 	var state = {
@@ -34,25 +34,30 @@ module.exports = function EngineeringControlRoom(api, board){
 		res.json(readState());
 	});
 	var toggles = {};
-	var onChange = function(){};
+	var onChange = function() {
+		state.numToggled = Object.keys(toggles).reduce(function (sum, toggle) {
+			return sum + (toggles[toggle].state?1:0);
+		}, 0);
+	};
 	Object.keys(systems).forEach(function (sysName) {
 		systems[sysName].toggles.forEach(function (toggle) {
 			if (!toggles[toggle]) {
-				toggles[toggle] = new five.Button({
-					pin:toggle,
+				toggles[toggle] = new five.Pin({
+					pin: toggle,
+					mode: 0,
 					board:board
 				});
-				toggles[toggle].on('press', function () {
-					toggles[toggle].state = true;
-					state.numToggled++;
-					onChange();
-				});
 
-				toggles[toggle].on('release', function() {
-					toggles[toggle].state = false;
-					state.numToggled--;
-					onChange();
-				});
+				setInterval(function(){
+					toggles[toggle].query(function(d){
+						if (toggle === 8)	console.log(d.value);
+						var old = toggles[toggle].state;
+						toggles[toggle].state = !!d.value;
+						if (!!d.value != old){
+							onChange();
+						}
+					})
+				}, 500);
 			}
 		});
 	});
@@ -76,22 +81,22 @@ module.exports = function EngineeringControlRoom(api, board){
 		});
 		var oldOnChanged = onChange;
 		onChange = function(){
-			calcStatus();
 			oldOnChanged();
+			calcStatus();
 		};
 		function calcStatus(){
 			if (readState().functional) {
 				if (state[sysName].damaged) {
 					if (readSystemState().autoRepair) {
-						led.blink(state[sysName].functional ? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
+						led.stop().blink(state[sysName].functional ? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
 					} else {
-						led.on();
+						led.stop().on();
 					}
 				} else {
-					led.off();
+					led.stop().off();
 				}
 			} else {
-				led.blink(FAILURE_BLINK_PHASE);
+				led.stop().blink(FAILURE_BLINK_PHASE);
 			}
 		}
 		var route = express.Router();
