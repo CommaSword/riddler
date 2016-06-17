@@ -1,0 +1,171 @@
+[
+    {
+        "type": "tab",
+        "id": "becca66e.4a96f8",
+        "label": "Misc"
+    },
+    {
+        "id": "d6324c2b.6e402",
+        "type": "ui_text",
+        "z": "becca66e.4a96f8",
+        "tab": "692264eb.cffd6c",
+        "name": "ECR functional",
+        "group": "",
+        "order": 1,
+        "format": "{{msg.payload.functional}}",
+        "x": 1017.5,
+        "y": 112,
+        "wires": []
+    },
+    {
+        "id": "2a7eca1f.f82a56",
+        "type": "http request",
+        "z": "becca66e.4a96f8",
+        "name": "get ECR overall state",
+        "method": "GET",
+        "ret": "obj",
+        "url": "",
+        "x": 768.5,
+        "y": 112,
+        "wires": [
+            [
+                "d6324c2b.6e402"
+            ]
+        ]
+    },
+    {
+        "id": "5d51a3af.dee13c",
+        "type": "function",
+        "z": "becca66e.4a96f8",
+        "name": "configure",
+        "func": "if (!flow.get('registered')){\n    flow.set('registered', true);\n    global.get('riddlesEvents').on('added-ECR', function(baseUrl) {\n        flow.set('ecr_state_url', baseUrl + '/data');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 322.5,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "21a0ec55.664c04",
+        "type": "inject",
+        "z": "becca66e.4a96f8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 478.5,
+        "y": 232,
+        "wires": [
+            [
+                "abb7fe96.e4d6f"
+            ]
+        ]
+    },
+    {
+        "id": "abb7fe96.e4d6f",
+        "type": "switch",
+        "z": "becca66e.4a96f8",
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 496.5,
+        "y": 168,
+        "wires": [
+            [
+                "dc9728b2.c88148"
+            ]
+        ]
+    },
+    {
+        "id": "dc9728b2.c88148",
+        "type": "change",
+        "z": "becca66e.4a96f8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "ecr_state_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 506.5,
+        "y": 115,
+        "wires": [
+            [
+                "2a7eca1f.f82a56"
+            ]
+        ]
+    },
+    {
+        "id": "4356c32f.8e52bc",
+        "type": "inject",
+        "z": "becca66e.4a96f8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 159,
+        "y": 79,
+        "wires": [
+            [
+                "5d51a3af.dee13c"
+            ]
+        ]
+    },
+    {
+        "id": "903a234a.58506",
+        "type": "ui_template",
+        "z": "becca66e.4a96f8",
+        "tab": "de243966.edb1a8",
+        "name": "Riddles style override",
+        "group": "",
+        "order": 1,
+        "format": "<style>\n.md-title {\n  display: none;\n} \nmd-card:nth-child(1) > md-card-content {\n  display: none;\n} \n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "x": 206.5,
+        "y": 250,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f8928ba7.486f88",
+        "type": "ui_template",
+        "z": "becca66e.4a96f8",
+        "tab": "692264eb.cffd6c",
+        "name": "ECR style override",
+        "group": "",
+        "order": 1,
+        "format": "<style>\n.md-title {\n  display: none;\n}   \n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "x": 199.5,
+        "y": 294,
+        "wires": [
+            []
+        ]
+    }
+]

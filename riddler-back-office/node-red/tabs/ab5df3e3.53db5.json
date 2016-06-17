@@ -1,0 +1,342 @@
+[
+    {
+        "id": "ab5df3e3.53db5",
+        "type": "subflow",
+        "name": "Riddle 3",
+        "info": "",
+        "in": [
+            {
+                "x": 117,
+                "y": 129,
+                "wires": [
+                    {
+                        "id": "81ce5f05.53b38"
+                    },
+                    {
+                        "id": "f189d4e.5b18628"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 724,
+                "y": 332,
+                "wires": [
+                    {
+                        "id": "59ee1679.a11ec8",
+                        "port": 3
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "f33ab4fd.8d3f68",
+        "type": "http request",
+        "z": "ab5df3e3.53db5",
+        "name": "get state",
+        "method": "GET",
+        "ret": "obj",
+        "url": "",
+        "x": 158,
+        "y": 219,
+        "wires": [
+            [
+                "59ee1679.a11ec8"
+            ]
+        ]
+    },
+    {
+        "id": "7155e588.86b95c",
+        "type": "ui_button",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "Start Riddle",
+        "payload": "",
+        "topic": "",
+        "group": "shazam!",
+        "order": "6",
+        "x": 138,
+        "y": 447,
+        "wires": [
+            [
+                "79a9d224.94898c"
+            ]
+        ]
+    },
+    {
+        "id": "91780020.0f81a",
+        "type": "http request",
+        "z": "ab5df3e3.53db5",
+        "name": "set riddle_status: Start Riddle",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "x": 621,
+        "y": 447,
+        "wires": [
+            [
+                "59ee1679.a11ec8"
+            ]
+        ]
+    },
+    {
+        "id": "62964138.7f428",
+        "type": "http request",
+        "z": "ab5df3e3.53db5",
+        "name": "set riddle_status: Fix Riddle",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "x": 610,
+        "y": 512,
+        "wires": [
+            [
+                "59ee1679.a11ec8"
+            ]
+        ]
+    },
+    {
+        "id": "c48ebd0b.645d6",
+        "type": "ui_button",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "Fix Riddle Manually",
+        "payload": "",
+        "topic": "",
+        "group": "shazam!",
+        "order": "7",
+        "x": 156,
+        "y": 512,
+        "wires": [
+            [
+                "4935bcc4.5a5ea4"
+            ]
+        ]
+    },
+    {
+        "id": "bb7ec0f2.02225",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "Current LED",
+        "group": "shazam!",
+        "order": "5",
+        "format": "{{msg.payload}}",
+        "x": 743,
+        "y": 253,
+        "wires": []
+    },
+    {
+        "id": "ea2e635b.da5e1",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "Status",
+        "group": "shazam!",
+        "order": "3",
+        "format": "{{msg.payload}}",
+        "x": 721,
+        "y": 169,
+        "wires": []
+    },
+    {
+        "id": "a9f92cbf.cc5b8",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "Good LED",
+        "group": "shazam!",
+        "order": "4",
+        "format": "{{msg.payload}}",
+        "x": 742,
+        "y": 211,
+        "wires": []
+    },
+    {
+        "id": "81ce5f05.53b38",
+        "type": "function",
+        "z": "ab5df3e3.53db5",
+        "name": "configure",
+        "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-'+msg.payload, function(baseUrl) {\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start', baseUrl + '/set_start');\n        flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 259,
+        "y": 128,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3e5d07ba.ca7508",
+        "type": "change",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "state_url",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 168,
+        "y": 249,
+        "wires": [
+            [
+                "f33ab4fd.8d3f68"
+            ]
+        ]
+    },
+    {
+        "id": "b26b514a.36d05",
+        "type": "switch",
+        "z": "ab5df3e3.53db5",
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 157,
+        "y": 323,
+        "wires": [
+            [
+                "3e5d07ba.ca7508"
+            ]
+        ]
+    },
+    {
+        "id": "53fb53c1.6ada6c",
+        "type": "inject",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "x": 139,
+        "y": 387,
+        "wires": [
+            [
+                "b26b514a.36d05"
+            ]
+        ]
+    },
+    {
+        "id": "79a9d224.94898c",
+        "type": "change",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "set_start",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 448,
+        "wires": [
+            [
+                "91780020.0f81a"
+            ]
+        ]
+    },
+    {
+        "id": "4935bcc4.5a5ea4",
+        "type": "change",
+        "z": "ab5df3e3.53db5",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "fix_riddle_manually",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 354,
+        "y": 512,
+        "wires": [
+            [
+                "62964138.7f428"
+            ]
+        ]
+    },
+    {
+        "id": "59ee1679.a11ec8",
+        "type": "function",
+        "z": "ab5df3e3.53db5",
+        "name": "demux state",
+        "func": "\nreturn [\n    {payload:msg.payload.status},\n    {payload:msg.payload.good_led},\n    {payload:msg.payload.current_led},\n    {payload:msg.payload.functional}\n    ];",
+        "outputs": "4",
+        "noerr": 0,
+        "x": 488.5,
+        "y": 219,
+        "wires": [
+            [
+                "ea2e635b.da5e1"
+            ],
+            [
+                "a9f92cbf.cc5b8"
+            ],
+            [
+                "bb7ec0f2.02225"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "917f23c1.0b445",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "Type",
+        "group": "shazam!",
+        "order": "2",
+        "format": "Riddle 3",
+        "x": 482,
+        "y": 96,
+        "wires": []
+    },
+    {
+        "id": "f189d4e.5b18628",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "ID",
+        "group": "shazam!",
+        "order": 1,
+        "format": "{{msg.payload}}",
+        "x": 245.5,
+        "y": 87,
+        "wires": []
+    }
+]

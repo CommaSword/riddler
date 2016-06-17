@@ -6,7 +6,9 @@ var services = {
 
 var d = Discover({
   advertisement: services,
-  isMasterEligible: false
+  isMasterEligible: false,
+    multicast : '239.0.0.0'
+
 });
 
 var a = false;

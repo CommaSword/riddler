@@ -12,6 +12,13 @@ module.exports = function riddle1(api, board){
 		time_since_press: 0
 	};
 
+	function readState(){
+		return {
+			timeout_value : state.timeout_value,
+			time_since_press : state.time_since_press,
+			functional : state.time_since_press < state.timeout_value
+		};
+	}
 	var button = new five.Button({
 		pin:10,
 		board:board
@@ -34,12 +41,12 @@ module.exports = function riddle1(api, board){
 	button.on('hold', reset);
 
 	function calcLedsStatus(){
-		if (state.time_since_press > state.timeout_value){
-			red.on();
-			green.off();
-		} else {
+		if (readState().functional) {
 			red.off();
 			green.on();
+		} else {
+			red.on();
+			green.off();
 		}
 	}
 
@@ -52,7 +59,7 @@ module.exports = function riddle1(api, board){
 
 
 	api.get('/data', function (req, res) {
-		res.json(state);
+		res.json(readState());
 	});
 
 	api.post('/timeout_value', function (req, res) {
@@ -61,7 +68,7 @@ module.exports = function riddle1(api, board){
 			state.timeout_value = parseInt(req.rawBody);
 			calcLedsStatus();
 		}
-		res.json(state);
+		res.json(readState());
 	});
 
 	api.post('/time_since_press', function (req, res) {
@@ -70,8 +77,6 @@ module.exports = function riddle1(api, board){
 			state.time_since_press = parseInt(req.rawBody);
 			calcLedsStatus();
 		}
-		res.json(state);
+		res.json(readState());
 	});
-
-
 };
