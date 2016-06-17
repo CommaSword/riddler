@@ -80,5 +80,7 @@ module.exports = function hacking(eventEmitter) {
             });
         res.json(state);
     });
+
+    app.listen(5000)
 };
 

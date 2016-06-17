@@ -34,7 +34,7 @@ module.exports = function(eventEmmiter) {
 
       screen.key(['enter'], (ch, key) => {
         if(this.state.index == 0 || this.state.index == 2){
-          this.advancePage();
+          this.setPage(this.state.index+1);
         }
       });
 
@@ -68,7 +68,7 @@ module.exports = function(eventEmmiter) {
         // page: pages[this.state.index >= pages.length ? 0: ++this.state.index]
       });
 
-      data = {}
+      var data = {}
 
       switch (this.state.pages) {
         case 'welcome':
