@@ -29,7 +29,7 @@ module.exports = function hacking(eventEmitter) {
             case "welcome": state.status = 'User not hacking';
             case "preHack": state.status = 'User waiting for confirmation';
             case 'hacking': state.status = 'Hacking in progress';
-            case 'postHack': state.status = '';
+            case 'postHack': state.status = 'Waiting for hacking result';
         }
         var newShipId = data.shipId || null;
         var newDetails = data.details || null;
