@@ -83,15 +83,15 @@ module.exports = function EngineeringControlRoom(api, board){
 			if (readState().functional) {
 				if (state[sysName].damaged) {
 					if (readSystemState().autoRepair) {
-						led.blink(state[sysName].functional ? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
+						led.stop().blink(state[sysName].functional ? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
 					} else {
-						led.on();
+						led.stop().on();
 					}
 				} else {
-					led.off();
+					led.stop().off();
 				}
 			} else {
-				led.blink(FAILURE_BLINK_PHASE);
+				led.stop().blink(FAILURE_BLINK_PHASE);
 			}
 		}
 		var route = express.Router();

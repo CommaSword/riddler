@@ -19,10 +19,10 @@ require('./detect-board')(function (config, raw, board) {
 		})
 	}, 500);
 	*/
-	//new five.Led({
-	//	pin:'A2',
-	//	board:board
-	//}).blink(500);
+	new five.Led({
+		pin:10,
+		board:board
+	}).blink(500);
 
 	var toggleSwitch = new five.Button({
 		pin:2,
