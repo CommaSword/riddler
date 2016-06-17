@@ -12,7 +12,11 @@ var hacking_level = {
     2: 'Hard'
 };
 
-module.exports = function hacking(api, board) {
+module.exports = function hacking(eventEmmiter) {
+
+    eventEmmiter.on('ui-message', (data) => {
+
+    });
 
     var state = {
         status: hacking_status.hacking_false,
@@ -44,6 +48,13 @@ module.exports = function hacking(api, board) {
     app.post('/set_start', function(req, res){
         if (state.status == hacking_status.hacking_ready_start){
             // Open up hacking console
+            eventEmmiter.emit('server-mesage',
+                {
+                    state: "",
+                    message: "",
+
+                });
+
             state.status =  hacking_status.hacking_in_progress;
         }
         res.json(state);

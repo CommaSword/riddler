@@ -98,15 +98,14 @@ module.exports = function(eventEmmiter) {
         this.advancePage();
       });
 
-      eventEmmiter.on('ninja', () => {
-        this.advancePage();
+      eventEmmiter.on('ui-message', () => {
+
       })
 
       this.state = {
         index: 0,
         page: pages[0],
       };
-      setInterval(()=>{eventEmmiter.emit('ninja')}, 1000);
     }
 
     advancePage() {
