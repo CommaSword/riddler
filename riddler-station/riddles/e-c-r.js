@@ -9,15 +9,15 @@ var FAILURE_BLINK_PHASE = 300;
 
 module.exports = function EngineeringControlRoom(api, board){
 	var systems = {
-		'reactor' : {toggle:'A3', led: 5},
-		'beam_weapon' : {toggle:'A2', led: 6},
-		'missiles' : {toggle:'A1', led: 7},
-		'maneuvering' : {toggle:'A0', led: 8},
-		'impulse_engine' : {toggle:0, led: 9},
-		'warp_drive' : {toggle:1, led: 10},
-		'jump_drive' : {toggle:2, led: 11},
-		'front_shield' : {toggle:3, led: 12},
-		'rear_shield' : {toggle:4, led: 13}
+		'reactor' : {toggle:['A3'], led: 5},
+		'beam_weapon' : {toggle:['A2'], led: 6},
+		'missiles' : {toggle:['A1'], led: 7},
+		'maneuvering' : {toggle:['A0'], led: 8},
+		'impulse_engine' : {toggle:[0], led: 9},
+		'warp_drive' : {toggle:[1], led: 10},
+		'jump_drive' : {toggle:[2], led: 11},
+		'front_shield' : {toggle:[3], led: 12},
+		'rear_shield' : {toggle:[4], led: 13}
 	};
 	var state = {
 		numToggled : 0,
@@ -34,12 +34,8 @@ module.exports = function EngineeringControlRoom(api, board){
 	api.get('/data', function (req, res) {
 		res.json(readState());
 	});
-	Object.keys(systems).forEach(initSystem);
 
-	var schema = {
-		state : 'data'
-	};
-	function initSystem(sysName){
+	Object.keys(systems).forEach(function initSystem(sysName){
 		state[sysName] = {
 			damaged : false,
 			functional : true,
@@ -50,16 +46,18 @@ module.exports = function EngineeringControlRoom(api, board){
 			board:board
 		});
 		function calcStatus(){
-			if (state.numToggled > state.numToggledMax){
-				led.blink(FAILURE_BLINK_PHASE);
-			} else if (state[sysName].damaged){
-				if (state[sysName].autoRepair){
-					led.blink(state[sysName].functional? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
+			if (readState().functional) {
+				if (state[sysName].damaged) {
+					if (state[sysName].autoRepair) {
+						led.blink(state[sysName].functional ? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
+					} else {
+						led.on();
+					}
 				} else {
-					led.on();
+					led.off();
 				}
 			} else {
-				led.off();
+				led.blink(FAILURE_BLINK_PHASE);
 			}
 		}
 		var toggleSwitch = new five.Switch({
@@ -68,6 +66,7 @@ module.exports = function EngineeringControlRoom(api, board){
 		});
 		toggleSwitch.on("close", function() {
 			state[sysName].autoRepair = false;
+			state.numToggled--;
 			calcStatus();
 		});
 
@@ -83,36 +82,26 @@ module.exports = function EngineeringControlRoom(api, board){
 		});
 		route.post('/damaged', function (req, res) {
 			console.log('damaged', req.rawBody);
-			switch(req.rawBody){
-				case 'true':
-					state[sysName].damaged = true;
-					calcStatus();
-					break;
-				case 'false':
-					state[sysName].damaged = false;
-					calcStatus();
-					break;
+			if(req.rawBody === 'true') {
+				state[sysName].damaged = true;
+				calcStatus();
+			} else if(req.rawBody === 'false') {
+				state[sysName].damaged = false;
+				calcStatus();
 			}
 			res.json(state[sysName]);
 		});
 		route.post('/functional', function (req, res) {
 			console.log('functional', req.rawBody);
-			switch(req.rawBody){
-				case 'true':
-					state[sysName].functional = true;
-					calcStatus();
-					break;
-				case 'false':
-					state[sysName].functional = false;
-					calcStatus();
-					break;
+			if(req.rawBody === 'true') {
+				state[sysName].functional = true;
+				calcStatus();
+			} else if(req.rawBody === 'false') {
+				state[sysName].functional = false;
+				calcStatus();
 			}
 			res.json(state[sysName]);
 		});
 		api.use('/' + sysName, route);
-		schema[sysName + '.state'] = sysName + '/data';
-		schema[sysName + '.damaged'] = sysName + '/damaged';
-		schema[sysName + '.functional'] = sysName + '/functional';
-	}
-	return schema;
+	});
 };
