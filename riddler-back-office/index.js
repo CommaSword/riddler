@@ -60,6 +60,10 @@ RED.start()
 			multicast : process.env.multicastAddr || '239.0.0.0'
 		});
 
+		d.on("added", function (node) {
+			console.log("A new node has been added", node.address, node.advertisement);
+		});
+
 		setInterval(function(){
 			d.eachNode(function(node){
 				if (node.advertisement && node.advertisement.schema) {
