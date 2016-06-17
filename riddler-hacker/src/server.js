@@ -1,4 +1,3 @@
-
 var hacking_status = {
     hacking_false : 'Not trying to hack',
     hacking_ready_start: 'Hacking start waiting for confirmation',
@@ -12,11 +11,8 @@ var hacking_level = {
     2: 'Hard'
 };
 
-module.exports = function hacking(eventEmmiter) {
-
-    eventEmmiter.on('ui-message', (data) => {
-
-    });
+module.exports = function hacking(eventEmitter) {
+    var app = express();
 
     var state = {
         status: hacking_status.hacking_false,
@@ -33,13 +29,13 @@ module.exports = function hacking(eventEmmiter) {
         };
     }
 
-    function sendHackingData(newStatus, shipId, parameters) {
-        state.status = newStatus;
-        shipId = shipId || null;
-        parameters = parameters || null;
-        state.request_parameters = parameters || state.request_parameters;
-        state.ship_id = shipId || state.ship_id;
-    }
+    eventEmitter.on('ui-message', (data) => {
+        data.status = newStatus,
+        shipId = data.shipId || null,
+        parameters = data.parameters || null,
+        state.request_parameters = parameters || state.request_parameters,
+        state.ship_id = shipId || state.ship_id
+    });
 
     app.get('/data', function(req, res){
         res.json(readState());
@@ -50,11 +46,9 @@ module.exports = function hacking(eventEmmiter) {
             // Open up hacking console
             eventEmmiter.emit('server-mesage',
                 {
-                    state: "",
-                    message: "",
-
+                    state: "start_hacking",
+                    message: null,
                 });
-
             state.status =  hacking_status.hacking_in_progress;
         }
         res.json(state);
@@ -62,11 +56,19 @@ module.exports = function hacking(eventEmmiter) {
 
     app.post('/set_deny', function(req, res){
         if (state.status == hacking_status.hacking_ready_start){
-            // send message to user that hacking this ship is impossible
+            eventEmitter.emit('server-mesage',
+                {
+                    state: "hack_before_start",
+                    message: "hacking this ship is impossible",
+                });
             state.status =  hacking_status.hacking_false;
         }
         if (state.status == hacking_status.hacking_in_progress){
-            // cancel user's hacking attempt while in progress
+            eventEmitter.emit('server-mesage',
+                {
+                    state: "hack_before_start",
+                    message: "hacking attempt was interrupted",
+                });
             state.status =  hacking_status.hacking_false;
         }
         res.json(state);
@@ -74,7 +76,11 @@ module.exports = function hacking(eventEmmiter) {
 
     app.post('/attempt_succeed', function(req, res){
         if (state.status == hacking_status.hacking_wait_confirm){
-            // send message to user that hacking this ship was fully successful
+            eventEmitter.emit('server-mesage',
+                {
+                    state: "hacking_result",
+                    message: "hacking successful",
+                });
             state.status =  hacking_status.hacking_false;
         }
         res.json(state);
@@ -82,7 +88,11 @@ module.exports = function hacking(eventEmmiter) {
 
     app.post('/attempt_partial_succeed', function(req, res){
         if (state.status == hacking_status.hacking_wait_confirm){
-            // send message to user that hacking this ship was partially successful
+            eventEmitter.emit('server-mesage',
+                {
+                    state: "hacking_result",
+                    message: "hacking partially successful",
+                });
             state.status =  hacking_status.hacking_false;
         }
         res.json(state);
@@ -90,11 +100,19 @@ module.exports = function hacking(eventEmmiter) {
 
     app.post('/attempt_fail', function(req, res){
         if (state.status == hacking_status.hacking_wait_confirm){
-            // send message to user that hacking this ship failed despite best efforts
+            eventEmmiter.emit('server-mesage',
+                {
+                    state: "hacking_result",
+                    message: "hacking failed",
+                });
             state.status =  hacking_status.hacking_false;
         }
         if (state.status == hacking_status.hacking_in_progress){
-            // cancel user's hacking attempt while in progress
+            eventEmitter.emit('server-mesage',
+                {
+                    state: "hack_before_start",
+                    message: "hacking attempt was interrupted",
+                });
             state.status =  hacking_status.hacking_false;
         }
         res.json(state);
