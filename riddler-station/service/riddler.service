@@ -2,8 +2,8 @@
 Description=Node.js Example Server
 
 [Service]
-ExecStartPre=/usr/local/bin/node /~/riddler/riddler-station/service/prestart.js
-ExecStart=/usr/local/bin/node /~/riddler/riddler-station/index.js
+ExecStartPre=node /~/riddler/riddler-station/service/prestart.js
+ExecStart=node /~/riddler/riddler-station/index.js
 Restart=always
 RestartSec=1                       # Restart service after 10 seconds if node service crashes
 StandardOutput=syslog               # Output to syslog
