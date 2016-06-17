@@ -4,12 +4,12 @@ setup
 =====
 move riddler.service to /etc/systemd/system/
 systemctl enable riddler.service
-systemctl start nodeserver.service
+systemctl start riddler.service
 
 for test
 ========
 systemctl daemon-reload
-systemctl restart nodeserver.service
+systemctl restart riddler.service
 
 for ssh
 =======
