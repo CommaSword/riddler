@@ -1,8 +1,8 @@
 const EventEmitter = require('events');
-const app = require('./app');
+const appComp = require('./app');
 const server = require('./server')
 
 const ee = new EventEmitter();
 
-app(ee);
+appComp(ee);
 server(ee);
