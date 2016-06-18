@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
-// import Input from './input';
-
-const stylesheet  = {
-  layout: {
-    width:'100%',
-    height:'1',
-  }
-}
+import {Welcome, PreHack, Hacking, PostHack, Result, Abort} from './components'
 
 var IncomingMessages = {
     start_hacking:1,
@@ -22,79 +15,17 @@ const pages = [
    'preHack', // shipId, detail
    'hacking',
    'postHack',
-   'result',
-   'abort'
+   'result', // shipId, detail = ""
+   'abort' // shipId, detail = ""
 ];
 
 module.exports = function(eventEmmiter) {
-  class Welcome extends Component{
-    constructor(props) {
-      super(props);
-    }
-
-    render() {
-      return(
-        <box
-          width={'100%'}
-          height={'100%'}
-          class={stylesheet.layout}>
-          <text height={1} width={'100%'}>Welcome</text>
-          <textbox top={2} width={50} height={20} border={{type: 'line'}}>
-            <text height={1} >Hacker Platform</text>
-          </textbox>
-        </box>
-        )
-    }
-  }
-
-  class PreHack extends Component{
-    constructor(props) {
-      super(props);
-
-
-    }
-    render() {
-      return(<text width={'100%'}>PreHack</text>)
-    }
-  }
-
-  class Hacking extends Component{
-    constructor(props) {
-      super(props);
-
-
-    }
-    render() {
-      return(<text width={'100%'}>Hacking</text>)
-    }
-  }
-
-  class PostHack extends Component{
-    constructor(props) {
-      super(props);
-
-    }
-
-    render() {
-      return(<text width={'100%'}>PostHack</text>)
-    }
-  }
-
-  class Result extends Component{
-    constructor(props) {
-      super(props);
-
-
-    }
-    render() {
-      return(<text width={'100%'}>Result</text>)
-    }
-  }
 
   const screen = blessed.screen({
     autoPadding: true,
     smartCSR: true,
-    title: 'Hack and be blessed'
+    title: 'Hack and be blessed',
+    log: 'log.txt'
   });
 
 
@@ -103,11 +34,23 @@ module.exports = function(eventEmmiter) {
       super(props);
 
       screen.key(['enter'], (ch, key) => {
-        this.advancePage();
+        screen.log("enter pressed");
+        if(this.state.index == 0 || this.state.index == 2){
+          this.setPage(this.state.index+1);
+        }
+        if(this.state.index == 4 || this.state.index == 5){
+          this.setPage(0)
+        }
       });
 
-      eventEmmiter.on('ui-message', () => {
-
+      eventEmmiter.on('server-message', (data) => {
+        screen.log("server-message: ", data);
+        switch (data.state){
+          case "hackStart": this.setPage(2); break;
+          case "hackDeny": this.setPage(5); break;
+          case "hackSuccessful": this.setPage(4, "Full"); break;
+          case "hackPartialSuccessful": this.setPage(4, "Partial"); break;
+        }
       })
 
       this.state = {
@@ -116,11 +59,61 @@ module.exports = function(eventEmmiter) {
       };
     }
 
-    advancePage() {
+    advancePage(page) {
       this.setState({
-        index: this.state.index >= pages.length ? 0: ++this.state.index,
-        page: pages[this.state.index >= pages.length ? 0: ++this.state.index]
+        index: this.state.index >= pages.length - 1  ? 0: ++this.state.index,
+        page: pages[this.state.index >= pages.length - 1 ? 0: ++this.state.index]
       });
+    }
+
+    setPage(page_index, message) {
+      screen.log("changing to ", page_index)
+      this.setState({
+        index: page_index,
+        page: pages[page_index]
+      });
+
+      var data = {}
+
+      screen.log("state.page is now ", this.state.page)
+
+      switch (this.state.page) {
+        case 'welcome':
+          data = {status: 'welcome'}
+          break;
+        case 'preHack':
+          data = {
+            status: 'preHack',
+            shipId: "foo1",
+            details: "bar2"
+            // shipId: this.state.shipId,
+            // detail: this.state.detail
+          } // shipId, detail
+          break;
+        case 'hacking':
+          data = {status: 'hacking'}
+          break;
+        case 'postHack':
+          data = {status: 'postHack'}
+          break;
+        case 'result':
+          data = {
+            status: 'result',
+            shipId: '',
+            details: ''
+          }
+          break;
+        case 'abort':
+          data = {
+            status: 'result',
+            shipId: '',
+            details: ''
+          }
+          break;
+      }
+
+      screen.log("ui-message: ", data);
+      eventEmmiter.emit("ui-message", data)
     }
 
     render() {
@@ -135,6 +128,7 @@ module.exports = function(eventEmmiter) {
               case 'hacking': return <Hacking/>;
               case 'postHack': return <PostHack/>;
               case 'result': return <Result/>;
+              case 'abort': return <Abort/>;
           }})()}
         </box>
       );

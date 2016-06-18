@@ -15,6 +15,7 @@ require('./detect-board')(function (config, raw, board) {
 
 	setInterval(function(){
 		p.query(function(state){
+			console.log('state: ' + JSON.stringify(state));
 			console.log('\n\n##################value in pin is (raw:'+state.value+')\n\n');
 		//	process.exit(0);
 		})
