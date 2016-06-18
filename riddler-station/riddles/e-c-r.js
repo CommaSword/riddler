@@ -15,9 +15,9 @@ module.exports = function EngineeringControlRoom(api, board){
 		'maneuvering' : {toggles:[5], led: 13},
 		'impulse_engine' : {toggles:[6], led: 'A0'},
 		'warp_drive' : {toggles:[7], led: 'A1'},
-		'jump_drive' : {toggles:[2], led: 'A2'},
-		'front_shield' : {toggles:[2], led: 'A3'},
-		'rear_shield' : {toggles:[2], led: 'A4'}
+		'jump_drive' : {toggles:[3], led: 'A2'},
+		'front_shield' : {toggles:[4], led: 'A3'},
+		'rear_shield' : {toggles:[5], led: 'A4'}
 	};
 	var state = {
 		numToggled : 0,
@@ -103,7 +103,6 @@ module.exports = function EngineeringControlRoom(api, board){
 			res.json(readSystemState());
 		});
 		api.post('/' + sysName + '/damaged', function (req, res) {
-			console.log('damaged', req.rawBody);
 			if(req.rawBody === 'true') {
 				state[sysName].damaged = true;
 				calcStatus();

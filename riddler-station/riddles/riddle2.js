@@ -58,22 +58,18 @@ module.exports = function riddle2(api, board) {
 
     switchRed.on('press', function(){
         state.current_switch_red = switch_status.UP;
-        console.log('Clicked on red button! state: ', JSON.stringify(state));
         calcSwitchesStatus();
     });
     switchRed.on('release', function(){
         state.current_switch_red = switch_status.DOWN;
-        console.log('Released red button! state: ', JSON.stringify(state));
         calcSwitchesStatus();
     });
     switchBlue.on('press', function(){
         state.current_switch_blue = switch_status.UP;
-        console.log('Clicked on blue button! state: ', JSON.stringify(state));
         calcSwitchesStatus();
     });
     switchBlue.on('release', function(){
         state.current_switch_blue = switch_status.DOWN;
-        console.log('Released blue button! state: ', JSON.stringify(state));
         calcSwitchesStatus();
     });
 

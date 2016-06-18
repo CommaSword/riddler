@@ -1,0 +1,219 @@
+[
+    {
+        "id": "7dbbf841.470ad8",
+        "type": "subflow",
+        "name": "And",
+        "info": "",
+        "in": [
+            {
+                "x": 55.5,
+                "y": 508,
+                "wires": [
+                    {
+                        "id": "2c0fd77c.1d89e8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1256.5,
+                "y": 473,
+                "wires": [
+                    {
+                        "id": "fc06eaf7.3d10b8",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "952a65dc.eace18",
+        "type": "inject",
+        "z": "7dbbf841.470ad8",
+        "name": "init",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 349.5,
+        "y": 319,
+        "wires": [
+            [
+                "79d2dcb9.ba6bc4"
+            ]
+        ]
+    },
+    {
+        "id": "79d2dcb9.ba6bc4",
+        "type": "function",
+        "z": "7dbbf841.470ad8",
+        "name": "init",
+        "func": "flow.set('falses', {});",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 538,
+        "y": 319,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2c0fd77c.1d89e8",
+        "type": "switch",
+        "z": "7dbbf841.470ad8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 269.5,
+        "y": 460,
+        "wires": [
+            [
+                "60fd88ee.4ef678",
+                "c26feed4.dbd15"
+            ],
+            [
+                "7d6811c3.e17fc"
+            ]
+        ]
+    },
+    {
+        "id": "60fd88ee.4ef678",
+        "type": "function",
+        "z": "7dbbf841.470ad8",
+        "name": "setFalse",
+        "func": "var falses = flow.get('falses');\nvar val = Math.random() + 1;\nfalses[msg.topic] = val;\nmsg.payload = val;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 519,
+        "y": 434,
+        "wires": [
+            [
+                "2559ea7c.a39ac6"
+            ]
+        ]
+    },
+    {
+        "id": "2559ea7c.a39ac6",
+        "type": "delay",
+        "z": "7dbbf841.470ad8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 715.5,
+        "y": 423,
+        "wires": [
+            [
+                "9d17a7ad.6317a8"
+            ]
+        ]
+    },
+    {
+        "id": "9d17a7ad.6317a8",
+        "type": "function",
+        "z": "7dbbf841.470ad8",
+        "name": "clean false if same",
+        "func": "var falses = flow.get('falses');\nif (msg.payload === falses[msg.topic]){\n    delete falses[msg.topic];\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 949,
+        "y": 402,
+        "wires": [
+            [
+                "655dec14.b32084"
+            ]
+        ]
+    },
+    {
+        "id": "fc06eaf7.3d10b8",
+        "type": "rbe",
+        "z": "7dbbf841.470ad8",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 1119.5,
+        "y": 489,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "655dec14.b32084",
+        "type": "function",
+        "z": "7dbbf841.470ad8",
+        "name": "is no falses",
+        "func": "var falses = flow.get('falses');\nmsg.payload = !Object.keys(falses).length;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 702,
+        "y": 533,
+        "wires": [
+            [
+                "c26feed4.dbd15"
+            ]
+        ]
+    },
+    {
+        "id": "c26feed4.dbd15",
+        "type": "change",
+        "z": "7dbbf841.470ad8",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 915.5,
+        "y": 496,
+        "wires": [
+            [
+                "fc06eaf7.3d10b8"
+            ]
+        ]
+    },
+    {
+        "id": "7d6811c3.e17fc",
+        "type": "function",
+        "z": "7dbbf841.470ad8",
+        "name": "clear false",
+        "func": "var falses = flow.get('falses');\ndelete falses[msg.topic];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 460,
+        "y": 503,
+        "wires": [
+            [
+                "655dec14.b32084"
+            ]
+        ]
+    }
+]

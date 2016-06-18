@@ -356,8 +356,8 @@
         "type": "subflow:7dbbf841.470ad8",
         "z": "9e21335d.82775",
         "name": "",
-        "x": 185.5,
-        "y": 515,
+        "x": 180.5,
+        "y": 516,
         "wires": [
             [
                 "7d1fd1fc.c89cd"
@@ -372,8 +372,8 @@
         "func": "msg.payload = '' + msg.payload\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 209.5,
-        "y": 474,
+        "x": 200.5,
+        "y": 480,
         "wires": [
             [
                 "5e558b49.0463f4"

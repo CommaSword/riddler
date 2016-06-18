@@ -67,8 +67,11 @@ module.exports = function startStation(port, detectBoard, discover) {
 
 	function close(signal) {
 		console.log("\nGracefully shutting down from " + signal);
-		server.close();
-		process.exit();
+		server.close(function() {
+			// Everything was closed successfully, mission accomplished!
+			console.log("bye!");
+			process.exit(0);
+		});
 	}
 
 	process.on('SIGTERM', function () {
