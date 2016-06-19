@@ -9,19 +9,19 @@ var FAILURE_BLINK_PHASE = 200;
 
 module.exports = function EngineeringControlRoom(api, board){
 	var systems = {
-		'reactor' : {toggles:[2], led: 10},
-		'beam_weapon' : {toggles:[3], led: 11},
-		'missiles' : {toggles:[4], led: 12},
-		'maneuvering' : {toggles:[5], led: 13},
-		'impulse_engine' : {toggles:[6], led: 'A0'},
-		'warp_drive' : {toggles:[7], led: 'A1'},
-		'jump_drive' : {toggles:[3], led: 'A2'},
-		'front_shield' : {toggles:[4], led: 'A3'},
-		'rear_shield' : {toggles:[5], led: 'A4'}
+		'reactor' : {toggles:[2, 7], led: 10},
+		'beam_weapon' : {toggles:[3, 4, 6], led: 11},
+		'missiles' : {toggles:[3, 4], led: 12},
+		'maneuvering' : {toggles:[2, 4, 7], led: 13},
+		'impulse_engine' : {toggles:[5, 6], led: 'A0'},
+		'warp_drive' : {toggles:[3, 6, 7], led: 'A1'},
+		'jump_drive' : {toggles:[2, 5], led: 'A2'},
+		'front_shield' : {toggles:[3, 5, 6], led: 'A3'},
+		'rear_shield' : {toggles:[2, 5, 7], led: 'A4'}
 	};
 	var state = {
 		numToggled : 0,
-		numToggledMax : 3
+		numToggledMax : 4
 	};
 	function readState(){
 		return {
