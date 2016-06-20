@@ -64,13 +64,16 @@ module.exports = function EngineeringControlRoom(api, board){
 
 	Object.keys(systems).forEach(function initSystem(sysName){
 		state[sysName] = {
-			damaged : false,
-			functional : true
+			functional : true,
+			hp : 100,
+			repairStartTime : 0,
+			repairJobIntervalId : 0
 		};
 
 		function readSystemState(){
 			return {
-				damaged : state[sysName].damaged,
+				hp : state[sysName].hp,
+				damaged : state[sysName].hp < 100,
 				functional : state[sysName].functional,
 				autoRepair : systems[sysName].toggles.every(function (toggle) {return toggles[toggle].state;})
 			};
@@ -85,10 +88,16 @@ module.exports = function EngineeringControlRoom(api, board){
 			calcStatus();
 		};
 		function calcStatus(){
+			var repairing = false;
 			if (readState().functional) {
-				if (state[sysName].damaged) {
+				if (readSystemState().damaged) {
 					if (readSystemState().autoRepair) {
-						led.stop().blink(state[sysName].functional ? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
+						if (state[sysName].functional){
+							repairing = true;
+							led.stop().blink(REPAIR_BLINK_PHASE);
+						} else {
+							led.stop().blink(FAILURE_BLINK_PHASE);
+						}
 					} else {
 						led.stop().on();
 					}
@@ -98,16 +107,36 @@ module.exports = function EngineeringControlRoom(api, board){
 			} else {
 				led.stop().blink(FAILURE_BLINK_PHASE);
 			}
+			if(repairing){
+				if (!state[sysName].repairStartTime){
+					state[sysName].repairStartTime = Date.now();
+					state[sysName].repairJobIntervalId = setInterval(function() {
+						applyRepair(Date.now());
+					}, 100);
+				}
+			} else {
+				if (state[sysName].repairJobIntervalId){
+					clearInterval(state[sysName].repairJobIntervalId);
+					state[sysName].repairJobIntervalId = 0;
+				}
+				applyRepair(0);
+			}
 		}
+		function applyRepair(newRepairStartTime){
+			if (readSystemState().damaged && state[sysName].repairStartTime){
+				var repairTime = Date.now() - state[sysName].repairStartTime;
+				var reapiredHp = repairTime/500;  // 1 HP in 0.5 second
+				state[sysName].hp = Math.min(state[sysName].hp + reapiredHp, 99.9);
+			}
+			state[sysName].repairStartTime = newRepairStartTime;
+		}
+
 		api.get('/' + sysName, function (req, res) {
 			res.json(readSystemState());
 		});
-		api.post('/' + sysName + '/damaged', function (req, res) {
-			if(req.rawBody === 'true') {
-				state[sysName].damaged = true;
-				calcStatus();
-			} else if(req.rawBody === 'false') {
-				state[sysName].damaged = false;
+		api.post('/' + sysName + '/hp', function (req, res) {
+			if (req.rawBody.match(/^\d+$/)) {
+				state[sysName].hp = parseInt(req.rawBody);
 				calcStatus();
 			}
 			res.json(readSystemState());
