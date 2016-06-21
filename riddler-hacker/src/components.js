@@ -8,6 +8,9 @@ const stylesheet  = {
 }
 
 export class Welcome extends Component{
+    static propTypes = {
+        done: React.PropTypes.func.isRequired
+    }
   constructor(props) {
     super(props);
   }

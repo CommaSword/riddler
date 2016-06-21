@@ -123,7 +123,7 @@ module.exports = function(eventEmmiter) {
           style={{border: {fg: 'cyan'}}}>
           {(()=>{
             switch (this.state.page) {
-              case "welcome": return <Welcome/>;
+              case "welcome": return <Welcome done={(ship, message)=>screen.log('done happend \nship: ' + ship + '\nmessage: ' + message)}/>;
               case "preHack": return <PreHack/>;
               case 'hacking': return <Hacking/>;
               case 'postHack': return <PostHack/>;
