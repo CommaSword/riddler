@@ -61,9 +61,9 @@ let files = recursiveReadSync(process.cwd());
 export class PreHack extends Component{
   constructor(props) {
     super(props);
-    this.state = {progress: 0};
+    this.state = {progress: 0, interval:null};
 
-    const interval = setInterval(() => {
+    this.interval = setInterval(() => {
       if (this.state.progress >= 100)
         this.setState({progress: 0});
 
@@ -80,6 +80,10 @@ export class PreHack extends Component{
       }
     });
     return filelist;
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
