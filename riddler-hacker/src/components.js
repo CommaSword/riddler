@@ -98,8 +98,7 @@ export class Hacking extends Component{
   }
   constructor(props) {
     super(props);
-    //todo: before game change to 1000
-    this.state = {first: Math.floor(Math.random() * 10), second:Math.floor(Math.random() * 10)};
+    this.state = {first: Math.floor(Math.random() * 1000), second:Math.floor(Math.random() * 1000)};
 
   }
   componentDidMount() {
@@ -108,7 +107,7 @@ export class Hacking extends Component{
   handleKeypress(ch) {
     if(ch.charCodeAt(0) == 13){
       let number = parseInt(this.refs.textbox.content)
-      number === this.state.frist * this.state.second && this.props.done();
+      number === this.state.first * this.state.second && this.props.done(this.state.first * this.state.second, number);
     }
   }
   render() {
