@@ -13,7 +13,7 @@ export class Welcome extends Component{
   }
   constructor(props) {
     super(props);
-    
+
   }
 
   componentDidMount() {
@@ -40,7 +40,7 @@ export class Welcome extends Component{
         class={stylesheet.layout}>
         <text height={1} width={'100%'}>Welcome</text>
         <form>
-          <box label="Hacker Attempt $"
+          <box
             border={{type: 'line'}}
             style={{border: {fg: 'cyan'}}}
             top={3} left={3} width={60} height={30}>
