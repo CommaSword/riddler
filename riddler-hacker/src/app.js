@@ -3,13 +3,6 @@ import blessed from 'blessed';
 import {render} from 'react-blessed';
 import {Welcome, PreHack, Hacking, PostHack, Result, Abort} from './components'
 
-var IncomingMessages = {
-  start_hacking:1,
-  hack_denied:2,
-  hack_succesful:3,
-  hack_partial:4,
-};
-
 const pages = {
   'welcome' : {title:'welcome'},
   'preHack' : {title:'preHack', canDeny:true}, // shipId, detail
@@ -36,10 +29,8 @@ module.exports = function(eventEmmiter) {
   class App extends Component {
     constructor(props) {
       super(props);
-      screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-        return process.exit(0);
-      });
-      screen.key(['enter'], (ch, key) => {
+      screen.key(['escape', 'q', 'C-c'], ()=> process.exit(0));
+      screen.key(['enter'], () => {
         if (this.state.page === pages.hacking) {
           this.setPage(pages.postHack);
         } else if (this.state.page === pages.result || this.state.page === pages.abort) {
@@ -68,7 +59,7 @@ module.exports = function(eventEmmiter) {
 
     setPage(page, message) {
       this.setState({page});
-      screen.log("state.page is now ", this.state.page)
+      screen.log("state.page is now ", this.state.page);
 
       if (page === pages.welcome) {
         sendToBackOffice({status: 'welcome'});
@@ -111,18 +102,16 @@ module.exports = function(eventEmmiter) {
                style={{border: {fg: 'cyan'}}}>
             {(()=>{
               switch (this.state.page) {
-                case "welcome": return <Welcome done={this.welcomeCallback}/>;
-                case "preHack": return <PreHack/>;
-                case 'hacking': return <Hacking/>;
-                case 'postHack': return <PostHack/>;
-                case 'result': return <Result/>;
-                case 'abort': return <Abort/>;
+                case pages.welcome: return <Welcome done={this.welcomeCallback}/>;
+                case pages.preHack: return <PreHack/>;
+                case pages.hacking: return <Hacking/>;
+                case pages.postHack: return <PostHack/>;
+                case pages.result: return <Result/>;
+                case pages.abort: return <Abort/>;
               }})()}
           </box>
       );
     }
   }
-
-
-  const component = render(<App />, screen);
-}
+  render(<App />, screen);
+};
