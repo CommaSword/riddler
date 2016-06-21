@@ -42,7 +42,6 @@ module.exports = function(eventEmmiter) {
           this.setPage(0)
         }
       });
-
       eventEmmiter.on('server-message', (data) => {
         screen.log("server-message: ", data);
         switch (data.state){
