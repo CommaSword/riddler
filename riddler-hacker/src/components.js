@@ -18,11 +18,11 @@ export class Welcome extends Component{
   }
 
   componentDidMount() {
-    this.refs.textbox1.focus()
+    this.refs.textbox1.focus();
   }
 
   handleKeypress1(ch){
-    if(ch.charCodeAt(0) == 13){
+    if(ch && ch.charCodeAt(0) == 13){
       this.refs.textbox1.submit()
       this.refs.textbox2.focus()
     }
@@ -41,8 +41,15 @@ export class Welcome extends Component{
         class={stylesheet.layout}>
         <text height={1} width={'100%'}>Welcome</text>
         <form>
-          <textbox onKeypress={::this.handleKeypress1} inputOnFocus top={2} width={50} height={5} border={{type: 'line'}} ref='textbox1'></textbox>
-          <textbox onKeypress={::this.handleKeypress2} inputOnFocus top={10} width={50} height={5} border={{type: 'line'}} ref='textbox2'></textbox>
+          <box
+            border={{type: 'line'}}
+            style={{border: {fg: 'cyan'}}}
+            top={3} left={3} width={60} height={30}>
+            <text top={2}>Ship ID:</text>
+            <textbox onKeypress={::this.handleKeypress1} inputOnFocus top={3} width={50} height={3} border={{type: 'line'}} ref='textbox1'></textbox>
+            <text top={6}>Hacking Attempt Request:</text>
+            <textbox onKeypress={::this.handleKeypress2} inputOnFocus top={7} width={50} height={3} border={{type: 'line'}} ref='textbox2'></textbox>
+          </box>
         </form>
       </box>
       )
