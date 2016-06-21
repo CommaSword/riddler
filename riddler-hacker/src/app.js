@@ -41,9 +41,7 @@ module.exports = function(eventEmmiter) {
       });
       screen.key(['enter'], (ch, key) => {
         screen.log("enter pressed");
-        if (this.state.page === pages.welcome) {
-          this.setPage(pages.preHack);
-        } else if (this.state.page === pages.hacking) {
+        if (this.state.page === pages.hacking) {
           this.setPage(pages.postHack);
         } else if (this.state.page === pages.result || this.state.page === pages.abort) {
           this.setPage(pages.welcome);
@@ -78,8 +76,8 @@ module.exports = function(eventEmmiter) {
       } else if (page === pages.preHack) {
         sendToBackOffice({
           status: 'preHack',
-          shipId: "foo1",
-          details: "bar2"
+          shipId: message.shipId,
+          details: message.details
           // shipId: this.state.shipId,
           // detail: this.state.detail
         });
@@ -103,7 +101,8 @@ module.exports = function(eventEmmiter) {
     }
 
     welcomeCallback = (ship, message) => {
-      screen.log('done happend \nship: ' + ship + '\nmessage: ' + message);
+      this.setPage(pages.preHack, {shipId: ship, details: message})}/>;
+    screen.log('done happend \nship: ' + ship + '\nmessage: ' + message);
     };
 
     render() {
