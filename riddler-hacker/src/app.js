@@ -35,8 +35,8 @@ module.exports = function(eventEmmiter) {
 
       screen.key(['enter'], (ch, key) => {
         screen.log("enter pressed");
-        if(this.state.index == 0 || this.state.index == 2){
-          this.setPage(this.state.index+1);
+        if( this.state.index == 2){
+          this.setPage(3);
         }
         if(this.state.index == 4 || this.state.index == 5){
           this.setPage(0)
@@ -83,8 +83,8 @@ module.exports = function(eventEmmiter) {
         case 'preHack':
           data = {
             status: 'preHack',
-            shipId: "foo1",
-            details: "bar2"
+            shipId: message.shipId,
+            details: message.details
             // shipId: this.state.shipId,
             // detail: this.state.detail
           } // shipId, detail
@@ -122,7 +122,7 @@ module.exports = function(eventEmmiter) {
           style={{border: {fg: 'cyan'}}}>
           {(()=>{
             switch (this.state.page) {
-              case "welcome": return <Welcome done={(ship, message)=>screen.log('done happend \nship: ' + ship + '\nmessage: ' + message)}/>;
+              case "welcome": return <Welcome done={(ship, message)=>this.setPage(1, {shipId: ship, details: message})}/>;
               case "preHack": return <PreHack/>;
               case 'hacking': return <Hacking/>;
               case 'postHack': return <PostHack/>;
