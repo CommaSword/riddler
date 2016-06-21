@@ -13,6 +13,23 @@ export class Welcome extends Component{
   }
   constructor(props) {
     super(props);
+    
+  }
+
+  componentDidMount() {
+    this.refs.textbox1.focus()
+  }
+
+  handleKeypress1(ch){
+    if(ch.charCodeAt(0) == 13){
+      this.refs.textbox1.submit()
+      this.refs.textbox2.focus()
+    }
+  }
+  handleKeypress2(ch){
+    if(ch.charCodeAt(0) == 13 && this.refs.textbox2.content != ''){
+      this.props.done(this.refs.textbox1.content, this.refs.textbox2.content);
+    }
   }
 
   render() {
@@ -22,9 +39,10 @@ export class Welcome extends Component{
         height={'100%'}
         class={stylesheet.layout}>
         <text height={1} width={'100%'}>Welcome</text>
-        <textbox top={2} width={50} height={20} border={{type: 'line'}}>
-          <text height={1} >Hacker Platform</text>
-        </textbox>
+        <form>
+          <textbox onKeypress={::this.handleKeypress1} inputOnFocus top={2} width={50} height={5} border={{type: 'line'}} ref='textbox1'></textbox>
+          <textbox onKeypress={::this.handleKeypress2} inputOnFocus top={10} width={50} height={5} border={{type: 'line'}} ref='textbox2'></textbox>
+        </form>
       </box>
       )
   }
