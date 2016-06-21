@@ -8,9 +8,9 @@ const stylesheet  = {
 }
 
 export class Welcome extends Component{
-    static propTypes = {
-        done: React.PropTypes.func.isRequired
-    }
+  static propTypes = {
+      done: React.PropTypes.func.isRequired
+  }
   constructor(props) {
     super(props);
   }
@@ -30,11 +30,40 @@ export class Welcome extends Component{
   }
 }
 
+var walkSync = function(dir, filelist) {
+  let fs = require('fs'),
+  let files = fs.readdirSync(dir);
+  let filelist = filelist || [];
+  files.forEach(function(file) {
+    if (fs.statSync(dir + file).isDirectory()) {
+      filelist = walkSync(dir + file + '/', filelist);
+    }
+    else {
+      filelist.push(file);
+    }
+  });
+  return filelist;
+};
+
 export class PreHack extends Component{
   constructor(props) {
     super(props);
 
 
+  }
+  walkSync(dir, filelist) {
+    let fs = require('fs'),
+    let files = fs.readdirSync(dir);
+    let filelist = filelist || [];
+    files.forEach(function(file) {
+      if (fs.statSync(dir + file).isDirectory()) {
+        filelist = walkSync(dir + file + '/', filelist);
+      }
+      else {
+        filelist.push(file);
+      }
+    });
+    return filelist;
   }
   render() {
     return(<text width={'100%'}>PreHack</text>)
