@@ -104,7 +104,7 @@ module.exports = function(eventEmmiter) {
               switch (this.state.page) {
                 case pages.welcome: return <Welcome done={this.welcomeCallback}/>;
                 case pages.preHack: return <PreHack/>;
-                case pages.hacking: return <Hacking done={()=>null}/>;
+                case pages.hacking: return <Hacking done={()=> screen.log("Hacking done")}/>;
                 case pages.postHack: return <PostHack/>;
                 case pages.result: return <Result/>;
                 case pages.abort: return <Abort/>;

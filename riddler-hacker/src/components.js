@@ -98,7 +98,8 @@ export class Hacking extends Component{
   }
   constructor(props) {
     super(props);
-    this.state = {first: Math.floor(Math.random() * 1000), second:Math.floor(Math.random() * 1000)};
+    //todo: before game change to 1000
+    this.state = {first: Math.floor(Math.random() * 10), second:Math.floor(Math.random() * 10)};
 
   }
   componentDidMount() {
