@@ -19,10 +19,13 @@
     "babel-register": "6.6.0"
   },
   "dependencies": {
+    "async": "1.5.2",
     "baudio": "2.1.2",
+    "binary-reader": "^0.1.2",
     "blessed": "0.1.81",
     "body-parser": "1.15.1",
     "boscillate": "0.0.2",
+    "buffered-reader": "^1.0.1",
     "express": "4.13.4",
     "node-discover": "0.6.0",
     "react": "0.14.7",
