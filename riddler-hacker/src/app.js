@@ -40,7 +40,6 @@ module.exports = function(eventEmmiter) {
         return process.exit(0);
       });
       screen.key(['enter'], (ch, key) => {
-        screen.log("enter pressed");
         if (this.state.page === pages.hacking) {
           this.setPage(pages.postHack);
         } else if (this.state.page === pages.result || this.state.page === pages.abort) {
@@ -52,7 +51,7 @@ module.exports = function(eventEmmiter) {
         if (this.state.page.canDeny && data.state === "hackDeny"){
           this.setPage(pages.abort);
         } else if (this.state.page === pages.preHack && data.state === "hackStart") {
-            this.setPage(pages.hacking);
+          this.setPage(pages.hacking);
         } else if (this.state.page === pages.postHack) {
           if (data.state === "hackSuccessful") {
             this.setPage(pages.result, "Full");
@@ -101,13 +100,13 @@ module.exports = function(eventEmmiter) {
     }
 
     welcomeCallback = (ship, message) => {
-      this.setPage(pages.preHack, {shipId: ship, details: message})}/>;
-    screen.log('done happend \nship: ' + ship + '\nmessage: ' + message);
+      this.setPage(pages.preHack, {shipId: ship, details: message});
+      screen.log('done happend \nship: ' + ship + '\nmessage: ' + message);
     };
 
-    render() {
+    render(){
       return (
-          <box label="Hacker Console $"
+          <box label={"Hacker Console $"+this.state.page.title}
                border={{type: 'line'}}
                style={{border: {fg: 'cyan'}}}>
             {(()=>{
