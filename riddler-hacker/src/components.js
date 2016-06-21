@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import recursiveReadSync from 'recursive-readdir-sync';
 
 const stylesheet  = {
   layout: {
@@ -13,7 +14,7 @@ export class Welcome extends Component{
   }
   constructor(props) {
     super(props);
-    
+
   }
 
   componentDidMount() {
@@ -48,43 +49,39 @@ export class Welcome extends Component{
   }
 }
 
-var walkSync = function(dir, filelist) {
-  let fs = require('fs'),
-  let files = fs.readdirSync(dir);
-  let filelist = filelist || [];
-  files.forEach(function(file) {
-    if (fs.statSync(dir + file).isDirectory()) {
-      filelist = walkSync(dir + file + '/', filelist);
-    }
-    else {
-      filelist.push(file);
-    }
-  });
-  return filelist;
-};
+let files = recursiveReadSync(process.cwd());
 
 export class PreHack extends Component{
   constructor(props) {
     super(props);
+    this.state = {progress: 0};
 
+    const interval = setInterval(() => {
+      if (this.state.progress >= 100)
+        this.setState({progress: 0});
 
+      this.setState({progress: this.state.progress + 1});
+    }, 10);
   }
-  walkSync(dir, filelist) {
-    let fs = require('fs'),
-    let files = fs.readdirSync(dir);
-    let filelist = filelist || [];
-    files.forEach(function(file) {
-      if (fs.statSync(dir + file).isDirectory()) {
-        filelist = walkSync(dir + file + '/', filelist);
-      }
-      else {
+
+  walkSync(dir) {
+    let fs = require('fs');
+    let filelist = [];
+    files.forEach((file) => {
+     if(this.state.progress > filelist.length) {
         filelist.push(file);
       }
     });
     return filelist;
   }
+
   render() {
-    return(<text width={'100%'}>PreHack</text>)
+    return(
+      <box>
+        <text width={'100%'}>PreHack</text>
+        <list items={this.walkSync(process.cwd())}></list>
+      </box>
+      )
   }
 }
 

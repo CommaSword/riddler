@@ -26,6 +26,7 @@
     "express": "4.13.4",
     "node-discover": "0.6.0",
     "react": "0.14.7",
-    "react-blessed": "0.1.7"
+    "react-blessed": "0.1.7",
+    "recursive-readdir-sync": "^1.0.6"
   }
 }
