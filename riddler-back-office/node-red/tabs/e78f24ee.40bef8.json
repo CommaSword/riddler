@@ -1,0 +1,358 @@
+[
+  {
+    "id": "e78f24ee.40bef8",
+    "type": "subflow",
+    "name": "Riddle 4",
+    "info": "",
+    "in": [
+      {
+        "x": 90,
+        "y": 55,
+        "wires": [
+          {
+            "id": "d2c8d16.b618f3"
+          },
+          {
+            "id": "b8ecf03b.2fa5b"
+          }
+        ]
+      }
+    ],
+    "out": [
+      {
+        "x": 841,
+        "y": 254,
+        "wires": [
+          {
+            "id": "86763b4c.68ff58",
+            "port": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "e2809189.507a5",
+    "type": "http request",
+    "z": "e78f24ee.40bef8",
+    "name": "get state",
+    "method": "GET",
+    "ret": "obj",
+    "url": "",
+    "x": 133,
+    "y": 159,
+    "wires": [
+      [
+        "86763b4c.68ff58"
+      ]
+    ]
+  },
+  {
+    "id": "1813d136.1d2adf",
+    "type": "ui_button",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "Start Riddle",
+    "payload": "",
+    "topic": "",
+    "group": "shazam!",
+    "order": "6",
+    "x": 113,
+    "y": 387,
+    "wires": [
+      [
+        "c43da67e.461c28"
+      ]
+    ]
+  },
+  {
+    "id": "f9274f77.6bb78",
+    "type": "http request",
+    "z": "e78f24ee.40bef8",
+    "name": "set riddle_status: Start Riddle",
+    "method": "POST",
+    "ret": "obj",
+    "url": "",
+    "x": 596,
+    "y": 387,
+    "wires": [
+      [
+        "86763b4c.68ff58"
+      ]
+    ]
+  },
+  {
+    "id": "7c2ebaa5.5acde4",
+    "type": "http request",
+    "z": "e78f24ee.40bef8",
+    "name": "set riddle_status: Fix Riddle",
+    "method": "POST",
+    "ret": "obj",
+    "url": "",
+    "x": 585,
+    "y": 452,
+    "wires": [
+      [
+        "86763b4c.68ff58"
+      ]
+    ]
+  },
+  {
+    "id": "5a96de26.152c3",
+    "type": "ui_button",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "Fix Riddle Manually",
+    "payload": "",
+    "topic": "",
+    "group": "shazam!",
+    "order": "7",
+    "x": 131,
+    "y": 452,
+    "wires": [
+      [
+        "124c066f.71e1fa"
+      ]
+    ]
+  },
+  {
+    "id": "ad7a0460.1070d8",
+    "type": "ui_text",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "Reb Button",
+    "group": "shazam!",
+    "order": "5",
+    "format": "{{msg.payload}}",
+    "x": 843,
+    "y": 133,
+    "wires": []
+  },
+  {
+    "id": "147ab97f.7f7f87",
+    "type": "ui_text",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "Status",
+    "group": "shazam!",
+    "order": "3",
+    "format": "{{msg.payload}}",
+    "x": 821,
+    "y": 46,
+    "wires": []
+  },
+  {
+    "id": "2df53a84.6c1ad6",
+    "type": "ui_text",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "Red Switch",
+    "group": "shazam!",
+    "order": "4",
+    "format": "{{msg.payload}}",
+    "x": 851,
+    "y": 95,
+    "wires": []
+  },
+  {
+    "id": "b8ecf03b.2fa5b",
+    "type": "function",
+    "z": "e78f24ee.40bef8",
+    "name": "configure",
+    "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-'+msg.payload, function(baseUrl) {\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start_simple', baseUrl + '/set_start_simple');\n        flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 234,
+    "y": 68,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "df1ef474.995c78",
+    "type": "change",
+    "z": "e78f24ee.40bef8",
+    "name": "",
+    "rules": [
+      {
+        "t": "set",
+        "p": "url",
+        "pt": "msg",
+        "to": "state_url",
+        "tot": "flow"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 143,
+    "y": 189,
+    "wires": [
+      [
+        "e2809189.507a5"
+      ]
+    ]
+  },
+  {
+    "id": "ef9ee078.55963",
+    "type": "switch",
+    "z": "e78f24ee.40bef8",
+    "name": "if-configured",
+    "property": "configured",
+    "propertyType": "flow",
+    "rules": [
+      {
+        "t": "true"
+      }
+    ],
+    "checkall": "false",
+    "outputs": 1,
+    "x": 132,
+    "y": 263,
+    "wires": [
+      [
+        "df1ef474.995c78"
+      ]
+    ]
+  },
+  {
+    "id": "eefc69cd.7f7c18",
+    "type": "inject",
+    "z": "e78f24ee.40bef8",
+    "name": "",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "repeat": "1",
+    "crontab": "",
+    "once": false,
+    "x": 114,
+    "y": 327,
+    "wires": [
+      [
+        "ef9ee078.55963"
+      ]
+    ]
+  },
+  {
+    "id": "c43da67e.461c28",
+    "type": "change",
+    "z": "e78f24ee.40bef8",
+    "name": "",
+    "rules": [
+      {
+        "t": "set",
+        "p": "url",
+        "pt": "msg",
+        "to": "set_start_simple",
+        "tot": "flow"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 325,
+    "y": 388,
+    "wires": [
+      [
+        "f9274f77.6bb78"
+      ]
+    ]
+  },
+  {
+    "id": "124c066f.71e1fa",
+    "type": "change",
+    "z": "e78f24ee.40bef8",
+    "name": "",
+    "rules": [
+      {
+        "t": "set",
+        "p": "url",
+        "pt": "msg",
+        "to": "fix_riddle_manually",
+        "tot": "flow"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 329,
+    "y": 452,
+    "wires": [
+      [
+        "7c2ebaa5.5acde4"
+      ]
+    ]
+  },
+  {
+    "id": "86763b4c.68ff58",
+    "type": "function",
+    "z": "e78f24ee.40bef8",
+    "name": "demux state",
+    "func": "\nreturn [\n    {payload:msg.payload.status},\n    {payload:msg.payload.switch_button},\n    {payload:msg.payload.push_button},\n    {payload:msg.payload.leds},\n    {payload:msg.payload.functional},\n    ];",
+    "outputs": "5",
+    "noerr": 0,
+    "x": 463.5,
+    "y": 159,
+    "wires": [
+      [
+        "147ab97f.7f7f87"
+      ],
+      [
+        "2df53a84.6c1ad6"
+      ],
+      [
+        "ad7a0460.1070d8"
+      ],
+      [
+        "7f75c91e.675b78"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "2a1f6692.edd20a",
+    "type": "ui_text",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "Type",
+    "group": "shazam!",
+    "order": "2",
+    "format": "Riddle 4",
+    "x": 457,
+    "y": 36,
+    "wires": []
+  },
+  {
+    "id": "d2c8d16.b618f3",
+    "type": "ui_text",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "ID",
+    "group": "shazam!",
+    "order": 1,
+    "format": "{{msg.payload}}",
+    "x": 220.5,
+    "y": 27,
+    "wires": []
+  },
+  {
+    "id": "7f75c91e.675b78",
+    "type": "ui_text",
+    "z": "e78f24ee.40bef8",
+    "tab": "de243966.edb1a8",
+    "name": "LEDS",
+    "group": "shazam!",
+    "order": "5",
+    "format": "{{msg.payload}}",
+    "x": 835,
+    "y": 180,
+    "wires": []
+  }
+]

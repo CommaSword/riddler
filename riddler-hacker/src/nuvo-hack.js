@@ -56,8 +56,8 @@ export class Hacking extends Component{
 				border={{type: 'line'}}
 				style={{border: {fg: 'yellow'}}}
 				top={3} left={3} width={60} height={30}>
-				<progressbar top={2} value={100*this.state.timeLeft/this.totalTime}>{this.state.stringToHack} </progressbar>
-				<textbox onPrerender={::this.handleKeypress} inputOnFocus top={7} width={50} height={3} ref='textbox'></textbox>
+				<progressbar top={2} value={100*this.state.timeLeft/this.totalTime}>{this.state.stringToHack}</progressbar>
+				<textbox onKeypress={::this.handleKeypress} inputOnFocus top={7} width={50} height={3} ref='textbox'></textbox>
 			</box>
 		)
 	}
