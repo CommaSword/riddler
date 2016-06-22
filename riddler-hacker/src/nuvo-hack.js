@@ -2,6 +2,7 @@
  * Created by amira on 22/6/16.
  */
 import React, {Component} from 'react';
+import {screen} from './screen';
 
 
 function randomString(length){
@@ -29,6 +30,9 @@ export class Hacking extends Component{
 	}
 	componentDidMount(){
 		this.refs.textbox.focus();
+		this.refs.textbox.on('event', (...args)=>{
+			screen().log(...args);
+		});
 		const interval = 120;
 		this.interval = setInterval(() => {
 			this.setState({timeLeft: this.state.timeLeft - interval});
