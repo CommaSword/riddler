@@ -4,8 +4,9 @@
   "description": "arduino playground",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node ./dist/index",
+    "start": "node ./dist/index",
     "build": "babel ./src --out-dir ./dist",
+    "work": "babel -w ./src --out-dir ./dist",
     "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
