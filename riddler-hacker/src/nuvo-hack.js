@@ -16,14 +16,15 @@ function randomString(length){
 
 export class Hacking extends Component{
 	static propTypes = {
-		done: React.PropTypes.func.isRequired
+		done: React.PropTypes.func.isRequired,
+		length: React.PropTypes.number.isRequired,
+		time: React.PropTypes.number.isRequired
 	};
-	totalTime = 10 * 1000;
 	constructor(props) {
 		super(props);
 		this.state = {
-			stringToHack: '12345',
-			timeLeft: this.totalTime
+			stringToHack: randomString(this.props.length),
+			timeLeft: this.props.time
 		};
 	}
 	componentDidMount(){
@@ -40,6 +41,7 @@ export class Hacking extends Component{
 		clearInterval(this.interval);
 	}
 	handleKeypress(ch, key) {
+
 		let userText = this.refs.textbox.getValue();
 		while(this.state.stringToHack.indexOf(userText) !== 0){
 			userText = userText.substring(0, -1);
@@ -48,16 +50,20 @@ export class Hacking extends Component{
 			return this.props.done(true);
 		}
 		this.refs.textbox.setValue(userText);
+		this.refs.bar.progress()
 		 // this.refs.textbox.focus();
 	}
 	render() {
 		return(
-			<box
-				border={{type: 'line'}}
-				style={{border: {fg: 'yellow'}}}
-				top={3} left={3} width={60} height={30}>
-				<progressbar top={2} value={100*this.state.timeLeft/this.totalTime}>{this.state.stringToHack}</progressbar>
-				<textbox onKeypress={::this.handleKeypress} inputOnFocus top={7} width={50} height={3} ref='textbox'></textbox>
+			<box>
+				<progressbar orientation="horizontal"
+							 filled={100 * (this.props.time - this.state.timeLeft )/this.props.time}
+							 height={1}
+							 width={this.state.stringToHack.length}
+							 style={{ bar: {bg: 'blue'}}} />
+
+				<text top={1}>{this.state.stringToHack}</text>
+				<textbox onKeyPress={::this.handleKeypress} inputOnFocus top={2} width={50} height={3} ref='textbox'></textbox>
 			</box>
 		)
 	}

@@ -129,7 +129,7 @@ module.exports = function(eventEmmiter) {
               switch (this.state.page) {
                 case pages.welcome: return <Target done={::this.welcomeCallback}/>;
                 case pages.preHack: // return <Processing title={'connecting to ' + this.state.shipId}/>;
-                case pages.hacking: return <Hacking done={::this.hackingCallback}/>;
+                case pages.hacking: return <Hacking length={10} time={10 * 1000} done={::this.hackingCallback}/>;
                 case pages.postHack: return <Processing title="attacking target"/>;
                 case pages.result: return <text left="center" top="center">{this.state.result}</text>;
                 case pages.abort: return <text left="center" top="center">no connection to target</text>;
