@@ -46,7 +46,7 @@ export class Hacking extends Component{
         <form>
           <box
             border={{type: 'line'}}
-            style={{border: {fg: 'cyan'}}}
+            style={{border: {fg: 'yellow'}}}
             top={3} left={3} width={60} height={30}>
             <text top={2}>{this.state.first  + ' * '  + this.state.second} </text>
             <textbox onKeypress={::this.handleKeypress} inputOnFocus top={7} width={50} height={3} border={{type: 'line'}} ref='textbox'></textbox>

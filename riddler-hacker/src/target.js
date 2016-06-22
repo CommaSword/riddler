@@ -34,7 +34,7 @@ export class Target extends Component{
 		return(
 			<box
 				border={{type: 'line'}}
-				style={{border: {fg: 'cyan'}}}
+				style={{border: {fg: 'yellow'}}}
 				top={3} left={3} width={60} height={15}>
 				<form>
 					<text top={2}>ship sign</text>
