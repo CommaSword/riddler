@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
-import {Hacking} from './hacking'
+import {Hacking} from './nuvo-hack'
 import {Background} from './background';
 import {Target} from './target';
 import {Processing} from './processing';
@@ -113,8 +113,8 @@ module.exports = function(eventEmmiter) {
       screen.log('done happend \nship: ' + ship + '\nmessage: ' + message);
     };
 
-    hackingCallback(calculated, hacking){
-      screen.log('Hacking done\n result: ' + hacking +'\ncalculated: ' + calculated );
+    hackingCallback(success){
+      screen.log('Hacking done\n result: ' + success);
     };
 
     render(){
@@ -123,7 +123,7 @@ module.exports = function(eventEmmiter) {
             {(()=>{
               switch (this.state.page) {
                 case pages.welcome: return <Target done={::this.welcomeCallback}/>;
-                case pages.preHack: return <Processing title={'connecting to ' + this.state.shipId}/>;
+                case pages.preHack: // return <Processing title={'connecting to ' + this.state.shipId}/>;
                 case pages.hacking: return <Hacking done={::this.hackingCallback}/>;
                 case pages.postHack: return <Processing title="attacking target"/>;
                 case pages.result: return <text left="center" top="center">{this.state.result}</text>;

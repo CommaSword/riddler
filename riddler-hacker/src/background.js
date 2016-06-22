@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {code} from'./code-ipsum';
+import {code} from'./../resources/code-ipsum';
 
 export class Background extends Component{
 	constructor(props) {
