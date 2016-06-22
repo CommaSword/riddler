@@ -31,11 +31,9 @@ module.exports = function(eventEmmiter) {
   class App extends Component {
     constructor(props) {
       super(props);
-      screen.key(['escape', 'q', 'C-c'], ()=> process.exit(0));
+      screen.key(['escape', 'C-c'], ()=> process.exit(0));
       screen.key(['enter'], () => {
-        if (this.state.page === pages.hacking) {
-          this.setPage(pages.postHack);
-        } else if (this.state.page === pages.result || this.state.page === pages.abort) {
+        if (this.state.page === pages.result || this.state.page === pages.abort) {
           this.setPage(pages.welcome);
         }
       });
@@ -128,8 +126,8 @@ module.exports = function(eventEmmiter) {
             {(()=>{
               switch (this.state.page) {
                 case pages.welcome: return <Target done={::this.welcomeCallback}/>;
-                case pages.preHack:  return <Processing title={'connecting to ' + this.state.shipId}/>;
-                case pages.hacking: return <Hacking length={2} time={10 * 1000} done={::this.hackingCallback}/>;
+                case pages.preHack: return <Processing title={'connecting to ' + this.state.shipId}/>;
+                case pages.hacking: return <Hacking length={20} charTime={1500} done={::this.hackingCallback}/>;
                 case pages.postHack: return <Processing title="attacking target"/>;
                 case pages.result: return <text left="center" top="center">{this.state.result}</text>;
                 case pages.abort: return <text left="center" top="center">no connection to target</text>;

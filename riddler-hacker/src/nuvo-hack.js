@@ -14,60 +14,71 @@ function randomString(length){
 	}
 	return result;
 }
-
+const interval = 200;
+const superHumanTypeTime = 20;
 export class Hacking extends Component{
 	static propTypes = {
 		done: React.PropTypes.func.isRequired,
 		length: React.PropTypes.number.isRequired,
-		time: React.PropTypes.number.isRequired
+		charTime: React.PropTypes.number.isRequired
 	};
 	constructor(props) {
 		super(props);
 		this.state = {
 			stringToHack: randomString(this.props.length),
-			timeLeft: this.props.time
+			userInput: '',
+			timeLeft: this.time()
 		};
+	}
+	time(){
+		return this.props.length * this.props.charTime;
 	}
 	componentDidMount(){
 		this.refs.textbox.focus();
-		this.refs.textbox.on('event', (...args)=>{
-			screen().log(...args);
-		});
-		const interval = 120;
+		this.refs.textbox.on('keypress', this.handleKeypress);
 		this.interval = setInterval(() => {
 			this.setState({timeLeft: this.state.timeLeft - interval});
 			if (this.state.timeLeft <= 0){
+				// timeout: player lost
 				return this.props.done(false);
 			}
 		}, interval);
 	}
 	componentWillUnmount(){
+		this.refs.textbox.off('keypress', this.handleKeypress);
 		clearInterval(this.interval);
 	}
-	handleKeypress(ch, key) {
-
-		let userText = this.refs.textbox.getValue();
-		while(this.state.stringToHack.indexOf(userText) !== 0){
-			userText = userText.substring(0, -1);
+	handleKeypress = (ch) => {
+		// assert no dirty tricks (copy-paste etc.)
+		const now = Date.now();
+		if (now - this.lastKeyTime < superHumanTypeTime){
+			return this.props.done(false);
 		}
-		if(userText.indexOf(this.state.stringToHack) === 0){
+		this.lastKeyTime = now;
+		// apply new char and check if correct
+		let userInput = this.state.userInput + ch;
+		if(this.state.stringToHack.indexOf(userInput) !== 0){
+			userInput = userInput.slice(0, -1);
+		}
+		// see if player won the game
+		if(userInput.indexOf(this.state.stringToHack) === 0){
 			return this.props.done(true);
 		}
-		this.refs.textbox.setValue(userText);
-		this.refs.bar.progress()
-		 // this.refs.textbox.focus();
-	}
+		// update state
+		this.setState({userInput: userInput});
+	};
 	render() {
 		return(
 			<box left='center' top='center'>
 				<progressbar orientation="horizontal"
-							 filled={100 * (this.props.time - this.state.timeLeft )/this.props.time}
+							 pch = ";"
+							 filled={100 * (this.time() - this.state.timeLeft )/this.time()}
 							 height={1}
 							 width={this.state.stringToHack.length}
-							 style={{ bar: {bg: 'blue'}}} />
+							 style={{ bar: {bg: 'yellow', fg:'black'}}} />
 
 				<text top={1}>{this.state.stringToHack}</text>
-				<textbox onKeyPress={::this.handleKeypress} inputOnFocus top={2} width={50} height={1} ref='textbox'></textbox>
+				<text top={2} width={50} height={1} ref='textbox' style={{fg:'green'}}>{this.state.userInput}</text>
 			</box>
 		)
 	}
