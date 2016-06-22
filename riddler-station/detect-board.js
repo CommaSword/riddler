@@ -22,8 +22,7 @@ var configurations = {
 	262: {type: 'riddle3', id:'262'},
 	295: {type: 'riddle3', id:'295'},
 	326: {type: 'riddle3', id:'326'},
-	495: {type: 'riddle4', id:'495'},
-	1024: {type: 'e-c-r', id:'1024'}
+	1024: {type: 'e-c-r', id:'ECR'}
 };
 
 function detectBoard(cb) {
@@ -47,6 +46,7 @@ function queryBoard(board, callback){
 		board:board
 	}).query(function(state){
 		var config = findConfig(state.value);
+		console.log('find confid: ' + JSON.stringify(state));
 		console.log('detected board '+ config.id +' with riddle: ' + config.type + ' (raw:'+state.value+')');
 		callback(config, state.value, board);
 	});

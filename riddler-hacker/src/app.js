@@ -1,155 +1,137 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
-// import Input from './input';
+import {Hacking} from './hacking'
+import {Background} from './background';
+import {Target} from './target';
+import {Processing} from './processing';
 
-const stylesheet  = {
-  layout: {
-    width:'100%',
-    height:'1',
-  }
-}
-
-var IncomingMessages = {
-    start_hacking:1,
-    hack_denied:2,
-    hack_succesful:3,
-    hack_partial:4,
-}
-
-const pages = [
-   'welcome',
-   'preHack', // shipId, detail
-   'hacking',
-   'postHack',
-   'result',
-   'abort'
-];
-
+const pages = {
+  'welcome' : {title:'welcome'},
+  'preHack' : {title:'preHack', canDeny:true}, // shipId, detail
+  'hacking' : {title:'hacking', canDeny:true},
+  'postHack' : {title:'postHack', canDeny:true},
+  'result' : {title:'result'}, // shipId, detail = ""
+  'abort' : {title:'abort'} // shipId, detail = ""
+};
+const results = {
+  full : {title: 'total success'},
+  partial : {title: 'partial success'}
+};
 module.exports = function(eventEmmiter) {
-  class Welcome extends Component{
-    constructor(props) {
-      super(props);
-    }
-
-    render() {
-      return(
-        <box
-          width={'100%'}
-          height={'100%'}
-          class={stylesheet.layout}>
-          <text height={1} width={'100%'}>Welcome</text>
-          <textbox top={2} width={50} height={20} border={{type: 'line'}}>
-            <text height={1} >Hacker Platform</text>
-          </textbox>
-        </box>
-        )
-    }
-  }
-
-  class PreHack extends Component{
-    constructor(props) {
-      super(props);
-
-
-    }
-    render() {
-      return(<text width={'100%'}>PreHack</text>)
-    }
-  }
-
-  class Hacking extends Component{
-    constructor(props) {
-      super(props);
-
-
-    }
-    render() {
-      return(<text width={'100%'}>Hacking</text>)
-    }
-  }
-
-  class PostHack extends Component{
-    constructor(props) {
-      super(props);
-
-    }
-
-    render() {
-      return(<text width={'100%'}>PostHack</text>)
-    }
-  }
-
-  class Result extends Component{
-    constructor(props) {
-      super(props);
-
-
-    }
-    render() {
-      return(<text width={'100%'}>Result</text>)
-    }
-  }
 
   const screen = blessed.screen({
-    autoPadding: true,
+   // autoPadding: true,
     smartCSR: true,
-    title: 'Hack and be blessed'
+    title: 'Hack and be blessed',
+    log: 'log.txt'
   });
 
 
   class App extends Component {
     constructor(props) {
       super(props);
-
-      screen.key(['enter'], (ch, key) => {
-        this.advancePage();
+      screen.key(['escape', 'q', 'C-c'], ()=> process.exit(0));
+      screen.key(['enter'], () => {
+        if (this.state.page === pages.hacking) {
+          this.setPage(pages.postHack);
+        } else if (this.state.page === pages.result || this.state.page === pages.abort) {
+          this.setPage(pages.welcome);
+        }
+      });
+      eventEmmiter.on('server-message', (data) => {
+        screen.log("server-message: ", data);
+        if (this.state.page.canDeny && data.state === "hackDeny"){
+          this.setPage(pages.abort);
+        } else if (this.state.page === pages.preHack && data.state === "hackStart") {
+          this.setPage(pages.hacking);
+        } else if (this.state.page === pages.postHack) {
+          if (data.state === "hackSuccessful") {
+            this.setPage(pages.result, results.full);
+          } else if (data.state === "hackPartialSuccessful") {
+            this.setPage(pages.result, results.partial);
+          }
+        }
       });
 
-      eventEmmiter.on('ui-message', () => {
-
-      })
-
       this.state = {
-        index: 0,
-        page: pages[0],
+        page: pages.welcome,
+        shipId: '',
+        details: '',
+        result: ''
       };
     }
 
-    advancePage() {
-      this.setState({
-        index: this.state.index >= pages.length ? 0: ++this.state.index,
-        page: pages[this.state.index >= pages.length ? 0: ++this.state.index]
-      });
+    sendToBackOffice(data){
+      screen.log("ui-message: ", data);
+      // this.setState({lastMsg:data})
+      eventEmmiter.emit("ui-message", data);
     }
 
-    render() {
+    setPage(page, message) {
+      this.setState({page});
+      screen.log("state.page is now ", this.state.page);
+
+      if (page === pages.welcome) {
+        this.sendToBackOffice({status: 'welcome'});
+      } else if (page === pages.preHack) {
+        this.setState({
+          shipId: message.shipId,
+          details: message.details
+        })
+        this.sendToBackOffice({
+          status: 'preHack',
+          shipId: message.shipId,
+          details: message.details
+          // shipId: this.state.shipId,
+          // detail: this.state.detail
+        });
+      } else if (page === pages.hacking) {
+        this.sendToBackOffice({status: 'hacking'});
+      } else if (page === pages.postHack) {
+        this.sendToBackOffice({status: 'postHack'});
+      } else if (page === pages.result) {
+        this.setState({
+          result: message.title
+        });
+        this.sendToBackOffice({
+          status: 'result',
+          shipId: '',
+          details: ''
+        });
+      } else if (page === pages.abort) {
+        this.sendToBackOffice({
+          status: 'result',
+          shipId: '',
+          details: ''
+        });
+      }
+    }
+
+    welcomeCallback(ship, message){
+      this.setPage(pages.preHack, {shipId: ship, details: message});
+      screen.log('done happend \nship: ' + ship + '\nmessage: ' + message);
+    };
+
+    hackingCallback(calculated, hacking){
+      screen.log('Hacking done\n result: ' + hacking +'\ncalculated: ' + calculated );
+    };
+
+    render(){
       return (
-        <box label="Hacker Console $"
-          border={{type: 'line'}}
-          style={{border: {fg: 'cyan'}}}>
-          {(()=>{
-            switch (this.state.page) {
-              case "welcome": return <Welcome/>;
-              case "preHack": return <PreHack/>;
-              case 'hacking': return <Hacking/>;
-              case 'postHack': return <PostHack/>;
-              case 'result': return <Result/>;
-          }})()}
-        </box>
+          <Background >
+            {(()=>{
+              switch (this.state.page) {
+                case pages.welcome: return <Target done={::this.welcomeCallback}/>;
+                case pages.preHack: return <Processing title={'connecting to ' + this.state.shipId}/>;
+                case pages.hacking: return <Hacking done={::this.hackingCallback}/>;
+                case pages.postHack: return <Processing title="attacking target"/>;
+                case pages.result: return <text left="center" top="center">{this.state.result}</text>;
+                case pages.abort: return <text left="center" top="center">no connection to target</text>;
+              }})()}
+          </Background>
       );
     }
   }
-
-  var app = <App />;
-
-  // screen.key(['enter'], function(ch, key) {
-  //     app.advancePage();
-  // });
-
-  screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-    return process.exit(0);
-  });
-
-  const component = render(app, screen);
-}
+  render(<App />, screen);
+};

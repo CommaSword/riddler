@@ -3,27 +3,36 @@
  */
 var five = require('johnny-five');
 
-require('./detect-board')(function (config, raw, board) {
-	console.log('\nraw value: ' + raw + '\n');
-
-	var p = new five.Pin({
-		pin: 8,
+function readPin(board, pin){
+	var p2 = new five.Pin({
+		pin: pin,
 		mode: 0,
 		board:board
 	});
-
 	setInterval(function(){
-		p.query(function(state){
-			console.log('\n\n##################value in pin is (raw:'+state.value+')\n\n');
-		//	process.exit(0);
+		p2.query(function(state){
+			console.log('pin',pin,'value', state.value);
 		})
 	}, 500);
+}
+
+require('./detect-board')(function (config, raw, board) {
+	console.log('\nraw value: ' + raw + '\n');
 
 	/*
+	readPin(board,2);
+	readPin(board,3);
+	readPin(board,4);
+	readPin(board,5);
+	readPin(board,6);
+	readPin(board,7);
+	*/
 	new five.Led({
-		pin:10,
+		pin:'A3',
 		board:board
 	}).blink(500);
+	/*
+
 
 	var toggleSwitch = new five.Button({
 		pin:2,

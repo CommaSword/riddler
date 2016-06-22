@@ -27,37 +27,18 @@
         "order": "2",
         "format": "{{msg.payload}}",
         "x": 755,
-        "y": 175,
+        "y": 176,
         "wires": []
-    },
-    {
-        "id": "90e09df1.5c2a7",
-        "type": "ui_switch",
-        "z": "9e21335d.82775",
-        "tab": "692264eb.cffd6c",
-        "name": "Damaged",
-        "topic": "",
-        "group": "shazam!",
-        "order": "3",
-        "onvalue": "true",
-        "offvalue": "false",
-        "x": 753,
-        "y": 243,
-        "wires": [
-            [
-                "8dab9bbc.391598"
-            ]
-        ]
     },
     {
         "id": "3c1869e0.811846",
         "type": "http request",
         "z": "9e21335d.82775",
-        "name": "set system damage",
+        "name": "set system hp",
         "method": "POST",
-        "ret": "txt",
+        "ret": "obj",
         "url": "",
-        "x": 860,
+        "x": 850,
         "y": 419,
         "wires": [
             [
@@ -71,9 +52,9 @@
         "z": "9e21335d.82775",
         "name": "set system functional",
         "method": "POST",
-        "ret": "txt",
+        "ret": "obj",
         "url": "",
-        "x": 388,
+        "x": 453,
         "y": 405,
         "wires": [
             [
@@ -86,8 +67,8 @@
         "type": "function",
         "z": "9e21335d.82775",
         "name": "demux state",
-        "func": "\nreturn [\n        {payload:msg.payload.autoRepair},\n        {payload:msg.payload.damaged},\n        {payload:msg.payload.functional}\n    ];",
-        "outputs": "3",
+        "func": "\nreturn [\n        {payload:msg.payload.autoRepair},\n        {payload:msg.payload.hp},\n        {payload:msg.payload.damaged},\n        {payload:msg.payload.functional}\n    ];",
+        "outputs": "4",
         "noerr": 0,
         "x": 520.5,
         "y": 234,
@@ -96,8 +77,10 @@
                 "af089e6d.a4f5e"
             ],
             [
-                "90e09df1.5c2a7"
+                "a1f28e9c.08639",
+                "d8eca26f.353df"
             ],
+            [],
             [
                 "da5779ce.2a86f8"
             ]
@@ -108,10 +91,10 @@
         "type": "function",
         "z": "9e21335d.82775",
         "name": "configure",
-        "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-ECR', function(baseUrl) {\n        flow.set('state_url', baseUrl + '/' + msg.payload);\n        flow.set('damaged_url', baseUrl + '/' + msg.payload + '/damaged');\n        flow.set('functional_url', baseUrl + '/' + msg.payload + '/functional');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
+        "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-ECR', function(baseUrl) {\n        flow.set('state_url', baseUrl + '/' + msg.payload);\n        flow.set('hp_url', baseUrl + '/' + msg.payload + '/hp');\n        flow.set('functional_url', baseUrl + '/' + msg.payload + '/functional');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 380,
+        "x": 368,
         "y": 519,
         "wires": [
             []
@@ -224,7 +207,7 @@
                 "t": "set",
                 "p": "url",
                 "pt": "msg",
-                "to": "damaged_url",
+                "to": "hp_url",
                 "tot": "flow"
             }
         ],
@@ -260,8 +243,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 184,
-        "y": 406,
+        "x": 231,
+        "y": 401,
         "wires": [
             [
                 "f1418395.56158"
@@ -277,8 +260,8 @@
         "group": "shazam!",
         "order": "4",
         "format": "{{msg.payload}}",
-        "x": 763.5,
-        "y": 299,
+        "x": 752.5,
+        "y": 306,
         "wires": []
     },
     {
@@ -308,23 +291,7 @@
                 "17d65ca1.cbe193"
             ],
             [
-                "7deb9256.ad0ccc"
-            ]
-        ]
-    },
-    {
-        "id": "7deb9256.ad0ccc",
-        "type": "function",
-        "z": "9e21335d.82775",
-        "name": "and",
-        "func": "function clear(topic){\n    var falses = context.get('falses')\n    if (falses[topic]){\n        clearTimeout(falses[topic]);\n        delete falses[topic];\n    }\n}\n\nvar falses = context.get('falses');\nif (!falses){\n    falses = {};\n    context.set('falses', falses);\n    node.on('close', function() {\n        Object.keys(context.get('falses')).forEach(clear);\n    });\n}\n\nif (msg.payload){\n    clear(msg.topic);\n} else{\n    falses[msg.topic] = setTimeout(clear.bind(null, msg.topic));\n}\nmsg.payload = !Object.keys(falses).length;\n\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 185.5,
-        "y": 508,
-        "wires": [
-            [
-                "5e558b49.0463f4"
+                "751439fa.3dd4b8"
             ]
         ]
     },
@@ -342,8 +309,8 @@
         ],
         "checkall": "false",
         "outputs": 1,
-        "x": 183,
-        "y": 455,
+        "x": 216,
+        "y": 447,
         "wires": [
             [
                 "22644f13.225ba"
@@ -364,6 +331,73 @@
         "wires": [
             [
                 "d40c876e.b4f2d8"
+            ]
+        ]
+    },
+    {
+        "id": "751439fa.3dd4b8",
+        "type": "subflow:7dbbf841.470ad8",
+        "z": "9e21335d.82775",
+        "name": "",
+        "x": 180.5,
+        "y": 516,
+        "wires": [
+            [
+                "7d1fd1fc.c89cd"
+            ]
+        ]
+    },
+    {
+        "id": "7d1fd1fc.c89cd",
+        "type": "function",
+        "z": "9e21335d.82775",
+        "name": "tostring",
+        "func": "msg.payload = '' + msg.payload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 200.5,
+        "y": 480,
+        "wires": [
+            [
+                "5e558b49.0463f4"
+            ]
+        ]
+    },
+    {
+        "id": "a1f28e9c.08639",
+        "type": "ui_slider",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "HP",
+        "topic": "",
+        "group": "shazam!",
+        "order": "3",
+        "min": 0,
+        "max": "100",
+        "x": 739.5,
+        "y": 227,
+        "wires": [
+            [
+                "8dab9bbc.391598"
+            ]
+        ]
+    },
+    {
+        "id": "d8eca26f.353df",
+        "type": "ui_switch",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "damaged",
+        "topic": "",
+        "group": "shazam!",
+        "order": "2.5",
+        "onvalue": "false",
+        "offvalue": "100",
+        "x": 750.5,
+        "y": 262,
+        "wires": [
+            [
+                "8dab9bbc.391598"
             ]
         ]
     }

@@ -5,24 +5,23 @@ var five = require('johnny-five');
 var express = require('express');
 
 var REPAIR_BLINK_PHASE = 1000;
-var FAILURE_BLINK_PHASE = 300;
+var FAILURE_BLINK_PHASE = 200;
 
 module.exports = function EngineeringControlRoom(api, board){
 	var systems = {
-
-		'reactor' : {toggles:[2], led: 10} ,
-		'beam_weapon' : {toggles:[3], led: 11},
-		'missiles' : {toggles:[4], led: 12},
-		'maneuvering' : {toggles:[5], led: 13},
-		'impulse_engine' : {toggles:[6], led: 'A0'},
-		'warp_drive' : {toggles:[7], led: 'A1'},
-		'jump_drive' : {toggles:[2], led: 'A2'},
-		'front_shield' : {toggles:[2], led: 'A3'},
-		'rear_shield' : {toggles:[2], led: 'A4'}
+		'reactor' : {toggles:[2, 7], led: 10},
+		'beam_weapon' : {toggles:[3, 4, 6], led: 11},
+		'missiles' : {toggles:[3, 4], led: 12},
+		'maneuvering' : {toggles:[2, 4, 7], led: 13},
+		'impulse_engine' : {toggles:[5, 6], led: 'A0'},
+		'warp_drive' : {toggles:[3, 6, 7], led: 'A1'},
+		'jump_drive' : {toggles:[2, 5], led: 'A2'},
+		'front_shield' : {toggles:[3, 5, 6], led: 'A3'},
+		'rear_shield' : {toggles:[2, 5, 7], led: 'A4'}
 	};
 	var state = {
 		numToggled : 0,
-		numToggledMax : 3
+		numToggledMax : 4
 	};
 	function readState(){
 		return {
@@ -65,13 +64,16 @@ module.exports = function EngineeringControlRoom(api, board){
 
 	Object.keys(systems).forEach(function initSystem(sysName){
 		state[sysName] = {
-			damaged : true,
-			functional : true
+			functional : true,
+			hp : 100,
+			repairStartTime : 0,
+			repairJobIntervalId : 0
 		};
 
 		function readSystemState(){
 			return {
-				damaged : state[sysName].damaged,
+				hp : state[sysName].hp,
+				damaged : state[sysName].hp < 100,
 				functional : state[sysName].functional,
 				autoRepair : systems[sysName].toggles.every(function (toggle) {return toggles[toggle].state;})
 			};
@@ -86,10 +88,16 @@ module.exports = function EngineeringControlRoom(api, board){
 			calcStatus();
 		};
 		function calcStatus(){
+			var repairing = false;
 			if (readState().functional) {
-				if (state[sysName].damaged) {
+				if (readSystemState().damaged) {
 					if (readSystemState().autoRepair) {
-						led.stop().blink(state[sysName].functional ? REPAIR_BLINK_PHASE : FAILURE_BLINK_PHASE);
+						if (state[sysName].functional){
+							repairing = true;
+							led.stop().blink(REPAIR_BLINK_PHASE);
+						} else {
+							led.stop().blink(FAILURE_BLINK_PHASE);
+						}
 					} else {
 						led.stop().on();
 					}
@@ -99,23 +107,41 @@ module.exports = function EngineeringControlRoom(api, board){
 			} else {
 				led.stop().blink(FAILURE_BLINK_PHASE);
 			}
+			if(repairing){
+				if (!state[sysName].repairStartTime){
+					state[sysName].repairStartTime = Date.now();
+					state[sysName].repairJobIntervalId = setInterval(function() {
+						applyRepair(Date.now());
+					}, 100);
+				}
+			} else {
+				if (state[sysName].repairJobIntervalId){
+					clearInterval(state[sysName].repairJobIntervalId);
+					state[sysName].repairJobIntervalId = 0;
+				}
+				applyRepair(0);
+			}
 		}
-		var route = express.Router();
-		route.get('/', function (req, res) {
+		function applyRepair(newRepairStartTime){
+			if (readSystemState().damaged && state[sysName].repairStartTime){
+				var repairTime = Date.now() - state[sysName].repairStartTime;
+				var reapiredHp = repairTime/500;  // 1 HP in 0.5 second
+				state[sysName].hp = Math.min(state[sysName].hp + reapiredHp, 99.9);
+			}
+			state[sysName].repairStartTime = newRepairStartTime;
+		}
+
+		api.get('/' + sysName, function (req, res) {
 			res.json(readSystemState());
 		});
-		route.post('/damaged', function (req, res) {
-			console.log('damaged', req.rawBody);
-			if(req.rawBody === 'true') {
-				state[sysName].damaged = true;
-				calcStatus();
-			} else if(req.rawBody === 'false') {
-				state[sysName].damaged = false;
+		api.post('/' + sysName + '/hp', function (req, res) {
+			if (req.rawBody.match(/^\d+$/)) {
+				state[sysName].hp = parseInt(req.rawBody);
 				calcStatus();
 			}
 			res.json(readSystemState());
 		});
-		route.post('/functional', function (req, res) {
+		api.post('/' + sysName + '/functional', function (req, res) {
 			console.log('functional', req.rawBody);
 			if(req.rawBody === 'true') {
 				state[sysName].functional = true;
@@ -126,7 +152,6 @@ module.exports = function EngineeringControlRoom(api, board){
 			}
 			res.json(readSystemState());
 		});
-		api.use('/' + sysName, route);
 	});
 	onChange();
 };
