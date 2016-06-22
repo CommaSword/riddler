@@ -18,14 +18,14 @@ export class Target extends Component{
 		this.refs.shipId.focus();
 	}
 
-	handleKeypressShipId(ch){
-		if(ch && ch.charCodeAt(0) == 13){
+	handleKeypressShipId(ch, key) {
+		if(key.name === 'enter'){
 			this.refs.shipId.submit();
 			this.refs.objective.focus();
 		}
 	}
-	handleKeypressOperation(ch){
-		if(ch.charCodeAt(0) == 13 && this.refs.objective.content != ''){
+	handleKeypressOperation(ch, key) {
+		if(key.name === 'enter' && this.refs.objective.content != ''){
 			this.props.done(this.refs.shipId.content, this.refs.objective.content);
 		}
 	}

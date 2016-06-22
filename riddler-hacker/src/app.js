@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
-import {PreHack, Hacking, PostHack, Result, Abort} from './components'
+import {Hacking} from './hacking'
 import {Background} from './background';
 import {Target} from './target';
 import {Processing} from './processing';
@@ -14,7 +14,10 @@ const pages = {
   'result' : {title:'result'}, // shipId, detail = ""
   'abort' : {title:'abort'} // shipId, detail = ""
 };
-
+const results = {
+  full : {title: 'total success'},
+  partial : {title: 'partial success'}
+};
 module.exports = function(eventEmmiter) {
 
   const screen = blessed.screen({
@@ -44,22 +47,24 @@ module.exports = function(eventEmmiter) {
           this.setPage(pages.hacking);
         } else if (this.state.page === pages.postHack) {
           if (data.state === "hackSuccessful") {
-            this.setPage(pages.result, "Full");
+            this.setPage(pages.result, results.full);
           } else if (data.state === "hackPartialSuccessful") {
-            this.setPage(pages.result, "Partial");
+            this.setPage(pages.result, results.partial);
           }
         }
       });
 
       this.state = {
         page: pages.welcome,
-        lastMsg : {}
+        shipId: '',
+        details: '',
+        result: ''
       };
     }
 
     sendToBackOffice(data){
       screen.log("ui-message: ", data);
-      this.setState({lastMsg:data})
+      // this.setState({lastMsg:data})
       eventEmmiter.emit("ui-message", data);
     }
 
@@ -70,6 +75,10 @@ module.exports = function(eventEmmiter) {
       if (page === pages.welcome) {
         this.sendToBackOffice({status: 'welcome'});
       } else if (page === pages.preHack) {
+        this.setState({
+          shipId: message.shipId,
+          details: message.details
+        })
         this.sendToBackOffice({
           status: 'preHack',
           shipId: message.shipId,
@@ -82,6 +91,9 @@ module.exports = function(eventEmmiter) {
       } else if (page === pages.postHack) {
         this.sendToBackOffice({status: 'postHack'});
       } else if (page === pages.result) {
+        this.setState({
+          result: message.title
+        });
         this.sendToBackOffice({
           status: 'result',
           shipId: '',
@@ -96,12 +108,12 @@ module.exports = function(eventEmmiter) {
       }
     }
 
-    welcomeCallback = (ship, message) => {
+    welcomeCallback(ship, message){
       this.setPage(pages.preHack, {shipId: ship, details: message});
       screen.log('done happend \nship: ' + ship + '\nmessage: ' + message);
     };
 
-    hackingCallback = (calculated, hacking) => {
+    hackingCallback(calculated, hacking){
       screen.log('Hacking done\n result: ' + hacking +'\ncalculated: ' + calculated );
     };
 
@@ -110,12 +122,12 @@ module.exports = function(eventEmmiter) {
           <Background >
             {(()=>{
               switch (this.state.page) {
-                case pages.welcome: return <Target done={this.welcomeCallback}/>;
-                case pages.preHack: return <Processing title={'connecting to ' + this.state.lastMsg.shipId}/>;
-                case pages.hacking: return <Hacking done={this.hackingCallback}/>;
+                case pages.welcome: return <Target done={::this.welcomeCallback}/>;
+                case pages.preHack: return <Processing title={'connecting to ' + this.state.shipId}/>;
+                case pages.hacking: return <Hacking done={::this.hackingCallback}/>;
                 case pages.postHack: return <Processing title="attacking target"/>;
-                case pages.result: return <Result/>;
-                case pages.abort: return <Abort/>;
+                case pages.result: return <text left="center" top="center">{this.state.result}</text>;
+                case pages.abort: return <text left="center" top="center">no connection to target</text>;
               }})()}
           </Background>
       );
