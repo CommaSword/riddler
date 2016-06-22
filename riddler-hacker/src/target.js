@@ -1,0 +1,50 @@
+/**
+ * Created by amira on 22/6/16.
+ */
+
+
+import React, {Component} from 'react';
+
+export class Target extends Component{
+	static propTypes = {
+		done: React.PropTypes.func.isRequired
+	};
+	constructor(props) {
+		super(props);
+
+	}
+
+	componentDidMount() {
+		this.refs.shipId.focus();
+	}
+
+	handleKeypressShipId(ch){
+		if(ch && ch.charCodeAt(0) == 13){
+			this.refs.shipId.submit();
+			this.refs.objective.focus();
+		}
+	}
+	handleKeypressOperation(ch){
+		if(ch.charCodeAt(0) == 13 && this.refs.objective.content != ''){
+			this.props.done(this.refs.shipId.content, this.refs.objective.content);
+		}
+	}
+
+	render() {
+		return(
+			<box
+				border={{type: 'line'}}
+				style={{border: {fg: 'cyan'}}}
+				top={3} left={3} width={60} height={15}>
+				<form>
+
+					<text top={2}>Ship ID:</text>
+					<textbox onKeypress={::this.handleKeypressShipId} inputOnFocus top={3} width={50} height={3} border={{type: 'line'}} ref='shipId'></textbox>
+					<text top={6}>Objective:</text>
+					<textbox onKeypress={::this.handleKeypressOperation} inputOnFocus top={7} width={50} height={3} border={{type: 'line'}} ref='objective'></textbox>
+				</form>
+			</box>
+
+		)
+	}
+}
