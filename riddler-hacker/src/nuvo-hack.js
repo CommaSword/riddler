@@ -55,7 +55,7 @@ export class Hacking extends Component{
 	}
 	render() {
 		return(
-			<box>
+			<box left='center' top='center'>
 				<progressbar orientation="horizontal"
 							 filled={100 * (this.props.time - this.state.timeLeft )/this.props.time}
 							 height={1}
@@ -63,7 +63,7 @@ export class Hacking extends Component{
 							 style={{ bar: {bg: 'blue'}}} />
 
 				<text top={1}>{this.state.stringToHack}</text>
-				<textbox onKeyPress={::this.handleKeypress} inputOnFocus top={2} width={50} height={3} ref='textbox'></textbox>
+				<textbox onKeyPress={::this.handleKeypress} inputOnFocus top={2} width={50} height={1} ref='textbox'></textbox>
 			</box>
 		)
 	}
