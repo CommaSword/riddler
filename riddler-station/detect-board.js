@@ -18,10 +18,17 @@ var configurations = {
 	95: {type: 'riddle2', id:'95'},
 	129: {type: 'riddle2', id:'129'},
 	164: {type: 'riddle3', id:'164'},
+	// 197: {type: 'riddle4', id:'197'},
 	230: {type: 'riddle3', id:'230'},
 	262: {type: 'riddle3', id:'262'},
 	295: {type: 'riddle3', id:'295'},
 	326: {type: 'riddle3', id:'326'},
+	339: {type: 'riddle4', id:'339'},
+	361: {type: 'riddle4', id:'361'},
+	400: {type: 'riddle4', id:'400'},
+	428: {type: 'riddle4', id:'428'},
+	442: {type: 'riddle4', id:'442'},
+	493: {type: 'riddle4', id:'493'},
 	1024: {type: 'e-c-r', id:'ECR'}
 };
 

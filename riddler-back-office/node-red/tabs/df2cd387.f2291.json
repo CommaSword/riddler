@@ -527,5 +527,35 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "95874529.3b31a8",
+        "type": "subflow:e78f24ee.40bef8",
+        "z": "df2cd387.f2291",
+        "name": "R4 - 495",
+        "x": 211,
+        "y": 1031,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d35045b6.50ce68",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "495",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 211,
+        "y": 994,
+        "wires": [
+            [
+                "95874529.3b31a8"
+            ]
+        ]
     }
 ]
