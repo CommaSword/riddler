@@ -1,4 +1,4 @@
-export const code =['/*!',
+module.exports.code =['/*!',
 ' * Hack JavaScript Library v3.0.0',
 ' * https://Hack.com/',
 ' *',

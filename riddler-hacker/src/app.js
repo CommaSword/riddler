@@ -78,7 +78,7 @@ module.exports = function(eventEmmiter) {
         this.setState({
           shipId: message.shipId,
           details: message.details
-        })
+        });
         this.sendToBackOffice({
           status: 'preHack',
           shipId: message.shipId,
@@ -115,6 +115,11 @@ module.exports = function(eventEmmiter) {
 
     hackingCallback(success){
       screen.log('Hacking done\n result: ' + success);
+      if (success){
+        this.setPage(pages.postHack);
+      } else {
+        this.setPage(pages.abort);
+      }
     };
 
     render(){

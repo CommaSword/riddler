@@ -23,7 +23,7 @@ export class Hacking extends Component{
 		super(props);
 		this.state = {
 			stringToHack: '12345',
-			timeLeft: totalTime
+			timeLeft: this.totalTime
 		};
 	}
 	componentDidMount(){
@@ -57,7 +57,7 @@ export class Hacking extends Component{
 				style={{border: {fg: 'yellow'}}}
 				top={3} left={3} width={60} height={30}>
 				<progressbar top={2} value={100*this.state.timeLeft/this.totalTime}>{this.state.stringToHack} </progressbar>
-				<textbox onKeypress={::this.handleKeypress} inputOnFocus top={7} width={50} height={3} ref='textbox'></textbox>
+				<textbox onPrerender={::this.handleKeypress} inputOnFocus top={7} width={50} height={3} ref='textbox'></textbox>
 			</box>
 		)
 	}
