@@ -16,7 +16,7 @@ module.exports = function startStation(port, detectBoard, discover) {
 	var d = discover({
 		advertisement: advertisement,
 		isMasterEligible: false,
-		multicast: '240.0.0.0'
+		multicast: process.env.multicastAddr || '239.0.0.0'
 	});
 
 // most basic body parser for raw strings

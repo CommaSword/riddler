@@ -3,7 +3,7 @@
  */
 var five = require('johnny-five');
 
-var BLINK_INTERVAL = 500;
+var BLINK_INTERVAL = 200;
 
 var riddle_status = {
 	START: 'Initial state',
@@ -42,26 +42,26 @@ var led_array = {
 module.exports = function riddle4(api, board){
 
 	var state = {
-		status: riddle_status.START,
+		status: riddle_status.SIMPLE_START,
 	    switch_button: switch_status.ON,
 		push_button: switch_status.OFF,
-		leds: {'GREEN': led_status.ON, 'RED': led_status.OFF, 'BLUE': led_status.OFF},
-        cables: {5,6,7,8,9,10}
+		leds: {'GREEN': led_status.OFF, 'RED': led_status.OFF, 'BLUE': led_status.OFF},
+        //cables: {5,6,7,8,9,10}
 	};
 
     // Defining hardware
 	var leds = {};
-	leds['RED'] = new five.Led({
-		pin: 13,
-		board: board
-	});
-	//Green LED
-	leds['GREEN'] = new five.Led({
+    leds['RED'] = new five.Led({
 		pin: 12,
 		board: board
 	});
+	//Green LED
+    leds['GREEN'] = new five.Led({
+		pin: 13,
+		board: board
+	});
 	//Blue LED
-	leds['BLUE'] = new five.Led({
+    leds['BLUE'] = new five.Led({
 		pin: 2,
 		board: board
 	});
@@ -72,15 +72,16 @@ module.exports = function riddle4(api, board){
 		board: board
 	});
 
-	var switchButton = new five.Button({
-		pin: 4,
-		board: board
-	});
+    var switchButton = new five.Button({
+        pin: 4,
+        board: board
+    });
 
 	var buzzer = new five.Piezo({
 		pin: 11,
 		board: board
 	});
+
 
     // pins for cables
     var pinsState = {
@@ -101,6 +102,8 @@ module.exports = function riddle4(api, board){
             calculateAll();
         });
     }
+
+    var time = 1;
 
     function checkSetPins() {
         // Checks and sets the pins states that the cable connect to.
@@ -126,77 +129,74 @@ module.exports = function riddle4(api, board){
         return connected;
     }
 
-
 	function setLeds(array_state) {
 		Object.keys(leds).forEach(function (led, idx){
 			if (array_state[idx] == led_status.ON){
-				leds[led].on();
+                leds[led].stop().on();
 				state.leds[led] = led_status.ON
 			} else if (array_state[idx] == led_status.BLINKING){
-				leds[led].blink(BLINK_INTERVAL);
+                leds[led].stop().blink(BLINK_INTERVAL);
 				state.leds[led] = led_status.BLINKING
 			} else {
-				leds[led].off();
+                leds[led].stop().off();
 				state.leds[led] = led_status.OFF
 			}
 		})
 	}
-
 
     //
     // switchButton and pushButton functions
     //
 	function switchButtonPress() {
         // switchButton = 0, start handling the riddle
-		state.switch_button = switch_status.OFF;
-		if (state.status === riddle_status.SIMPLE_START) {
+		if (state.status == riddle_status.SIMPLE_START) {
             state.status = riddle_status.SIMPLE_SWITCH;
-            return;
         }
 
-        if (state.status === riddle_status.COMPLEX_START) {
-            state.status = riddle_status.COMPLEX_SWITCH_ONLY;
-        } else if (state.status === riddle_status.COMPLEX_CABLES_ONLY) {
-            state.status = riddle_status.COMPLEX_CABLES_SWITCH_INCORRECT;
-        } else if (state.status === riddle_status.COMPLEX_CABLES_BAD_SWITCH) {
-            state.status = riddle_status.COMPLEX_CABLES_SWITCH_CORRECT;
-        } else if (state.status === riddle_status.START) {
-            state.status = riddle_status.COMPLEX_FINISH;
-        }
+        // if (state.status == riddle_status.COMPLEX_START) {
+        //     state.status = riddle_status.COMPLEX_SWITCH_ONLY;
+        // } else if (state.status == riddle_status.COMPLEX_CABLES_ONLY) {
+        //     state.status = riddle_status.COMPLEX_CABLES_SWITCH_INCORRECT;
+        // } else if (state.status == riddle_status.COMPLEX_CABLES_BAD_SWITCH) {
+        //     state.status = riddle_status.COMPLEX_CABLES_SWITCH_CORRECT;
+        // } else if (state.status == riddle_status.START) {
+        //     state.status = riddle_status.COMPLEX_FINISH;
+        // }
 	}
 
 	function switchButtonRelease() {
         // switchButton = 1, riddle finished or can't start
-		state.switch_button = switch_status.ON;
-        if (state.status === riddle_status.SIMPLE_SWITCH) {
+        buzzer.stop();
+        if (state.status == riddle_status.SIMPLE_SWITCH) {
             state.status = riddle_status.SIMPLE_START;
-        }else if (state.status === riddle_status.SIMPLE_PUSH) {
+        }else if (state.status == riddle_status.SIMPLE_PUSH) {
             state.status = riddle_status.SIMPLE_START;
-        }else if (state.status === riddle_status.SIMPLE_FINISH) {
+        }else if (state.status == riddle_status.SIMPLE_FINISH) {
             state.status = riddle_status.START
         }
 
-        if (state.status === riddle_status.COMPLEX_SWITCH_ONLY) {
-            state.status = riddle_status.COMPLEX_START;
-        } else if (state.status === riddle_status.COMPLEX_CABLES_SWITCH_INCORRECT) {
-            state.status = riddle_status.COMPLEX_CABLES_ONLY;
-        } else if (state.status === riddle_status.COMPLEX_CABLES_SWITCH_CORRECT) {
-            state.status = riddle_status.COMPLEX_CABLES_BAD_SWITCH;
-        } else if (state.status === riddle_status.COMPLEX_FINISH) {
-            state.status = riddle_status.START;
-        }
+        // if (state.status == riddle_status.COMPLEX_SWITCH_ONLY) {
+        //     state.status = riddle_status.COMPLEX_START;
+        // } else if (state.status == riddle_status.COMPLEX_CABLES_SWITCH_INCORRECT) {
+        //     state.status = riddle_status.COMPLEX_CABLES_ONLY;
+        // } else if (state.status == riddle_status.COMPLEX_CABLES_SWITCH_CORRECT) {
+        //     state.status = riddle_status.COMPLEX_CABLES_BAD_SWITCH;
+        // } else if (state.status == riddle_status.COMPLEX_FINISH) {
+        //     state.status = riddle_status.START;
+        // }
 	}
 
 	function pushButtonPress() {
         // Red button is pressed - do not care if holding it or not
         state.push_button = switch_status.ON;
-        if (state.status === riddle_status.SIMPLE_START) {
+        if (state.status == riddle_status.SIMPLE_START) {
             playBuzzer();
-        }else if (state.status === riddle_status.SIMPLE_SWITCH) {
+        }else if (state.status == riddle_status.SIMPLE_SWITCH) {
             state.status = riddle_status.SIMPLE_PUSH;
-        }else if (state.status === riddle_status.SIMPLE_FINISH) {
+        }else if (state.status == riddle_status.SIMPLE_FINISH) {
             return;
         }
+
         if (!isRiddleSimple()) {
             playBuzzer();
         }
@@ -205,15 +205,17 @@ module.exports = function riddle4(api, board){
 	function pushButtonHold() {
         // Red button was held for 10 whole seconds
 		state.push_button = switch_status.HOLD;
-        if (state.status === riddle_status.SIMPLE_START) {
+        if (state.status == riddle_status.SIMPLE_START) {
             playBuzzer();
-        }else if (state.status === riddle_status.SIMPLE_SWITCH) {
+        // }
+        // else if (state.status == riddle_status.SIMPLE_SWITCH) {
+        //     state.status = riddle_status.SIMPLE_FINISH;
+        }else if (state.status == riddle_status.SIMPLE_PUSH) {
             state.status = riddle_status.SIMPLE_FINISH;
-        }else if (state.status === riddle_status.SIMPLE_PUSH) {
-            state.status = riddle_status.SIMPLE_FINISH;
-        }else if (state.status === riddle_status.SIMPLE_FINISH) {
-            return;
         }
+        // else if (state.status == riddle_status.SIMPLE_FINISH) {
+        //     return;
+        // }
 
         if (!isRiddleSimple()) {
             playBuzzer();
@@ -225,18 +227,14 @@ module.exports = function riddle4(api, board){
         // Red button is released
 		state.push_button = switch_status.OFF;
 		buzzer.stop();
-        if (state.status === riddle_status.SIMPLE_START) {
+        if (state.status == riddle_status.SIMPLE_START) {
             return;
-        }else if (state.status === riddle_status.SIMPLE_SWITCH) {
+        }else if (state.status == riddle_status.SIMPLE_SWITCH) {
             return;
-        }else if (state.status === riddle_status.SIMPLE_PUSH) {
+        }else if ((state.status == riddle_status.SIMPLE_PUSH) && (state.switch_button == switch_status.OFF) ){
+            state.status = riddle_status.SIMPLE_SWITCH;
+        }else if (state.status == riddle_status.SIMPLE_FINISH) {
             return;
-        }else if (state.status === riddle_status.SIMPLE_FINISH) {
-            return;
-        }
-
-        if (!isRiddleSimple()) {
-            playBuzzer();
         }
 	}
 
@@ -254,8 +252,8 @@ module.exports = function riddle4(api, board){
 
     function isRiddleSimple(){
         // returns true if the riddle type is simple
-        if ((state.status === riddle_status.SIMPLE_FINISH) || (state.status === riddle_status.SIMPLE_PUSH) ||
-            (state.status === riddle_status.SIMPLE_START) || (state.status === riddle_status.SIMPLE_SWITCH)){
+        if ((state.status == riddle_status.SIMPLE_FINISH) || (state.status == riddle_status.SIMPLE_PUSH) ||
+            (state.status == riddle_status.SIMPLE_START) || (state.status == riddle_status.SIMPLE_SWITCH)){
             return true;
         }else{
             return false;
@@ -270,45 +268,66 @@ module.exports = function riddle4(api, board){
         //     playBuzzer();
         //     return
         // }
-        buzzer.stop();
 
-        if (state.status === riddle_status.START) {
+        calculateSwitch();
+        // console.info(state.status);
+        //console.info(leds['BLUE'].value);
+
+        if (state.status == riddle_status.START) {
+
+            setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
+            setLeds([led_status.OFF, led_status.ON, led_status.OFF]);
+            
+        }else if (state.status == riddle_status.SIMPLE_START) {
             setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
             setLeds([led_status.ON, led_status.OFF, led_status.OFF]);
-        }else if ((state.status === riddle_status.SIMPLE_START) || (state.status === riddle_status.SIMPLE_SWITCH)) {
+
+        }else if (state.status == riddle_status.SIMPLE_SWITCH){
             setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
-            setLeds([led_status.OFF, led_status.ON, led_status.OFF]);
-        }else if (state.status === riddle_status.SIMPLE_PUSH) {
+            setLeds([led_status.ON, led_status.OFF, led_status.OFF]);
+
+        }else if (state.status == riddle_status.SIMPLE_PUSH) {
+            if (state.leds['BLUE'] != led_status.BLINKING){
+                setLeds([led_status.ON, led_status.OFF, led_status.BLINKING]);
+            }
+        }else if (state.status == riddle_status.SIMPLE_FINISH) {
             setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
-            setLeds([led_status.OFF, led_status.OFF, led_status.BLINKING]);
-        }else if (state.status === riddle_status.SIMPLE_FINISH) {
-            setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
-            setLeds([led_status.OFF, led_status.OFF, led_status.ON]);
+            setLeds([led_status.ON, led_status.OFF, led_status.ON]);
         }
 
-        if ((state.status === riddle_status.COMPLEX_CABLES_ONLY)||(state.status === riddle_status.COMPLEX_CABLES_SWITCH_INCORRECT)
-            || (state.status === riddle_status.COMPLEX_CABLES_BAD_SWITCH)) {
-            playBuzzer();
-            setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
-            setLeds([led_status.OFF, led_status.ON, led_status.OFF]);
-
-        } else if (state.status === riddle_status.COMPLEX_CABLES_SWITCH_CORRECT) {
-            setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
-            setLeds([led_status.OFF, led_status.OFF, led_status.BLINKING]);
-
-        } else if ((state.status === riddle_status.COMPLEX_START) || (state.status === riddle_status.COMPLEX_SWITCH_ONLY)){
-            // No buzzer
-            setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
-            setLeds([led_status.OFF, led_status.ON, led_status.OFF]);
-
-        } else if (state.status === riddle_status.COMPLEX_FINISH) {
-            setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
-            setLeds([led_status.OFF, led_status.OFF, led_status.ON]);
-        }
+        // if ((state.status == riddle_status.COMPLEX_CABLES_ONLY)||(state.status == riddle_status.COMPLEX_CABLES_SWITCH_INCORRECT)
+        //     || (state.status == riddle_status.COMPLEX_CABLES_BAD_SWITCH)) {
+        //     playBuzzer();
+        //     setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
+        //     setLeds([led_status.OFF, led_status.ON, led_status.OFF]);
+        //
+        // } else if (state.status == riddle_status.COMPLEX_CABLES_SWITCH_CORRECT) {
+        //     setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
+        //     setLeds([led_status.OFF, led_status.OFF, led_status.BLINKING]);
+        //
+        // } else if ((state.status == riddle_status.COMPLEX_START) || (state.status == riddle_status.COMPLEX_SWITCH_ONLY)){
+        //     // No buzzer
+        //     setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
+        //     setLeds([led_status.OFF, led_status.ON, led_status.OFF]);
+        //
+        // } else if (state.status == riddle_status.COMPLEX_FINISH) {
+        //     setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
+        //     setLeds([led_status.OFF, led_status.OFF, led_status.ON]);
+        // }
 
         // if ((connectedWires.length < 6) && (isRiddleSimple()) ) {
         //     playBuzzer();
         // }
+    }
+
+    function calculateSwitch(){
+        if (switchButton.value == 1){
+            state.switch_button = switch_status.ON;
+            switchButtonRelease();
+        }else{
+            state.switch_button = switch_status.OFF;
+            switchButtonPress();
+        }
     }
 
     //
@@ -330,12 +349,10 @@ module.exports = function riddle4(api, board){
     });
 
     switchButton.on('press', function(){
-        switchButtonPress();
         calculateAll();
     });
 
     switchButton.on('release', function(){
-        switchButtonRelease();
         calculateAll();
     });
 
@@ -343,11 +360,22 @@ module.exports = function riddle4(api, board){
     //
     // Action from master desk
     //
+
+    api.get('/data', function (req, res) {
+        res.json(readState());
+    });
+
     api.post('/set_start_simple', function (req, res) {
         state.riddle_status = riddle_status.SIMPLE_START;
         calculateAll();
         res.json(readState());
     });
 
+    api.post('/fix_riddle_manually', function (req, res) {
+        // Define good position for switches manually
+        state.riddle_status = riddle_status.START;
+        calculateAll();
+        res.json(readState());
+    });
 
 };
