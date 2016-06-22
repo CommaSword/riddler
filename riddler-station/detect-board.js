@@ -22,6 +22,7 @@ var configurations = {
 	262: {type: 'riddle3', id:'262'},
 	295: {type: 'riddle3', id:'295'},
 	326: {type: 'riddle3', id:'326'},
+	495: {type: 'riddle4', id:'495'},
 	1024: {type: 'e-c-r', id:'1024'}
 };
 
