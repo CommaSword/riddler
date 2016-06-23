@@ -48,8 +48,8 @@
         "topic": "",
         "group": "Hacking Initiation",
         "order": "3",
-        "x": 171,
-        "y": 360,
+        "x": 397,
+        "y": 417,
         "wires": [
             [
                 "c6930a7d.f3c258"
@@ -60,9 +60,9 @@
         "id": "657232da.bc874c",
         "type": "ui_toast",
         "z": "10494fbd.03df",
-        "name": "New Attempt",
-        "x": 1021,
-        "y": 180,
+        "name": "TARGET SELECTED",
+        "x": 922,
+        "y": 144,
         "wires": []
     },
     {
@@ -88,43 +88,11 @@
         "topic": "",
         "group": "Hacking Progress",
         "order": 1,
-        "x": 163,
-        "y": 469,
+        "x": 389,
+        "y": 526,
         "wires": [
             [
                 "b134437d.713f5"
-            ]
-        ]
-    },
-    {
-        "id": "eead9503.0282f8",
-        "type": "http request",
-        "z": "10494fbd.03df",
-        "name": "set approve_init integrated",
-        "method": "POST",
-        "ret": "txt",
-        "url": "",
-        "x": 628,
-        "y": 360,
-        "wires": [
-            [
-                "442722a1.84761c"
-            ]
-        ]
-    },
-    {
-        "id": "e523b2c2.51fa4",
-        "type": "http request",
-        "z": "10494fbd.03df",
-        "name": "set approve_attempt integrated",
-        "method": "POST",
-        "ret": "txt",
-        "url": "",
-        "x": 645,
-        "y": 468,
-        "wires": [
-            [
-                "442722a1.84761c"
             ]
         ]
     },
@@ -133,13 +101,15 @@
         "type": "function",
         "z": "10494fbd.03df",
         "name": "configure",
-        "func": "    global.get('riddlesEvents').on('added-hacking', function(baseUrl) {\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start', baseUrl + '/set_start');\n        flow.set('set_deny', baseUrl + '/set_deny');\n        flow.set('attempt_succeed', baseUrl + '/attempt_succeed');\n        flow.set('attempt_partial_succeed', baseUrl + '/attempt_partial_succeed');\n        flow.set('attempt_fail', baseUrl + '/attempt_fail');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });",
+        "func": "    global.get('riddlesEvents').on('added-hacking', function(baseUrl) {\n        flow.set('duration', baseUrl + '/duration');\n        flow.set('speed', baseUrl + '/speed');\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start', baseUrl + '/set_start');\n        flow.set('set_deny', baseUrl + '/set_deny');\n        flow.set('attempt_succeed', baseUrl + '/attempt_succeed');\n        flow.set('attempt_partial_succeed', baseUrl + '/attempt_partial_succeed');\n        flow.set('attempt_fail', baseUrl + '/attempt_fail');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });",
         "outputs": 1,
         "noerr": 0,
-        "x": 138,
-        "y": 84,
+        "x": 91,
+        "y": 300,
         "wires": [
-            []
+            [
+                "d1f012b9.bf13d"
+            ]
         ]
     },
     {
@@ -153,8 +123,8 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 135,
-        "y": 42,
+        "x": 88,
+        "y": 258,
         "wires": [
             [
                 "d22eef21.fff22"
@@ -169,8 +139,8 @@
         "method": "GET",
         "ret": "obj",
         "url": "",
-        "x": 135,
-        "y": 174,
+        "x": 111,
+        "y": 59,
         "wires": [
             [
                 "442722a1.84761c"
@@ -196,8 +166,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 145,
-        "y": 204,
+        "x": 121,
+        "y": 89,
         "wires": [
             [
                 "52b2269e.471a28"
@@ -218,8 +188,8 @@
         ],
         "checkall": "false",
         "outputs": 1,
-        "x": 145,
-        "y": 251,
+        "x": 121,
+        "y": 129,
         "wires": [
             [
                 "60d887ef.e21868"
@@ -237,8 +207,8 @@
         "repeat": "1",
         "crontab": "",
         "once": false,
-        "x": 141,
-        "y": 285,
+        "x": 117,
+        "y": 170,
         "wires": [
             [
                 "d653ec90.4e7f2"
@@ -250,11 +220,11 @@
         "type": "function",
         "z": "10494fbd.03df",
         "name": "demux state",
-        "func": "\nreturn [\n    {payload:msg.payload.request_parameters},\n    {payload:msg.payload.ship_id},\n    {payload:msg.payload.status},\n    {payload:msg.payload.functional}\n    ];",
-        "outputs": "4",
+        "func": "\nreturn [\n    {payload:msg.payload.request_parameters},\n    {payload:msg.payload.ship_id},\n    {payload:msg.payload.status}\n    ];",
+        "outputs": "3",
         "noerr": 0,
-        "x": 460,
-        "y": 133,
+        "x": 438,
+        "y": 131,
         "wires": [
             [
                 "c1553ffe.fdc1f"
@@ -265,8 +235,7 @@
             [
                 "85a5bb2.a1cb548",
                 "111cbd6d.a59d13"
-            ],
-            []
+            ]
         ]
     },
     {
@@ -279,27 +248,11 @@
         "topic": "",
         "group": "Hacking Progress",
         "order": 1,
-        "x": 134,
-        "y": 515,
+        "x": 360,
+        "y": 572,
         "wires": [
             [
                 "a2c125ea.658798"
-            ]
-        ]
-    },
-    {
-        "id": "112efa5.c865406",
-        "type": "http request",
-        "z": "10494fbd.03df",
-        "name": "set approve_attempt integrated",
-        "method": "POST",
-        "ret": "txt",
-        "url": "",
-        "x": 641,
-        "y": 517,
-        "wires": [
-            [
-                "442722a1.84761c"
             ]
         ]
     },
@@ -313,27 +266,11 @@
         "topic": "",
         "group": "Hacking Initiation",
         "order": "4",
-        "x": 163,
-        "y": 408,
+        "x": 389,
+        "y": 465,
         "wires": [
             [
                 "b4b3c388.969f"
-            ]
-        ]
-    },
-    {
-        "id": "13038935.e5c6b7",
-        "type": "http request",
-        "z": "10494fbd.03df",
-        "name": "set approve_attempt integrated",
-        "method": "POST",
-        "ret": "txt",
-        "url": "",
-        "x": 642,
-        "y": 409,
-        "wires": [
-            [
-                "442722a1.84761c"
             ]
         ]
     },
@@ -356,11 +293,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 405,
-        "y": 360,
+        "x": 631,
+        "y": 417,
         "wires": [
             [
-                "eead9503.0282f8"
+                "6f4f3eaa.fe6b8"
             ]
         ]
     },
@@ -383,11 +320,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 405,
-        "y": 409,
+        "x": 631,
+        "y": 466,
         "wires": [
             [
-                "13038935.e5c6b7"
+                "6f4f3eaa.fe6b8"
             ]
         ]
     },
@@ -410,11 +347,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 402,
-        "y": 468,
+        "x": 628,
+        "y": 525,
         "wires": [
             [
-                "e523b2c2.51fa4"
+                "6f4f3eaa.fe6b8"
             ]
         ]
     },
@@ -437,11 +374,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 398,
-        "y": 515,
+        "x": 624,
+        "y": 572,
         "wires": [
             [
-                "112efa5.c865406"
+                "6f4f3eaa.fe6b8"
             ]
         ]
     },
@@ -455,40 +392,27 @@
         "rules": [
             {
                 "t": "eq",
-                "v": "hacking_false",
+                "v": "TARGET SELECTED",
                 "vt": "str"
             },
             {
                 "t": "eq",
-                "v": "hacking_ready_start",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "hacking_progress",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "hacking_wait_confirm",
+                "v": "HACK SUCCESS",
                 "vt": "str"
             }
         ],
-        "checkall": "true",
-        "outputs": 4,
-        "x": 815,
-        "y": 227,
+        "checkall": "false",
+        "outputs": 2,
+        "x": 682,
+        "y": 196,
         "wires": [
-            [],
             [
-                "9a568c6f.2ccf5",
-                "657232da.bc874c"
+                "657232da.bc874c",
+                "9a568c6f.2ccf5"
             ],
             [
-                "93d5c010.e0e5d"
-            ],
-            [
-                "d23a5495.f7e958"
+                "d23a5495.f7e958",
+                "c3061040.f1d24"
             ]
         ]
     },
@@ -513,30 +437,20 @@
         "id": "9a568c6f.2ccf5",
         "type": "notify",
         "z": "10494fbd.03df",
-        "title": "hacking ready start",
+        "title": "TARGET SELECTED",
         "name": "Hacking waiting to start",
-        "x": 1063,
-        "y": 219,
-        "wires": []
-    },
-    {
-        "id": "93d5c010.e0e5d",
-        "type": "notify",
-        "z": "10494fbd.03df",
-        "title": "Hacking in Progress",
-        "name": "Hacking in Progress",
-        "x": 1053,
-        "y": 258,
+        "x": 934,
+        "y": 183,
         "wires": []
     },
     {
         "id": "d23a5495.f7e958",
         "type": "notify",
         "z": "10494fbd.03df",
-        "title": "Hacking waiting for confirmation",
+        "title": "HACK SUCCESS",
         "name": "Hacking waiting for confirmation",
-        "x": 1087,
-        "y": 297,
+        "x": 957,
+        "y": 246,
         "wires": []
     },
     {
@@ -549,8 +463,8 @@
         "topic": "",
         "group": "Hacking Progress",
         "order": 1,
-        "x": 145,
-        "y": 562,
+        "x": 371,
+        "y": 619,
         "wires": [
             [
                 "fe79c7c7.55b428"
@@ -576,26 +490,225 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 404,
-        "y": 561,
+        "x": 630,
+        "y": 618,
         "wires": [
             [
-                "ec92e51f.a8ec58"
+                "6f4f3eaa.fe6b8"
             ]
         ]
     },
     {
-        "id": "ec92e51f.a8ec58",
+        "id": "7d75d6bd.a3cde8",
+        "type": "ui_numeric",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "duration (seconds)",
+        "topic": "",
+        "group": "",
+        "order": 1,
+        "format": "{{value}}",
+        "min": "10",
+        "max": "300",
+        "x": 433.5,
+        "y": 298,
+        "wires": [
+            [
+                "f0618d36.5a9d1"
+            ]
+        ]
+    },
+    {
+        "id": "f0618d36.5a9d1",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "duration",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 631,
+        "y": 298,
+        "wires": [
+            [
+                "6f4f3eaa.fe6b8"
+            ]
+        ]
+    },
+    {
+        "id": "7acff7fb.cb6fc8",
         "type": "http request",
         "z": "10494fbd.03df",
-        "name": "set approve_attempt integrated",
+        "name": "POST",
         "method": "POST",
         "ret": "txt",
         "url": "",
-        "x": 647,
-        "y": 561,
+        "x": 1014,
+        "y": 499,
         "wires": [
-            []
+            [
+                "442722a1.84761c"
+            ]
         ]
+    },
+    {
+        "id": "7a1017ec.92c938",
+        "type": "ui_numeric",
+        "z": "10494fbd.03df",
+        "tab": "30359933.401966",
+        "name": "speed (CPM)",
+        "topic": "",
+        "group": "",
+        "order": 1,
+        "format": "{{value}}",
+        "min": "10",
+        "max": "300",
+        "x": 415,
+        "y": 359,
+        "wires": [
+            [
+                "9d6108ba.6356a8"
+            ]
+        ]
+    },
+    {
+        "id": "9d6108ba.6356a8",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "speed",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 632.5,
+        "y": 359,
+        "wires": [
+            [
+                "6f4f3eaa.fe6b8"
+            ]
+        ]
+    },
+    {
+        "id": "6f4f3eaa.fe6b8",
+        "type": "switch",
+        "z": "10494fbd.03df",
+        "name": "if-configured",
+        "property": "configured",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 1,
+        "x": 854,
+        "y": 499,
+        "wires": [
+            [
+                "7acff7fb.cb6fc8"
+            ]
+        ]
+    },
+    {
+        "id": "1376492a.eb9f17",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "100",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "100",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 258,
+        "y": 298,
+        "wires": [
+            [
+                "7d75d6bd.a3cde8"
+            ]
+        ]
+    },
+    {
+        "id": "e74c93cb.ab08e",
+        "type": "change",
+        "z": "10494fbd.03df",
+        "name": "40",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "40",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 259,
+        "y": 359,
+        "wires": [
+            [
+                "7a1017ec.92c938"
+            ]
+        ]
+    },
+    {
+        "id": "d1f012b9.bf13d",
+        "type": "rbe",
+        "z": "10494fbd.03df",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 92.5,
+        "y": 336,
+        "wires": [
+            [
+                "1376492a.eb9f17",
+                "e74c93cb.ab08e"
+            ]
+        ]
+    },
+    {
+        "id": "c3061040.f1d24",
+        "type": "ui_toast",
+        "z": "10494fbd.03df",
+        "name": "HACK SUCCESS",
+        "x": 921,
+        "y": 216,
+        "wires": []
     }
 ]

@@ -40,16 +40,24 @@ module.exports = function(eventEmmiter) {
       });
       eventEmmiter.on('server-message', (data) => {
         screen.log("server-message: ", data);
-        if (this.state.page.canDeny && data.state === "hackDeny"){
-          this.setPage(pages.abort);
-        } else if (this.state.page === pages.preHack && data.state === "hackStart") {
-          this.setHackingPage();
-        } else if (this.state.page === pages.postHack) {
-          if (data.state === "hackSuccessful") {
-            this.setResultPage(results.full);
-          } else if (data.state === "hackPartialSuccessful") {
-            this.setResultPage(results.partial);
+        if (data.state) {
+          if (this.state.page.canDeny && data.state === "hackDeny") {
+            this.setPage(pages.abort);
+          } else if (this.state.page === pages.preHack && data.state === "hackStart") {
+            this.setHackingPage();
+          } else if (this.state.page === pages.postHack) {
+            if (data.state === "hackSuccessful") {
+              this.setResultPage(results.full);
+            } else if (data.state === "hackPartialSuccessful") {
+              this.setResultPage(results.partial);
+            }
           }
+        }
+        if (data.speed){
+          this.setState({speed:data.speed});
+        }
+        if (data.duration){
+          this.setState({duration:data.duration});
         }
       });
 
@@ -57,7 +65,9 @@ module.exports = function(eventEmmiter) {
         page: pages.initial,
         shipId: nullStr,
         details: nullStr,
-        result: nullStr
+        result: nullStr,
+        speed: 40,
+        duration: 100
       };
     }
 
@@ -123,7 +133,7 @@ module.exports = function(eventEmmiter) {
               switch (this.state.page) {
                 case pages.welcome: return <Target shipId={this.state.shipId} operation={this.state.details} done={::this.welcomeCallback}/>;
                 case pages.preHack: return <Processing title={'connecting to ' + this.state.shipId}/>;
-                case pages.hacking: return <HackFlow done={::this.hackingCallback} duration={90} speed={30}/>;
+                case pages.hacking: return <HackFlow done={::this.hackingCallback} duration={this.state.duration} speed={this.state.speed}/>;
                 case pages.postHack: return <Processing title="attacking target"/>;
                 case pages.result: return <text left="center" top="center">{this.state.result}</text>;
                 case pages.abort: return <text left="center" top="center">no connection to target</text>;

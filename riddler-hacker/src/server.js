@@ -2,6 +2,17 @@ var express = require('express');
 
 module.exports = function hacking(eventEmitter) {
     const app = express();
+    //most basic body parser for raw strings
+    app.use(function rawBody(req, res, next) {
+        req.setEncoding('utf8');
+        req.rawBody = '';
+        req.on('data', function (chunk) {
+            req.rawBody += chunk;
+        });
+        req.on('end', function () {
+            next();
+        });
+    });
 
     const state = {
         status: '',
@@ -13,8 +24,8 @@ module.exports = function hacking(eventEmitter) {
         return {
             status: state.status,
             request_parameters: state.request_parameters,
-            ship_id: state.ship_id,
-        };
+            ship_id: state.ship_id
+        }
     }
 
     eventEmitter.on('ui-message', (data) => {
@@ -27,44 +38,42 @@ module.exports = function hacking(eventEmitter) {
         res.json(readState());
     });
 
+
+    app.post('/speed', function(req, res){
+        if (req.rawBody.match(/^\d+$/)) {
+            eventEmitter.emit('server-message', {speed: parseInt(req.rawBody)});
+        }
+        res.json(readState())
+    });
+    app.post('/duration', function(req, res){
+        if (req.rawBody.match(/^\d+$/)) {
+            eventEmitter.emit('server-message', {duration: parseInt(req.rawBody)});
+        }
+        res.json(readState())
+    });
     app.post('/set_start', function(req, res){
-        eventEmitter.emit('server-message',
-            {
-                state: "hackStart",
-            });
-        res.json(state);
+        eventEmitter.emit('server-message', {state: "hackStart"});
+        res.json(readState())
     });
 
     app.post('/set_deny', function(req, res){
-        eventEmitter.emit('server-message',
-            {
-                state: "hackDeny",
-            });
-        res.json(state);
+        eventEmitter.emit('server-message', {state: "hackDeny"});
+        res.json(readState())
     });
 
     app.post('/attempt_succeed', function(req, res){
-        eventEmitter.emit('server-message',
-            {
-                state: "hackSuccessful",
-            });
-        res.json(state);
+        eventEmitter.emit('server-message', {state: "hackSuccessful"});
+        res.json(readState())
     });
 
     app.post('/attempt_partial_succeed', function(req, res){
-        eventEmitter.emit('server-message',
-            {
-                state: "hackPartialSuccessful",
-            });
-        res.json(state);
+        eventEmitter.emit('server-message', {state: "hackPartialSuccessful"});
+        res.json(readState())
     });
 
     app.post('/attempt_fail', function(req, res){
-        eventEmitter.emit('server-message',
-            {
-                state: "hackDeny",
-            });
-        res.json(state);
+        eventEmitter.emit('server-message', {state: "hackDeny"});
+        res.json(readState())
     });
 
     app.listen(5000);
