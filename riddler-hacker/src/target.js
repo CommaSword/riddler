@@ -7,7 +7,9 @@ import React, {Component} from 'react';
 
 export class Target extends Component{
 	static propTypes = {
-		done: React.PropTypes.func.isRequired
+		done: React.PropTypes.func.isRequired,
+		shipId: React.PropTypes.string,
+		operation: React.PropTypes.string
 	};
 	constructor(props) {
 		super(props);
@@ -38,9 +40,9 @@ export class Target extends Component{
 				top={3} left={3} width={60} height={15}>
 				<form>
 					<text top={2}>ship sign</text>
-					<textbox onKeypress={::this.handleKeypressShipId} inputOnFocus top={3} width={50} height={3} border={{type: 'line'}} ref='shipId'></textbox>
+					<textbox onKeypress={::this.handleKeypressShipId} value={this.props.shipId} inputOnFocus top={3} width={50} height={3} border={{type: 'line'}} ref='shipId'></textbox>
 					<text top={6}>objective</text>
-					<textbox onKeypress={::this.handleKeypressOperation} inputOnFocus top={7} width={50} height={3} border={{type: 'line'}} ref='objective'></textbox>
+					<textbox onKeypress={::this.handleKeypressOperation} value={this.props.operation} inputOnFocus top={7} width={50} height={3} border={{type: 'line'}} ref='objective'></textbox>
 				</form>
 			</box>
 

@@ -1,19 +1,12 @@
 var express = require('express');
 
-var hacking_level = {
-    0: 'Easy',
-    1: 'Medium',
-    2: 'Hard'
-};
-
 module.exports = function hacking(eventEmitter) {
-    var app = express();
+    const app = express();
 
-    var state = {
+    const state = {
         status: '',
-        difficulty: hacking_level[0],
-        request_details: '',
-        ship_id: '',
+        request_parameters: '',
+        ship_id: ''
     };
 
     function readState() {
@@ -25,16 +18,9 @@ module.exports = function hacking(eventEmitter) {
     }
 
     eventEmitter.on('ui-message', (data) => {
-        switch (data.status) {
-            case "welcome": state.status = 'User not hacking'; break;
-            case "preHack": state.status = 'User waiting for confirmation'; break;
-            case 'hacking': state.status = 'Hacking in progress'; break;
-            case 'postHack': state.status = 'Waiting for hacking result'; break;
-        }
-        var newShipId = data.shipId || null;
-        var newDetails = data.details || null;
-        state.request_parameters = newDetails || state.request_parameters;
-        state.ship_id = newShipId || state.ship_id;
+        state.status = data.status || state.status;
+        state.request_parameters = data.details || state.request_parameters;
+        state.ship_id = data.shipId || state.ship_id;
     });
 
     app.get('/data', function(req, res){
