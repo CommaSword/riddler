@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import blessed from 'blessed';
 import {render} from 'react-blessed';
-import {Hacking} from './nuvo-hack'
+import {HackFlow} from './hack-flow'
 import {Background} from './background';
 import {Target} from './target';
 import {Processing} from './processing';
@@ -127,7 +127,7 @@ module.exports = function(eventEmmiter) {
               switch (this.state.page) {
                 case pages.welcome: return <Target done={::this.welcomeCallback}/>;
                 case pages.preHack: return <Processing title={'connecting to ' + this.state.shipId}/>;
-                case pages.hacking: return <Hacking length={20} charTime={1500} done={::this.hackingCallback}/>;
+                case pages.hacking: return <HackFlow done={::this.hackingCallback} duration={90}/>;
                 case pages.postHack: return <Processing title="attacking target"/>;
                 case pages.result: return <text left="center" top="center">{this.state.result}</text>;
                 case pages.abort: return <text left="center" top="center">no connection to target</text>;
