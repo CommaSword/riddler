@@ -50,7 +50,9 @@ module.exports = function riddle4(api, board){
 	};
 
 	function readState(){
-		return state;
+		return {
+			status: state.status
+		};
 	}
 
     // Defining hardware
@@ -366,17 +368,20 @@ module.exports = function riddle4(api, board){
     //
 
     api.get('/data', function (req, res) {
+		console.log('/data');
         res.json(readState());
     });
 
     api.post('/set_start_simple', function (req, res) {
-        state.riddle_status = riddle_status.SIMPLE_START;
+		console.log('/set_start_simple');
+		state.riddle_status = riddle_status.SIMPLE_START;
         calculateAll();
         res.json(readState());
     });
 
     api.post('/fix_riddle_manually', function (req, res) {
-        // Define good position for switches manually
+		console.log('/fix_riddle_manually');
+		// Define good position for switches manually
         state.riddle_status = riddle_status.START;
         calculateAll();
         res.json(readState());
