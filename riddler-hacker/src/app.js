@@ -15,10 +15,6 @@ const pages = {
   'result' : {status:'viewing success'},
   'abort' : {status:'failed or denied'}
 };
-const results = {
-  full : 'total success',
-  partial : 'partial success'
-};
 const nullStr = ' ';
 module.exports = function(eventEmmiter) {
 
@@ -41,15 +37,13 @@ module.exports = function(eventEmmiter) {
       eventEmmiter.on('server-message', (data) => {
         screen.log("server-message: ", data);
         if (data.state) {
-          if (this.state.page.canDeny && data.state === "hackDeny") {
+          if (this.state.page.canDeny && data.state === "abort") {
             this.setPage(pages.abort);
-          } else if (this.state.page === pages.preHack && data.state === "hackStart") {
-            this.setHackingPage();
-          } else if (this.state.page === pages.postHack) {
-            if (data.state === "hackSuccessful") {
-              this.setResultPage(results.full);
-            } else if (data.state === "hackPartialSuccessful") {
-              this.setResultPage(results.partial);
+          } else if (data.state === "ok") {
+            if (this.state.page === pages.preHack) {
+              this.setHackingPage();
+            } else if (this.state.page === pages.postHack) {
+              this.setResultPage();
             }
           }
         }
@@ -65,7 +59,6 @@ module.exports = function(eventEmmiter) {
         page: pages.initial,
         shipId: nullStr,
         details: nullStr,
-        result: nullStr,
         speed: 40,
         duration: 100
       };
@@ -95,9 +88,8 @@ module.exports = function(eventEmmiter) {
     setPostHackPage(){
       this.setPage(pages.postHack);
     }
-    setResultPage(result){
+    setResultPage(){
       this.setPage(pages.result);
-      this.setState({result});
     }
     setAbortPage(){
       this.sendToBackOffice({shipId: nullStr, details: nullStr});
@@ -135,7 +127,7 @@ module.exports = function(eventEmmiter) {
                 case pages.preHack: return <Processing title={'connecting to ' + this.state.shipId}/>;
                 case pages.hacking: return <HackFlow done={::this.hackingCallback} duration={this.state.duration} speed={this.state.speed}/>;
                 case pages.postHack: return <Processing title="attacking target"/>;
-                case pages.result: return <text left="center" top="center">{this.state.result}</text>;
+                case pages.result: return <text left="center" top="center">operation successful</text>;
                 case pages.abort: return <text left="center" top="center">no connection to target</text>;
               }})()}
           </Background>

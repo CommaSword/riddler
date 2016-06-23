@@ -51,31 +51,15 @@ module.exports = function hacking(eventEmitter) {
         }
         res.json(readState())
     });
-    app.post('/set_start', function(req, res){
-        eventEmitter.emit('server-message', {state: "hackStart"});
+    app.post('/abort', function(req, res){
+        eventEmitter.emit('server-message', {state: "abort"});
         res.json(readState())
     });
 
-    app.post('/set_deny', function(req, res){
-        eventEmitter.emit('server-message', {state: "hackDeny"});
+    app.post('/ok', function(req, res){
+        eventEmitter.emit('server-message', {state: "ok"});
         res.json(readState())
     });
-
-    app.post('/attempt_succeed', function(req, res){
-        eventEmitter.emit('server-message', {state: "hackSuccessful"});
-        res.json(readState())
-    });
-
-    app.post('/attempt_partial_succeed', function(req, res){
-        eventEmitter.emit('server-message', {state: "hackPartialSuccessful"});
-        res.json(readState())
-    });
-
-    app.post('/attempt_fail', function(req, res){
-        eventEmitter.emit('server-message', {state: "hackDeny"});
-        res.json(readState())
-    });
-
     app.listen(5000);
 };
 

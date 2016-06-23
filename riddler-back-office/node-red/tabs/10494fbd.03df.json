@@ -17,11 +17,11 @@
         "type": "ui_text",
         "z": "10494fbd.03df",
         "tab": "30359933.401966",
-        "name": "Hacking Attempt Request",
-        "group": "Hacking Initiation",
-        "order": 1,
+        "name": "Operation",
+        "group": "",
+        "order": "2",
         "format": "{{msg.payload}}",
-        "x": 715,
+        "x": 665,
         "y": 25,
         "wires": []
     },
@@ -31,7 +31,7 @@
         "z": "10494fbd.03df",
         "tab": "30359933.401966",
         "name": "Ship ID",
-        "group": "Hacking Initiation",
+        "group": "",
         "order": 1,
         "format": "{{msg.payload}}",
         "x": 661,
@@ -43,12 +43,12 @@
         "type": "ui_button",
         "z": "10494fbd.03df",
         "tab": "30359933.401966",
-        "name": "Approve Hacking Attempt",
+        "name": "OK",
         "payload": "",
         "topic": "",
-        "group": "Hacking Initiation",
-        "order": "3",
-        "x": 397,
+        "group": "",
+        "order": "6",
+        "x": 337,
         "y": 417,
         "wires": [
             [
@@ -70,38 +70,20 @@
         "type": "ui_text",
         "z": "10494fbd.03df",
         "tab": "30359933.401966",
-        "name": "Hacking Attempt Status",
-        "group": "Hacking Progress",
-        "order": 1,
+        "name": "Status",
+        "group": "",
+        "order": "3",
         "format": "{{msg.payload}}",
-        "x": 707,
+        "x": 647,
         "y": 111,
         "wires": []
-    },
-    {
-        "id": "34c9a9a6.19b456",
-        "type": "ui_button",
-        "z": "10494fbd.03df",
-        "tab": "30359933.401966",
-        "name": "Success Confirmation",
-        "payload": "Success Confirmation",
-        "topic": "",
-        "group": "Hacking Progress",
-        "order": 1,
-        "x": 389,
-        "y": 526,
-        "wires": [
-            [
-                "b134437d.713f5"
-            ]
-        ]
     },
     {
         "id": "d22eef21.fff22",
         "type": "function",
         "z": "10494fbd.03df",
         "name": "configure",
-        "func": "    global.get('riddlesEvents').on('added-hacking', function(baseUrl) {\n        flow.set('duration', baseUrl + '/duration');\n        flow.set('speed', baseUrl + '/speed');\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start', baseUrl + '/set_start');\n        flow.set('set_deny', baseUrl + '/set_deny');\n        flow.set('attempt_succeed', baseUrl + '/attempt_succeed');\n        flow.set('attempt_partial_succeed', baseUrl + '/attempt_partial_succeed');\n        flow.set('attempt_fail', baseUrl + '/attempt_fail');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });",
+        "func": "    global.get('riddlesEvents').on('added-hacking', function(baseUrl) {\n        flow.set('duration', baseUrl + '/duration');\n        flow.set('speed', baseUrl + '/speed');\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('abort', baseUrl + '/abort');\n        flow.set('ok', baseUrl + '/ok');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });",
         "outputs": 1,
         "noerr": 0,
         "x": 91,
@@ -239,34 +221,16 @@
         ]
     },
     {
-        "id": "36a7a1d6.6d664e",
-        "type": "ui_button",
-        "z": "10494fbd.03df",
-        "tab": "30359933.401966",
-        "name": "Fail Attempt",
-        "payload": "Fail Attempt",
-        "topic": "",
-        "group": "Hacking Progress",
-        "order": 1,
-        "x": 360,
-        "y": 572,
-        "wires": [
-            [
-                "a2c125ea.658798"
-            ]
-        ]
-    },
-    {
         "id": "4c4605ba.0e12dc",
         "type": "ui_button",
         "z": "10494fbd.03df",
         "tab": "30359933.401966",
-        "name": "Deny Hacking Attempt",
+        "name": "Abort",
         "payload": "",
         "topic": "",
-        "group": "Hacking Initiation",
-        "order": "4",
-        "x": 389,
+        "group": "",
+        "order": "7",
+        "x": 339,
         "y": 465,
         "wires": [
             [
@@ -284,7 +248,7 @@
                 "t": "set",
                 "p": "url",
                 "pt": "msg",
-                "to": "set_start",
+                "to": "ok",
                 "tot": "flow"
             }
         ],
@@ -311,7 +275,7 @@
                 "t": "set",
                 "p": "url",
                 "pt": "msg",
-                "to": "set_deny",
+                "to": "abort",
                 "tot": "flow"
             }
         ],
@@ -322,60 +286,6 @@
         "reg": false,
         "x": 631,
         "y": 466,
-        "wires": [
-            [
-                "6f4f3eaa.fe6b8"
-            ]
-        ]
-    },
-    {
-        "id": "b134437d.713f5",
-        "type": "change",
-        "z": "10494fbd.03df",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "url",
-                "pt": "msg",
-                "to": "attempt_succeed",
-                "tot": "flow"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 628,
-        "y": 525,
-        "wires": [
-            [
-                "6f4f3eaa.fe6b8"
-            ]
-        ]
-    },
-    {
-        "id": "a2c125ea.658798",
-        "type": "change",
-        "z": "10494fbd.03df",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "url",
-                "pt": "msg",
-                "to": "attempt_fail",
-                "tot": "flow"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 624,
-        "y": 572,
         "wires": [
             [
                 "6f4f3eaa.fe6b8"
@@ -454,51 +364,6 @@
         "wires": []
     },
     {
-        "id": "84ddfc99.4e7df",
-        "type": "ui_button",
-        "z": "10494fbd.03df",
-        "tab": "30359933.401966",
-        "name": "Partial Success",
-        "payload": "Partial Success",
-        "topic": "",
-        "group": "Hacking Progress",
-        "order": 1,
-        "x": 371,
-        "y": 619,
-        "wires": [
-            [
-                "fe79c7c7.55b428"
-            ]
-        ]
-    },
-    {
-        "id": "fe79c7c7.55b428",
-        "type": "change",
-        "z": "10494fbd.03df",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "url",
-                "pt": "msg",
-                "to": "attempt_partial_succeed",
-                "tot": "flow"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 630,
-        "y": 618,
-        "wires": [
-            [
-                "6f4f3eaa.fe6b8"
-            ]
-        ]
-    },
-    {
         "id": "7d75d6bd.a3cde8",
         "type": "ui_numeric",
         "z": "10494fbd.03df",
@@ -506,7 +371,7 @@
         "name": "duration (seconds)",
         "topic": "",
         "group": "",
-        "order": 1,
+        "order": "4",
         "format": "{{value}}",
         "min": "10",
         "max": "300",
@@ -553,8 +418,8 @@
         "method": "POST",
         "ret": "txt",
         "url": "",
-        "x": 1014,
-        "y": 499,
+        "x": 1006,
+        "y": 385,
         "wires": [
             [
                 "442722a1.84761c"
@@ -569,7 +434,7 @@
         "name": "speed (CPM)",
         "topic": "",
         "group": "",
-        "order": 1,
+        "order": "5",
         "format": "{{value}}",
         "min": "10",
         "max": "300",
@@ -622,8 +487,8 @@
         ],
         "checkall": "false",
         "outputs": 1,
-        "x": 854,
-        "y": 499,
+        "x": 846,
+        "y": 385,
         "wires": [
             [
                 "7acff7fb.cb6fc8"
