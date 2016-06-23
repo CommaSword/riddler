@@ -20,12 +20,12 @@
         ],
         "out": [
             {
-                "x": 803,
-                "y": 224,
+                "x": 677,
+                "y": 189,
                 "wires": [
                     {
                         "id": "86763b4c.68ff58",
-                        "port": 4
+                        "port": 1
                     }
                 ]
             }
@@ -100,19 +100,6 @@
         ]
     },
     {
-        "id": "ad7a0460.1070d8",
-        "type": "ui_text",
-        "z": "e78f24ee.40bef8",
-        "tab": "de243966.edb1a8",
-        "name": "Button",
-        "group": "shazam!",
-        "order": "5",
-        "format": "{{msg.payload}}",
-        "x": 823,
-        "y": 133,
-        "wires": []
-    },
-    {
         "id": "147ab97f.7f7f87",
         "type": "ui_text",
         "z": "e78f24ee.40bef8",
@@ -121,21 +108,8 @@
         "group": "shazam!",
         "order": "3",
         "format": "{{msg.payload}}",
-        "x": 821,
-        "y": 46,
-        "wires": []
-    },
-    {
-        "id": "2df53a84.6c1ad6",
-        "type": "ui_text",
-        "z": "e78f24ee.40bef8",
-        "tab": "de243966.edb1a8",
-        "name": "Switch",
-        "group": "shazam!",
-        "order": "4",
-        "format": "{{msg.payload}}",
-        "x": 831,
-        "y": 95,
+        "x": 686,
+        "y": 102,
         "wires": []
     },
     {
@@ -279,23 +253,14 @@
         "type": "function",
         "z": "e78f24ee.40bef8",
         "name": "demux state",
-        "func": "\nreturn [\n    {payload:msg.payload.status},\n    {payload:msg.payload.switch_button},\n    {payload:msg.payload.push_button},\n    {payload:msg.payload.leds},\n    {payload:msg.payload.functional},\n    ];",
-        "outputs": "5",
+        "func": "\nreturn [\n    {payload:msg.payload.status},\n    {payload:msg.payload.functional},\n    ];",
+        "outputs": "2",
         "noerr": 0,
         "x": 463.5,
         "y": 159,
         "wires": [
             [
                 "147ab97f.7f7f87"
-            ],
-            [
-                "2df53a84.6c1ad6"
-            ],
-            [
-                "ad7a0460.1070d8"
-            ],
-            [
-                "7f75c91e.675b78"
             ],
             []
         ]
@@ -324,19 +289,6 @@
         "format": "{{msg.payload}}",
         "x": 220.5,
         "y": 27,
-        "wires": []
-    },
-    {
-        "id": "7f75c91e.675b78",
-        "type": "ui_text",
-        "z": "e78f24ee.40bef8",
-        "tab": "de243966.edb1a8",
-        "name": "LEDS",
-        "group": "shazam!",
-        "order": "5",
-        "format": "{{msg.payload}}",
-        "x": 835,
-        "y": 180,
         "wires": []
     },
     {

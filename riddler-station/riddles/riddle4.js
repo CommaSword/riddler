@@ -3,7 +3,7 @@
  */
 var five = require('johnny-five');
 
-var BLINK_INTERVAL = 200;
+var BLINK_INTERVAL = 500;
 
 var riddle_status = {
 	START: 'Initial state',
@@ -42,7 +42,7 @@ var led_array = {
 module.exports = function riddle4(api, board){
 
 	var state = {
-		status: riddle_status.SIMPLE_START,
+		status: riddle_status.START,
 	    switch_button: switch_status.ON,
 		push_button: switch_status.OFF,
 		leds: {'GREEN': led_status.OFF, 'RED': led_status.OFF, 'BLUE': led_status.OFF},
@@ -276,11 +276,10 @@ module.exports = function riddle4(api, board){
         // }
 
         calculateSwitch();
-        // console.info(state.status);
+        //console.info(state.status);
         //console.info(leds['BLUE'].value);
 
         if (state.status == riddle_status.START) {
-
             setLeds([led_status.OFF, led_status.OFF, led_status.OFF]);
             setLeds([led_status.OFF, led_status.ON, led_status.OFF]);
             
@@ -368,21 +367,19 @@ module.exports = function riddle4(api, board){
     //
 
     api.get('/data', function (req, res) {
-		console.log('/data');
+		//console.log('/data');
         res.json(readState());
     });
 
     api.post('/set_start_simple', function (req, res) {
-		console.log('/set_start_simple');
-		state.riddle_status = riddle_status.SIMPLE_START;
+		state.status = riddle_status.SIMPLE_START;
         calculateAll();
         res.json(readState());
     });
 
     api.post('/fix_riddle_manually', function (req, res) {
-		console.log('/fix_riddle_manually');
 		// Define good position for switches manually
-        state.riddle_status = riddle_status.START;
+        state.status = riddle_status.START;
         calculateAll();
         res.json(readState());
     });
