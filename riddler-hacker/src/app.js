@@ -36,15 +36,13 @@ module.exports = function(eventEmmiter) {
       });
       eventEmmiter.on('server-message', (data) => {
         screen.log("server-message: ", data);
-        if (data.state) {
-          if (this.state.page.canDeny && data.state === "abort") {
-            this.setPage(pages.abort);
-          } else if (data.state === "ok") {
-            if (this.state.page === pages.preHack) {
-              this.setHackingPage();
-            } else if (this.state.page === pages.postHack) {
-              this.setResultPage();
-            }
+        if (this.state.page.canDeny && data.state === "abort") {
+          this.setPage(pages.abort);
+        } else if (data.state === "ok") {
+          if (this.state.page === pages.preHack) {
+            this.setHackingPage();
+          } else if (this.state.page === pages.postHack) {
+            this.setResultPage();
           }
         }
         if (data.speed){

@@ -37,8 +37,6 @@ module.exports = function hacking(eventEmitter) {
     app.get('/data', function(req, res){
         res.json(readState());
     });
-
-
     app.post('/speed', function(req, res){
         if (req.rawBody.match(/^\d+$/)) {
             eventEmitter.emit('server-message', {speed: parseInt(req.rawBody)});
