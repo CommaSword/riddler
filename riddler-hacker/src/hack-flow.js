@@ -71,7 +71,7 @@ export class HackFlow extends Component{
 			} else {
 				this.setState({
 					hacking: false,
-					phraseLength: this.state.phraseLength * 2
+					phraseLength: Math.min(this.state.phraseLength * 2, 35)
 				});
 				this.nextHackTimeout = setTimeout(() => this.setState({hacking: true}), 5*1000);
 			}
