@@ -20,7 +20,7 @@ export class Hacking extends Component{
 	static propTypes = {
 		done: React.PropTypes.func.isRequired,
 		length: React.PropTypes.number.isRequired,
-		charTime: React.PropTypes.number.isRequired
+		speed: React.PropTypes.number.isRequired
 	};
 	constructor(props) {
 		super(props);
@@ -31,7 +31,7 @@ export class Hacking extends Component{
 		};
 	}
 	time(){
-		return this.props.length * this.props.charTime;
+		return Math.floor(60 * 1000 * this.props.length / this.props.speed);
 	}
 	componentDidMount(){
 		this.refs.textbox.focus();

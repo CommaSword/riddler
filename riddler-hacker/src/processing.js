@@ -9,13 +9,13 @@ export class Processing extends Component{
 	};
 	constructor(props) {
 		super(props);
-		this.state = {progress: 0};
+		this.state = {progress: Math.floor(Math.random()*10)};
 	}
 
 	componentDidMount(){
 		this.interval = setInterval(() => {
 			this.setState({progress: this.state.progress + 1});
-		}, 800);
+		}, 600);
 	}
 
 	componentWillUnmount(){
