@@ -146,8 +146,8 @@
         "func": "if (!flow.get('id')){\n    flow.set('id', msg.payload);\n    global.get('riddlesEvents').on('added-'+msg.payload, function(baseUrl) {\n        flow.set('state_url', baseUrl + '/data');\n        flow.set('set_start_simple', baseUrl + '/set_start_simple');\n        flow.set('fix_riddle_manually', baseUrl + '/fix_riddle_manually');\n        flow.set('configured', true);\n        node.send({payload:baseUrl});\n    });\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 234,
-        "y": 68,
+        "x": 222,
+        "y": 77,
         "wires": [
             []
         ]

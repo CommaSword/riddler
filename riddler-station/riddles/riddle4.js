@@ -49,6 +49,10 @@ module.exports = function riddle4(api, board){
         //cables: {5,6,7,8,9,10}
 	};
 
+	function readState(){
+		return state;
+	}
+
     // Defining hardware
 	var leds = {};
     leds['RED'] = new five.Led({

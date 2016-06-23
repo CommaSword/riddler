@@ -532,7 +532,7 @@
         "id": "95874529.3b31a8",
         "type": "subflow:e78f24ee.40bef8",
         "z": "df2cd387.f2291",
-        "name": "R4 - 495",
+        "name": "R4 - 339",
         "x": 211,
         "y": 1031,
         "wires": [
@@ -545,7 +545,7 @@
         "z": "df2cd387.f2291",
         "name": "",
         "topic": "config",
-        "payload": "495",
+        "payload": "339",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
