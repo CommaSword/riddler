@@ -15,7 +15,22 @@
                 ]
             }
         ],
-        "out": []
+        "out": [
+            {
+                "x": 1198,
+                "y": 116,
+                "wires": [
+                    {
+                        "id": "3c1869e0.811846",
+                        "port": 0
+                    },
+                    {
+                        "id": "f388305e.85026",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
     },
     {
         "id": "af089e6d.a4f5e",
@@ -67,22 +82,21 @@
         "type": "function",
         "z": "9e21335d.82775",
         "name": "demux state",
-        "func": "\nreturn [\n        {payload:msg.payload.autoRepair},\n        {payload:msg.payload.hp},\n        {payload:msg.payload.damaged},\n        {payload:msg.payload.functional}\n    ];",
+        "func": "return [\n        {payload:msg.payload.autoRepair},\n        {payload:msg.payload.hp},\n        {payload:msg.payload.damaged},\n        {payload:msg.payload.functional}\n    ];",
         "outputs": "4",
         "noerr": 0,
-        "x": 520.5,
-        "y": 234,
+        "x": 466.5,
+        "y": 236,
         "wires": [
             [
-                "af089e6d.a4f5e"
+                "f20657e0.7e28f8"
             ],
             [
-                "a1f28e9c.08639",
-                "d8eca26f.353df"
+                "c5b55d07.ca528"
             ],
             [],
             [
-                "da5779ce.2a86f8"
+                "b91c063b.d8dc58"
             ]
         ]
     },
@@ -125,7 +139,7 @@
         "y": 140,
         "wires": [
             [
-                "690930b1.2fd19"
+                "f388305e.85026"
             ]
         ]
     },
@@ -326,8 +340,8 @@
         "gap": "",
         "start": "",
         "inout": "out",
-        "x": 970.5,
-        "y": 278,
+        "x": 1054.5,
+        "y": 213,
         "wires": [
             [
                 "d40c876e.b4f2d8"
@@ -374,8 +388,8 @@
         "order": "3",
         "min": 0,
         "max": "100",
-        "x": 739.5,
-        "y": 227,
+        "x": 745.5,
+        "y": 221,
         "wires": [
             [
                 "8dab9bbc.391598"
@@ -383,22 +397,103 @@
         ]
     },
     {
-        "id": "d8eca26f.353df",
-        "type": "ui_switch",
+        "id": "f388305e.85026",
+        "type": "rbe",
+        "z": "9e21335d.82775",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 391,
+        "y": 139,
+        "wires": [
+            [
+                "690930b1.2fd19"
+            ]
+        ]
+    },
+    {
+        "id": "f20657e0.7e28f8",
+        "type": "rbe",
+        "z": "9e21335d.82775",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 615,
+        "y": 190,
+        "wires": [
+            [
+                "af089e6d.a4f5e"
+            ]
+        ]
+    },
+    {
+        "id": "c5b55d07.ca528",
+        "type": "rbe",
+        "z": "9e21335d.82775",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 620,
+        "y": 225,
+        "wires": [
+            [
+                "a1f28e9c.08639",
+                "4b5b9fda.341f3"
+            ]
+        ]
+    },
+    {
+        "id": "b91c063b.d8dc58",
+        "type": "rbe",
+        "z": "9e21335d.82775",
+        "name": "changes only",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "x": 626,
+        "y": 302,
+        "wires": [
+            [
+                "da5779ce.2a86f8"
+            ]
+        ]
+    },
+    {
+        "id": "cb513535.9ad6e8",
+        "type": "ui_button",
         "z": "9e21335d.82775",
         "tab": "692264eb.cffd6c",
-        "name": "damaged",
+        "name": "FIX",
+        "payload": "100",
         "topic": "",
         "group": "shazam!",
         "order": "2.5",
-        "onvalue": "false",
-        "offvalue": "100",
-        "x": 750.5,
-        "y": 262,
+        "x": 748.5,
+        "y": 270,
         "wires": [
             [
-                "8dab9bbc.391598"
+                "d40c876e.b4f2d8"
             ]
         ]
+    },
+    {
+        "id": "4b5b9fda.341f3",
+        "type": "ui_text",
+        "z": "9e21335d.82775",
+        "tab": "692264eb.cffd6c",
+        "name": "HP",
+        "group": "shazam!",
+        "order": "2.6",
+        "format": "{{msg.payload}}",
+        "x": 919.5,
+        "y": 167,
+        "wires": []
     }
 ]

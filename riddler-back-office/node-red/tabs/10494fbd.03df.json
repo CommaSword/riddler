@@ -205,8 +205,8 @@
         "func": "\nreturn [\n    {payload:msg.payload.request_parameters},\n    {payload:msg.payload.ship_id},\n    {payload:msg.payload.status}\n    ];",
         "outputs": "3",
         "noerr": 0,
-        "x": 438,
-        "y": 131,
+        "x": 422,
+        "y": 125,
         "wires": [
             [
                 "c1553ffe.fdc1f"

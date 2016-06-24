@@ -11,7 +11,11 @@
         "name": "reactor",
         "x": 823.75,
         "y": 90,
-        "wires": []
+        "wires": [
+            [
+                "579902ea.204d1c"
+            ]
+        ]
     },
     {
         "id": "96e3cc5a.800af",
@@ -39,7 +43,11 @@
         "name": "beam_weapon",
         "x": 843,
         "y": 183,
-        "wires": []
+        "wires": [
+            [
+                "3beb1e24.1a2142"
+            ]
+        ]
     },
     {
         "id": "dd55b465.e57638",
@@ -56,7 +64,8 @@
         "y": 154,
         "wires": [
             [
-                "36c7746d.24027c"
+                "36c7746d.24027c",
+                "3beb1e24.1a2142"
             ]
         ]
     },
@@ -65,9 +74,13 @@
         "type": "subflow:9e21335d.82775",
         "z": "df2cd387.f2291",
         "name": "missiles",
-        "x": 825,
-        "y": 272,
-        "wires": []
+        "x": 824,
+        "y": 274,
+        "wires": [
+            [
+                "148452d7.d27aed"
+            ]
+        ]
     },
     {
         "id": "44ed62a5.b7619c",
@@ -95,7 +108,11 @@
         "name": "maneuvering",
         "x": 833,
         "y": 363,
-        "wires": []
+        "wires": [
+            [
+                "f45d7792.36a9a8"
+            ]
+        ]
     },
     {
         "id": "5867b9c7.f87b18",
@@ -123,7 +140,11 @@
         "name": "impulse_engine",
         "x": 844,
         "y": 468,
-        "wires": []
+        "wires": [
+            [
+                "c6696bfb.77c9d8"
+            ]
+        ]
     },
     {
         "id": "9cdb869.a69e078",
@@ -151,7 +172,11 @@
         "name": "warp_drive",
         "x": 832,
         "y": 567,
-        "wires": []
+        "wires": [
+            [
+                "957d8184.d07fe"
+            ]
+        ]
     },
     {
         "id": "9f5c0525.47d408",
@@ -179,7 +204,11 @@
         "name": "jump_drive",
         "x": 835,
         "y": 664,
-        "wires": []
+        "wires": [
+            [
+                "222c0e5f.e0a7d2"
+            ]
+        ]
     },
     {
         "id": "26adf0f1.cd61e",
@@ -207,7 +236,11 @@
         "name": "front_shield",
         "x": 835,
         "y": 765,
-        "wires": []
+        "wires": [
+            [
+                "e30f6fd.350aa9"
+            ]
+        ]
     },
     {
         "id": "9e840b18.dd0e08",
@@ -235,7 +268,11 @@
         "name": "rear_shield",
         "x": 833,
         "y": 870,
-        "wires": []
+        "wires": [
+            [
+                "151c3786.fa4768"
+            ]
+        ]
     },
     {
         "id": "214f8179.5c109e",
@@ -260,11 +297,14 @@
         "id": "f7a133b5.c3523",
         "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "name": "129",
-        "x": 216,
+        "name": "R2 - 129",
+        "x": 226,
         "y": 61,
         "wires": [
-            []
+            [
+                "cfdfbb63.0ef3e8",
+                "36c7746d.24027c"
+            ]
         ]
     },
     {
@@ -290,11 +330,15 @@
         "id": "1ad250f9.16310f",
         "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "name": "32",
-        "x": 214.5,
+        "name": "R2 - 31",
+        "x": 224.5,
         "y": 170,
         "wires": [
-            []
+            [
+                "473f2fae.359aa",
+                "976c4257.12505",
+                "f61a20ff.e827d"
+            ]
         ]
     },
     {
@@ -320,11 +364,14 @@
         "id": "bddb34bd.f96238",
         "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "name": "64",
-        "x": 213.5,
+        "name": "R2 - 63",
+        "x": 223.5,
         "y": 281,
         "wires": [
-            []
+            [
+                "1a518078.1e67a",
+                "9ece9648.8fbfa8"
+            ]
         ]
     },
     {
@@ -350,12 +397,13 @@
         "id": "919e1922.384c28",
         "type": "subflow:d65cca20.1c56e8",
         "z": "df2cd387.f2291",
-        "name": "95",
+        "name": "R2-96",
         "x": 213.5,
         "y": 392,
         "wires": [
             [
-                "473f2fae.359aa"
+                "a290f55d.f853d8",
+                "2c5f8e69.a2bbd2"
             ]
         ]
     },
@@ -379,66 +427,6 @@
         ]
     },
     {
-        "id": "25d5735c.b05f7c",
-        "type": "subflow:ab5df3e3.53db5",
-        "z": "df2cd387.f2291",
-        "name": "164",
-        "x": 212,
-        "y": 503,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c1e58f20.d67dd",
-        "type": "inject",
-        "z": "df2cd387.f2291",
-        "name": "",
-        "topic": "config",
-        "payload": "164",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "x": 222,
-        "y": 472,
-        "wires": [
-            [
-                "25d5735c.b05f7c"
-            ]
-        ]
-    },
-    {
-        "id": "659ee65e.06c268",
-        "type": "inject",
-        "z": "df2cd387.f2291",
-        "name": "",
-        "topic": "config",
-        "payload": "230",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "x": 220.5,
-        "y": 587,
-        "wires": [
-            [
-                "30d3876a.5be5b8"
-            ]
-        ]
-    },
-    {
-        "id": "30d3876a.5be5b8",
-        "type": "subflow:ab5df3e3.53db5",
-        "z": "df2cd387.f2291",
-        "name": "230",
-        "x": 212.5,
-        "y": 618,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "136b9430.ce1e8c",
         "type": "inject",
         "z": "df2cd387.f2291",
@@ -449,8 +437,8 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 220.5,
-        "y": 693,
+        "x": 216.5,
+        "y": 500,
         "wires": [
             [
                 "2b3be649.37d7ca"
@@ -461,9 +449,9 @@
         "id": "2b3be649.37d7ca",
         "type": "subflow:ab5df3e3.53db5",
         "z": "df2cd387.f2291",
-        "name": "262",
-        "x": 211.5,
-        "y": 726,
+        "name": "R3 - 260",
+        "x": 217.5,
+        "y": 533,
         "wires": [
             []
         ]
@@ -479,8 +467,8 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 217.5,
-        "y": 804,
+        "x": 213.5,
+        "y": 611,
         "wires": [
             [
                 "fce1be.22002e4"
@@ -491,71 +479,119 @@
         "id": "fce1be.22002e4",
         "type": "subflow:ab5df3e3.53db5",
         "z": "df2cd387.f2291",
-        "name": "295",
-        "x": 207.5,
-        "y": 834,
+        "name": "R3  -294",
+        "x": 213.5,
+        "y": 641,
         "wires": [
             []
         ]
     },
     {
-        "id": "f02569de.879878",
-        "type": "inject",
+        "id": "3beb1e24.1a2142",
+        "type": "debug",
         "z": "df2cd387.f2291",
-        "name": "",
-        "topic": "config",
-        "payload": "326",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "x": 212.5,
-        "y": 896,
-        "wires": [
-            [
-                "91a8761.24d9688"
-            ]
-        ]
+        "name": "Beams",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1118.5,
+        "y": 157,
+        "wires": []
     },
     {
-        "id": "91a8761.24d9688",
-        "type": "subflow:ab5df3e3.53db5",
+        "id": "579902ea.204d1c",
+        "type": "debug",
         "z": "df2cd387.f2291",
-        "name": "326",
-        "x": 202.5,
-        "y": 928,
-        "wires": [
-            []
-        ]
+        "name": "reactor",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1097,
+        "y": 59,
+        "wires": []
     },
     {
-        "id": "95874529.3b31a8",
-        "type": "subflow:e78f24ee.40bef8",
+        "id": "148452d7.d27aed",
+        "type": "debug",
         "z": "df2cd387.f2291",
-        "name": "R4 - 339",
-        "x": 211,
-        "y": 1031,
-        "wires": [
-            []
-        ]
+        "name": "missiles",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1132,
+        "y": 244,
+        "wires": []
     },
     {
-        "id": "d35045b6.50ce68",
-        "type": "inject",
+        "id": "f45d7792.36a9a8",
+        "type": "debug",
         "z": "df2cd387.f2291",
-        "name": "",
-        "topic": "config",
-        "payload": "339",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "x": 211,
-        "y": 994,
-        "wires": [
-            [
-                "95874529.3b31a8"
-            ]
-        ]
+        "name": "maneuvering",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1145,
+        "y": 349,
+        "wires": []
+    },
+    {
+        "id": "c6696bfb.77c9d8",
+        "type": "debug",
+        "z": "df2cd387.f2291",
+        "name": "impulse",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1123,
+        "y": 459,
+        "wires": []
+    },
+    {
+        "id": "957d8184.d07fe",
+        "type": "debug",
+        "z": "df2cd387.f2291",
+        "name": "warp",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1109,
+        "y": 573,
+        "wires": []
+    },
+    {
+        "id": "222c0e5f.e0a7d2",
+        "type": "debug",
+        "z": "df2cd387.f2291",
+        "name": "jump",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1116,
+        "y": 650,
+        "wires": []
+    },
+    {
+        "id": "e30f6fd.350aa9",
+        "type": "debug",
+        "z": "df2cd387.f2291",
+        "name": "front shield",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1098,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "151c3786.fa4768",
+        "type": "debug",
+        "z": "df2cd387.f2291",
+        "name": "rear shield",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1101,
+        "y": 849,
+        "wires": []
     }
 ]

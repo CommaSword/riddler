@@ -25,7 +25,7 @@
                 "wires": [
                     {
                         "id": "59ee1679.a11ec8",
-                        "port": 3
+                        "port": 4
                     }
                 ]
             }
@@ -295,8 +295,8 @@
         "type": "function",
         "z": "ab5df3e3.53db5",
         "name": "demux state",
-        "func": "\nreturn [\n    {payload:msg.payload.status},\n    {payload:msg.payload.good_led},\n    {payload:msg.payload.current_led},\n    {payload:msg.payload.functional}\n    ];",
-        "outputs": "4",
+        "func": "\nreturn [\n    {payload:msg.payload.status},\n    {payload:msg.payload.good_led},\n    {payload:msg.payload.current_led},\n    {payload:msg.payload.pins},\n    {payload:msg.payload.functional}\n    ];",
+        "outputs": "5",
         "noerr": 0,
         "x": 488.5,
         "y": 219,
@@ -309,6 +309,9 @@
             ],
             [
                 "bb7ec0f2.02225"
+            ],
+            [
+                "50cf6899.f4dc48"
             ],
             []
         ]
@@ -337,6 +340,19 @@
         "format": "{{msg.payload}}",
         "x": 245.5,
         "y": 87,
+        "wires": []
+    },
+    {
+        "id": "50cf6899.f4dc48",
+        "type": "ui_text",
+        "z": "ab5df3e3.53db5",
+        "tab": "de243966.edb1a8",
+        "name": "pins",
+        "group": "shazam!",
+        "order": "5",
+        "format": "{{msg.payload}}",
+        "x": 727,
+        "y": 289,
         "wires": []
     }
 ]
