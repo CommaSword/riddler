@@ -4,34 +4,30 @@
 
 var five = require('johnny-five');
 
-var riddle_status = {
-    START : 'Start',
-    BROKEN: 'Switch Connections',
-    SUCCESS: 'Connections Correct'
-};
-var led_activate = {
-    0: 'Right LED',
-    1: 'Middle LED',
-    2: 'Left LED'
-};
+var ledsConfig = [
+    {id:0, title:'Right LED'},
+    {id:1, title:'Middle LED'},
+    {id:2, title:'Left LED'},
+    {id:3, title:'NONE'}
+
+];
+var BAD_WIRING = 3;
+
 module.exports = function riddle3(api, board) {
     var state = {
-        status: riddle_status.START,
-        place: 1,
-        good_led: led_activate[0],
-        current_led: led_activate[0]
+        good_led: 1,
+        current_led: 2
     };
     function readState(){
         return {
-            status : state.status,
-            place : state.place,
-            good_led : state.good_led,
-            current_led : state.current_led,
-            functional : state.status === riddle_status.SUCCESS
+            good_led : ledsConfig[state.good_led].title,
+            current_led : ledsConfig[state.current_led].title,
+            pins : JSON.stringify(pinsState.pinStatePairs),
+            functional : state.good_led === state.current_led
         };
     }
     var pinsState = {
-        pinStatePairs: [0, 0, 0,0, 0, 0]
+        pinStatePairs: [0, 0, 0, 0, 0, 0]
     };
 
     var buzzer = new five.Piezo({
@@ -70,89 +66,52 @@ module.exports = function riddle3(api, board) {
         }));
     }
 
-    function checkPins() {
-        pins.forEach(function (currentPin, pinIndex) {
-            currentPin.query(function (pinState) {
-                pinsState.pinStatePairs[pinIndex] = pinState.value;
-            });
-        });
-    }
-
-
     function checkWires() {
-        var success = false;
-        if ((pinsState.pinStatePairs[0] == 1) && (pinsState.pinStatePairs[1] == 1)) {
-            state.current_led = led_activate[2];
-            if (state.good_led == led_activate[2]) {
-                state.status = riddle_status.SUCCESS;
-                success = true;
-                buzzer.noTone();
-            }
-        }
-        else if ((pinsState.pinStatePairs[2] == 1) && (pinsState.pinStatePairs[3] == 1)) {
-            state.current_led = led_activate[1];
-            if (state.good_led == led_activate[1]) {
-                state.status = riddle_status.SUCCESS;
-                success = true;
-                buzzer.noTone();
-            }
-        }
-        else if ((pinsState.pinStatePairs[4] == 1) && (pinsState.pinStatePairs[5] == 1)) {
-            state.current_led = led_activate[0];
-            if (state.good_led == led_activate[0]) {
-                state.status = riddle_status.SUCCESS;
-                success = true;
-                buzzer.noTone();
-            }
-
-        }
-        else {
-            state.current_led = led_activate[2];
-            state.status = riddle_status.BROKEN;
-        }
-        if (false && !success) {
-            buzzer.play({
-                tempo: 150, // Beats per minute, default 150
-                song: [ // An array of notes that comprise the tune
-                    [ "c1", 1 ],
-                    [ "e4", 2 ],
-                    [ "g4", 3 ],
-                    [ "d9", 4 ] // null indicates "no tone" for the beats indicated
-                ]
-            });
-        }
-        return success;
-    }
-
-    function checkLeds() {
         leds.forEach(function(currentLed, index) {
-            if (led_activate[index] == state.good_led) {
+            if (index == state.good_led) {
                 currentLed.on();
             }
             else {
                 currentLed.off();
             }
         });
+        pins.forEach(function (currentPin, pinIndex) {
+            currentPin.query(function (pinState) {
+                pinsState.pinStatePairs[pinIndex] = pinState.value;
+            });
+        });
+        setTimeout(function(){
+            if (pinsState.pinStatePairs[0] && pinsState.pinStatePairs[1]) {
+                state.current_led = 2;
+            } else if (pinsState.pinStatePairs[2] && pinsState.pinStatePairs[3]) {
+                state.current_led = 1;
+            } else if (pinsState.pinStatePairs[4] && pinsState.pinStatePairs[5]) {
+                state.current_led = 0;
+            } else {
+                state.current_led = BAD_WIRING;
+            }
+            if (readState().functional) {
+                ledGreen.on();
+                ledRed.off();
+            } else {
+                ledGreen.off();
+                ledRed.on();
+                false && buzzer.play({
+                    tempo: 150, // Beats per minute, default 150
+                    song: [ // An array of notes that comprise the tune
+                        ["c1", 1],
+                        ["e4", 2],
+                        ["g4", 3],
+                        ["d9", 4] // null indicates "no tone" for the beats indicated
+                    ]
+                });
+            }
+        }, 100);
     }
 
-    function checkInterval() {
-        if (checkWires() == true) {
-            state.status = riddle_status.SUCCESS;
-            ledGreen.on();
-            ledRed.off();
-        }
-        else {
-            state.status = riddle_status.BROKEN;
-            ledGreen.off();
-            ledRed.on();
-        }
-    }
 
     setInterval(function() {
-        checkPins();
         checkWires();
-        checkLeds();
-        checkInterval();
     }, 500);
 
     api.get('/data', function (req, res) {
@@ -160,21 +119,20 @@ module.exports = function riddle3(api, board) {
     });
 
     api.post('/set_start', function (req, res) {
-        state.status =  riddle_status.BROKEN;
+        // state.status =  riddle_status.BROKEN;
         // Change state for good place
-        if (Math.random()<0.5){
-            state.place = (state.place + 1) % 3;
-        }else{
-            state.place = (state.place + 2) % 3;
+        if (state.current_led !== BAD_WIRING) {
+            state.good_led = (state.current_led + Math.floor(Math.random() +1.5)) % 3;
         }
-        state.good_led = led_activate[state.place];
+        checkWires();
         res.json(readState());
     });
 
     api.post('/fix_riddle_manually', function (req, res) {
         // Define good position for switches manually
-        state.status =  riddle_status.SUCCESS;
-        state.good_led = state.current_led;
+        if (state.current_led !== BAD_WIRING) {
+            state.good_led = state.current_led;
+        }
         res.json(readState());
     });
 };
