@@ -526,6 +526,7 @@
         "id": "f45d7792.36a9a8",
         "type": "debug",
         "z": "df2cd387.f2291",
+<<<<<<< HEAD
         "name": "maneuvering",
         "active": false,
         "console": "false",
@@ -593,5 +594,51 @@
         "x": 1101,
         "y": 849,
         "wires": []
+=======
+        "name": "",
+        "topic": "config",
+        "payload": "339",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 211,
+        "y": 994,
+        "wires": [
+            [
+                "95874529.3b31a8"
+            ]
+        ]
+    },
+    {
+        "id": "f69c1e60.e0ee5",
+        "type": "inject",
+        "z": "df2cd387.f2291",
+        "name": "",
+        "topic": "config",
+        "payload": "442",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 211,
+        "y": 1103,
+        "wires": [
+            [
+                "dcc5eafe.979038"
+            ]
+        ]
+    },
+    {
+        "id": "dcc5eafe.979038",
+        "type": "subflow:e78f24ee.40bef8",
+        "z": "df2cd387.f2291",
+        "name": "R4 - 442",
+        "x": 210,
+        "y": 1144,
+        "wires": [
+            []
+        ]
+>>>>>>> fdaacb303c7828ae3944dcd8454c8ba03346096f
     }
 ]
