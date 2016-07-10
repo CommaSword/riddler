@@ -12,7 +12,7 @@
     "debug": "iron-node index.js"
   },
   "author": "Doron Tsur",
-  "license": "MIT",
+  "license": "GNU GPLv3",
   "dependencies": {
     "dotenv": "2.0.0",
     "express": "4.13.4",
