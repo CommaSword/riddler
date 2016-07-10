@@ -41,3 +41,7 @@ git clone https://github.com/CommaSword/riddler.git
 ```
 This will create a new folder named ```riddler``` with the latest state of the project as it appears on github.com , inside it there will be two subfolders, one for each project: ```./riddler/riddler-back-office``` and ```./riddler/riddler-station```.
 Each project contains its own ```README.md``` file that offers further documentation and instructions.
+
+## License 
+
+GNU GPLv3
